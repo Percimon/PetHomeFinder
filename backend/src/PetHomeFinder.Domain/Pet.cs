@@ -19,6 +19,7 @@
         public HelpStatusEnum HelpStatus { get; private set; }
         public List<Credential> Credentials { get; private set; }
         public DateTime CreateDate { get; private set; }
+        public List<PetPhoto> Photos { get; private set; }
     }
 
     public enum HelpStatusEnum
