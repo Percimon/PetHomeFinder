@@ -4,7 +4,7 @@
     {
         public Guid Id { get; private set; }
         public string Name { get; private set; }
-        public string AnimalType { get; private set; } 
+        public string Species { get; private set; }
         public string Description { get; private set; }
         public string Breed { get; private set; }
         public string Color { get; private set; }
