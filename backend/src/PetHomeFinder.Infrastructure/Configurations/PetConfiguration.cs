@@ -1,7 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHomeFinder.Domain;
+using PetHomeFinder.Domain.Pets;
 using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Infrastructure.Configurations;
@@ -64,7 +64,19 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
                         .WithOne()
                         .HasForeignKey("photo_id");
 
-                builder.HasMany(p => p.Credentials)
-                        .WithOne();
+                builder.OwnsOne(v => v.Credentials, vb =>
+                {
+                        vb.ToJson();
+                        vb.OwnsMany(cl => cl.Credentials, cl =>
+                        {
+                                cl.Property(c => c.Name)
+                        .IsRequired()
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                                cl.Property(c => c.Description)
+                        .IsRequired()
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        });
+                });
+
         }
 }

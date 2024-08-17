@@ -1,8 +1,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PetHomeFinder.Domain;
 using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Domain.Volunteers;
 
 namespace PetHomeFinder.Infrastructure.Configurations;
 
@@ -42,11 +42,33 @@ public sealed class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .IsRequired()
             .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
-        builder.HasMany(v => v.Credentials)
-            .WithOne();
+        builder.OwnsOne(v => v.Credentials, vb =>
+        {
+            vb.ToJson();
+            vb.OwnsMany(cl => cl.Credentials, cl =>
+            {
+                cl.Property(c => c.Name)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                cl.Property(c => c.Description)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            });
+        });
 
-        builder.HasMany(v => v.SocialNetworks)
-            .WithMany();
+        builder.OwnsOne(v => v.SocialNetworks, vb =>
+        {
+            vb.ToJson();
+            vb.OwnsMany(cl => cl.SocialNetworks, cl =>
+            {
+                cl.Property(c => c.Name)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                cl.Property(c => c.Link)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            });
+        });
 
         builder.HasMany(v => v.PetsOwning)
             .WithOne()

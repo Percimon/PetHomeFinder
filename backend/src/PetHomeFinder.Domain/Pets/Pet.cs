@@ -1,4 +1,4 @@
-﻿namespace PetHomeFinder.Domain
+﻿namespace PetHomeFinder.Domain.Pets
 {
     public class Pet
     {
@@ -17,7 +17,7 @@
         public bool IsVaccinated { get; private set; }
         public DateTime BirthDate { get; private set; }
         public HelpStatusEnum HelpStatus { get; private set; }
-        public List<Credential> Credentials { get; private set; }
+        public CredentialList Credentials { get; private set; }
         public DateTime CreateDate { get; private set; }
         public List<PetPhoto> Photos { get; private set; }
     }

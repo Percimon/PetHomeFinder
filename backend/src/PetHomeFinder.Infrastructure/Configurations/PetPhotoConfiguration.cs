@@ -1,8 +1,8 @@
 using System;
-using PetHomeFinder.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Domain.Pets;
 
 namespace PetHomeFinder.Infrastructure.Configurations;
 

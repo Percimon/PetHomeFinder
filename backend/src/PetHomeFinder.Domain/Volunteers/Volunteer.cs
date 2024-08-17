@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PetHomeFinder.Domain.Pets;
 
-namespace PetHomeFinder.Domain
+namespace PetHomeFinder.Domain.Volunteers
 {
     public class Volunteer
     {
@@ -18,8 +14,9 @@ namespace PetHomeFinder.Domain
         public int PetSearchForHomeCount { get; private set; }
         public int PetTreatmentCount { get; private set; }
         public string PhoneNumber { get; private set; }
-        public List<SocialNetwork> SocialNetworks { get; private set; }
-        public List<Credential> Credentials { get; private set; }
+        public SocialNetworkList SocialNetworks { get; private set; }
+        public CredentialList Credentials { get; private set; }
         public List<Pet> PetsOwning { get; private set; }
     }
+
 }
