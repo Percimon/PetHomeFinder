@@ -1,0 +1,18 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  pethomefinderapi:
+    image: pethomefinderapi
+    build:
+      context: .
+      dockerfile: PetHomeFinder/backend/src/PetHomeFinder.API/Dockerfile
+      args:
+        - configuration=Debug
+    ports:
+      - 5259:5259
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    volumes:
+      - ~/.vsdbg:/remote_debugger:rw
