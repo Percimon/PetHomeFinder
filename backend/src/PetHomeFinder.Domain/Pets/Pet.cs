@@ -1,8 +1,13 @@
-﻿namespace PetHomeFinder.Domain.Pets
+﻿using PetHomeFinder.Domain.Shared;
+
+namespace PetHomeFinder.Domain.Pets
 {
-    public class Pet
+    public class Pet : Entity
     {
-        public Guid Id { get; private set; }
+        public Pet(Guid id) : base(id)
+        {
+        }
+
         public string Name { get; private set; }
         public string Species { get; private set; }
         public string Description { get; private set; }

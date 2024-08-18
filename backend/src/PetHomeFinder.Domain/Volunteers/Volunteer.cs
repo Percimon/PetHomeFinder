@@ -1,10 +1,14 @@
 ﻿using PetHomeFinder.Domain.Pets;
+using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Volunteers
 {
-    public class Volunteer
+    public class Volunteer : Entity
     {
-        public Guid Id { get; private set; }
+        public Volunteer(Guid id) : base(id)
+        {
+        }
+
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string Surname { get; private set; }
