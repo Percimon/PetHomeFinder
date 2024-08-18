@@ -1,8 +1,13 @@
-﻿namespace PetHomeFinder.Domain.Pets
+﻿using PetHomeFinder.Domain.Shared;
+
+namespace PetHomeFinder.Domain.Pets
 {
-    public class PetPhoto
+    public class PetPhoto : Entity
     {
-        public Guid Id { get; private set; }
+        public PetPhoto(Guid id) : base(id)
+        {
+        }
+
         public string FilePath { get; private set; }
         public bool IsMain { get; private set; }
     }
