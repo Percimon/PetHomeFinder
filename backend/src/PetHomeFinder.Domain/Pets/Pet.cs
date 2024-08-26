@@ -29,7 +29,7 @@ namespace PetHomeFinder.Domain.Pets
 
     public enum HelpStatusEnum
     {
-        NEED_HELP,
+        NEED_TREATMENT,
         SEARCH_FOR_HOME,
         FOUND_HOME
     }
