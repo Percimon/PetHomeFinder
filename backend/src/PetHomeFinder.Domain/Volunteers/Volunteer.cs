@@ -9,18 +9,21 @@ namespace PetHomeFinder.Domain.Volunteers
         {
         }
 
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public string Surname { get; private set; }
-        public string Description { get; private set; }
-        public int Experience { get; private set; }
-        public int PetHomeFoundCount { get; private set; }
-        public int PetSearchForHomeCount { get; private set; }
-        public int PetTreatmentCount { get; private set; }
-        public string PhoneNumber { get; private set; }
+        public FullName FullName { get; private set; }
+        public Description Description { get; private set; }
+        public Experience Experience { get; private set; }
+        public PhoneNumber PhoneNumber { get; private set; }
         public SocialNetworkList SocialNetworks { get; private set; }
         public CredentialList Credentials { get; private set; }
         public List<Pet> PetsOwning { get; private set; }
+
+        public int GetPetHomeFoundCount() =>
+            PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.FOUND_HOME).Count();
+        public int GetPetSearchForHomeCount() =>
+            PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.SEARCH_FOR_HOME).Count();
+        public int GetPetInTreatmentCount() =>
+            PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.NEED_TREATMENT).Count();
+
     }
 
 }

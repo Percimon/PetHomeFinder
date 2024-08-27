@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Domain.Pets;
 using PetHomeFinder.Domain.Volunteers;
 
 namespace PetHomeFinder.Infrastructure
@@ -11,6 +12,7 @@ namespace PetHomeFinder.Infrastructure
         private readonly IConfiguration _configuration;
 
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
+        public DbSet<Species> Species => Set<Species>();
 
         public ApplicationDbContext(IConfiguration configuration)
         {
