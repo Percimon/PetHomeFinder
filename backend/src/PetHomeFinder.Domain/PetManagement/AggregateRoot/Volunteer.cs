@@ -1,11 +1,12 @@
-﻿using PetHomeFinder.Domain.Pets;
+﻿using PetHomeFinder.Domain.PetManagement.IDs;
+using PetHomeFinder.Domain.Pets;
 using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Volunteers
 {
-    public class Volunteer : Entity
+    public class Volunteer : Entity<VolunteerId>
     {
-        public Volunteer(Guid id) : base(id)
+        public Volunteer(VolunteerId id) : base(id)
         {
         }
 

@@ -1,8 +1,10 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.Pets;
 using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
 namespace PetHomeFinder.Infrastructure.Configurations;
 
@@ -13,68 +15,155 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
         {
                 builder.ToTable("pets");
 
-                builder.HasKey(p => p.Id);
+                builder.HasKey(x => x.Id);
 
-                builder.Property(p => p.Name)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                builder.Property(x => x.Id)
+                    .HasConversion(
+                        id => id.Value,
+                        value => PetId.Create(value)
+                    );
 
-                builder.Property(p => p.Species)
+                builder.ComplexProperty(x => x.Name, tb =>
+                {
+                        tb.Property(d => d.Value)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("name");
+                });
 
-                builder.Property(p => p.Breed)
+                builder.ComplexProperty(p => p.SpeciesBreed, pb =>
+                {
+                        pb.Property(s => s.SpeciesId)
+                        .HasConversion(
+                                s => s.Value,
+                                v => SpeciesId.Create(v))
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasColumnName("species_id");
 
-                builder.Property(p => p.Color)
+                        pb.Property(b => b.BreedId)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasColumnName("breed_id");
+                });
 
-                builder.Property(p => p.HealthInfo)
+                builder.ComplexProperty(x => x.Description, tb =>
+                {
+                        tb.Property(d => d.Value)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                        .HasColumnName("description");
+                });
 
-                builder.Property(p => p.Address)
+                builder.ComplexProperty(x => x.Color, tb =>
+                {
+                        tb.Property(d => d.Value)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("color");
+                });
 
-                builder.Property(p => p.Weight)
+                builder.ComplexProperty(x => x.HealthInfo, tb =>
+                {
+                        tb.Property(d => d.Value)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                        .HasColumnName("health_info");
+                });
 
-                builder.Property(p => p.Height)
+                builder.ComplexProperty(x => x.Address, tb =>
+                {
+                        tb.Property(d => d.City)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("city");
 
-                builder.Property(p => p.OwnerPhoneNumber)
+                        tb.Property(d => d.District)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("district");
+
+                        tb.Property(d => d.Street)
+                        .IsRequired()
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("street");
+
+                        tb.Property(d => d.Structure)
+                        .IsRequired()
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("structure");
+                });
+
+                builder.ComplexProperty(x => x.Weight, tb =>
+                {
+                        tb.Property(d => d.Value)
+                        .IsRequired()
+                        .HasColumnName("weight");
+                });
+
+                builder.ComplexProperty(x => x.Height, tb =>
+                {
+                        tb.Property(d => d.Value)
+                        .IsRequired()
+                        .HasColumnName("height");
+                });
+
+                builder.ComplexProperty(x => x.OwnerPhoneNumber, tb =>
+                {
+                        tb.Property(d => d.Value)
+                        .IsRequired()
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("owner_phone_number");
+                });
 
                 builder.Property(p => p.IsCastrated)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnName("is_castrated");
 
                 builder.Property(p => p.IsVaccinated)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnName("is_vaccinated");
+
+                builder.Property(p => p.BirthDate)
+                        .IsRequired()
+                        .HasColumnName("birth_date");
+
+                builder.Property(p => p.CreateDate)
+                        .IsRequired()
+                        .HasColumnName("create_date");
 
                 builder.Property(p => p.HelpStatus)
-                       .IsRequired();
+                        .IsRequired()
+                        .HasColumnName("help_status");
 
-                builder.HasMany(p => p.Photos)
-                        .WithOne()
-                        .HasForeignKey("photo_id");
-
-                builder.OwnsOne(v => v.Credentials, vb =>
+                builder.OwnsOne(p => p.Credentials, cb =>
                 {
-                        vb.ToJson();
-                        vb.OwnsMany(cl => cl.Credentials, cl =>
+                        cb.ToJson();
+                        cb.OwnsMany(cl => cl.Credentials, cl =>
                         {
                                 cl.Property(c => c.Name)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                                .IsRequired()
+                                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                                .HasColumnName("credential_name");
+
                                 cl.Property(c => c.Description)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                                .IsRequired()
+                                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                                .HasColumnName("credential_description"); ;
+                        });
+                });
+
+                builder.OwnsOne(p => p.Photos, pb =>
+                {
+                        pb.ToJson();
+                        pb.OwnsMany(cl => cl.PetPhotos, ph =>
+                        {
+                                ph.Property(c => c.FilePath)
+                                .IsRequired()
+                                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                                .HasColumnName("file_path");
+
+                                ph.Property(c => c.IsMain)
+                                .IsRequired()
+                                .HasColumnName("is_main"); ;
                         });
                 });
 

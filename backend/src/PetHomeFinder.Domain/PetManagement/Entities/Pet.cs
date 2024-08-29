@@ -1,22 +1,23 @@
-﻿using PetHomeFinder.Domain.Shared;
+﻿using PetHomeFinder.Domain.PetManagement.IDs;
+using PetHomeFinder.Domain.PetManagement.ValueObjects;
+using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Pets
 {
-    public class Pet : Entity
+    public class Pet : Entity<PetId>
     {
-        public Pet(Guid id) : base(id)
+        public Pet(PetId id) : base(id)
         {
         }
 
         public Name Name { get; private set; }
-        public Species SpeciesId { get; private set; }
+        public SpeciesBreed SpeciesBreed { get; private set; }
         public Description Description { get; private set; }
-        public Guid BreedId { get; private set; }
         public Color Color { get; private set; }
         public HealthInfo HealthInfo { get; private set; }
         public Address Address { get; private set; }
-        public double Weight { get; private set; }
-        public double Height { get; private set; }
+        public Weight Weight { get; private set; }
+        public Height Height { get; private set; }
         public PhoneNumber OwnerPhoneNumber { get; private set; }
         public bool IsCastrated { get; private set; }
         public bool IsVaccinated { get; private set; }
@@ -24,7 +25,7 @@ namespace PetHomeFinder.Domain.Pets
         public HelpStatusEnum HelpStatus { get; private set; }
         public CredentialList Credentials { get; private set; }
         public DateTime CreateDate { get; private set; }
-        public List<PetPhoto> Photos { get; private set; }
+        public PetPhotoList Photos { get; private set; }
     }
 
     public enum HelpStatusEnum
