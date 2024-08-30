@@ -1,4 +1,6 @@
-﻿namespace PetHomeFinder.Domain.Shared
+﻿using CSharpFunctionalExtensions;
+
+namespace PetHomeFinder.Domain.Shared
 {
     public record Credential
     {
@@ -10,7 +12,15 @@
             Description = description;
         }
 
-        public static Credential Create(string name, string description) =>
-            new Credential(name, description);
+        public static Result<Credential, string> Create(string name, string description)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return $"Credential {nameof(name)} can't be empty";
+
+            if (string.IsNullOrWhiteSpace(description))
+                return $"Credential {nameof(description)} can't be empty";
+
+            return new Credential(name, description);
+        }
     }
 }

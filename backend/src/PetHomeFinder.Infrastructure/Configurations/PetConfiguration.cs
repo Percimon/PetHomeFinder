@@ -136,7 +136,8 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
 
                 builder.OwnsOne(p => p.Credentials, cb =>
                 {
-                        cb.ToJson();
+                        cb.ToJson("credentials");
+
                         cb.OwnsMany(cl => cl.Credentials, cl =>
                         {
                                 cl.Property(c => c.Name)
@@ -153,7 +154,8 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
 
                 builder.OwnsOne(p => p.Photos, pb =>
                 {
-                        pb.ToJson();
+                        pb.ToJson("photos");
+
                         pb.OwnsMany(cl => cl.PetPhotos, ph =>
                         {
                                 ph.Property(c => c.FilePath)

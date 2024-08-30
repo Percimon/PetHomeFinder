@@ -15,7 +15,8 @@ namespace PetHomeFinder.Infrastructure.Migrations
                 name: "species",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false)
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    value = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,8 +34,8 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     surname = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     phone_number = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Credentials = table.Column<string>(type: "jsonb", nullable: false),
-                    SocialNetworks = table.Column<string>(type: "jsonb", nullable: false)
+                    credentials = table.Column<string>(type: "jsonb", nullable: false),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,6 +47,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    value = table.Column<string>(type: "text", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -55,8 +57,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         name: "fk_breeds_species_species_id",
                         column: x => x.species_id,
                         principalTable: "species",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -83,8 +84,8 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     weight = table.Column<double>(type: "double precision", nullable: false),
-                    Credentials = table.Column<string>(type: "jsonb", nullable: false),
-                    Photos = table.Column<string>(type: "jsonb", nullable: false)
+                    credentials = table.Column<string>(type: "jsonb", nullable: false),
+                    photos = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {

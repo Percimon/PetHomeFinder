@@ -65,7 +65,8 @@ public sealed class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         builder.OwnsOne(v => v.Credentials, vb =>
         {
-            vb.ToJson();
+            vb.ToJson("credentials");
+
             vb.OwnsMany(cl => cl.Credentials, cl =>
             {
                 cl.Property(c => c.Name)
@@ -82,7 +83,7 @@ public sealed class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         builder.OwnsOne(v => v.SocialNetworks, vb =>
         {
-            vb.ToJson();
+            vb.ToJson("social_networks");
 
             vb.OwnsMany(cl => cl.SocialNetworks, cl =>
             {

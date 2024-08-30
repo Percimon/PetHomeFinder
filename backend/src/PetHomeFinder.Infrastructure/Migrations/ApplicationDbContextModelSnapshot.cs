@@ -29,6 +29,11 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
                     b.Property<Guid?>("species_id")
                         .HasColumnType("uuid")
                         .HasColumnName("species_id");
@@ -202,6 +207,11 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
                     b.HasKey("Id")
                         .HasName("pk_species");
 
@@ -280,7 +290,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     b.HasOne("PetHomeFinder.Domain.Pets.Species", null)
                         .WithMany("BreedList")
                         .HasForeignKey("species_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .HasConstraintName("fk_breeds_species_species_id");
                 });
 
@@ -302,7 +312,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("Photos");
+                            b1.ToJson("photos");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
@@ -350,7 +360,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("Credentials");
+                            b1.ToJson("credentials");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
@@ -409,7 +419,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
 
                             b1.ToTable("volunteers");
 
-                            b1.ToJson("SocialNetworks");
+                            b1.ToJson("social_networks");
 
                             b1.WithOwner()
                                 .HasForeignKey("VolunteerId")
@@ -459,7 +469,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
 
                             b1.ToTable("volunteers");
 
-                            b1.ToJson("Credentials");
+                            b1.ToJson("credentials");
 
                             b1.WithOwner()
                                 .HasForeignKey("VolunteerId")
