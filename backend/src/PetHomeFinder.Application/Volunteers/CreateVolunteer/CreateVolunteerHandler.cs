@@ -8,6 +8,14 @@ namespace PetHomeFinder.Application.Volunteers.CreateVolunteer;
 
 public class CreateVolunteerHandler
 {
+    private readonly IVolunteerRepository _repository;
+
+    public CreateVolunteerHandler(
+        IVolunteerRepository repository)
+    {
+        _repository = repository;
+    }
+
     public async Task<Result<Guid>> Handle(
         CreateVolunteerRequest request,
         CancellationToken cancellationToken = default
@@ -46,6 +54,8 @@ public class CreateVolunteerHandler
             credentialList,
             socialNetworkList
         );
+
+        await _repository.Add(volunteer);
 
         return volunteer.Id.Value;
     }

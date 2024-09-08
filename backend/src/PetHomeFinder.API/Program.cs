@@ -1,4 +1,7 @@
+using PetHomeFinder.Application.Volunteers;
+using PetHomeFinder.Application.Volunteers.CreateVolunteer;
 using PetHomeFinder.Infrastructure;
+using PetHomeFinder.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<ApplicationDbContext>();
+builder.Services.AddScoped<CreateVolunteerHandler>();
+builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 
 var app = builder.Build();
 

@@ -1,9 +1,10 @@
 using System;
+using PetHomeFinder.Application.Volunteers;
 using PetHomeFinder.Domain.Volunteers;
 
 namespace PetHomeFinder.Infrastructure.Repositories;
 
-public class VolunteerRepository
+public class VolunteerRepository : IVolunteerRepository
 {
     private readonly ApplicationDbContext _applicationDbContext;
 
