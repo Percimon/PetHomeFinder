@@ -13,6 +13,8 @@ namespace PetHomeFinder.API.Controllers
                 CancellationToken cancellationToken = default)
         {
             var result = await handler.Handle(request, cancellationToken);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
 
             return Ok(result.Value);
         }
