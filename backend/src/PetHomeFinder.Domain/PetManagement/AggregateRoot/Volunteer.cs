@@ -10,6 +10,23 @@ namespace PetHomeFinder.Domain.Volunteers
         {
         }
 
+        public Volunteer(
+            VolunteerId id,
+            FullName fullName,
+            Description description,
+            Experience experience,
+            PhoneNumber phoneNumber,
+            CredentialList credentials,
+            SocialNetworkList socialNetworks) : base(id)
+        {
+            FullName = fullName;
+            Description = description;
+            Experience = experience;
+            PhoneNumber = phoneNumber;
+            Credentials = credentials;
+            SocialNetworks = socialNetworks;
+        }
+
         public FullName FullName { get; private set; }
         public Description Description { get; private set; }
         public Experience Experience { get; private set; }
