@@ -1,5 +1,3 @@
-using System;
-using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.Volunteers;
