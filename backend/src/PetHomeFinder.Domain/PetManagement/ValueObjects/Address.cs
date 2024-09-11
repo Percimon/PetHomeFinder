@@ -1,5 +1,3 @@
-using System;
-using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Pets;
@@ -19,31 +17,35 @@ public record Address
         Structure = structure;
     }
 
-    public static Result<Address, string> Create(string city, string district, string street, string structure)
+    public static Result<Address> Create(
+        string city,
+        string district,
+        string street,
+        string structure)
     {
         if (string.IsNullOrWhiteSpace(city))
-            return $"{nameof(city)} can't be empty";
+            return Errors.General.ValueIsRequired("city");
 
         if (city.Length > Constants.MAX_HIGH_TEXT_LENGTH)
-            return $"{nameof(city)} value is too long";
+            return Errors.General.ValueIsRequired("city");
 
         if (string.IsNullOrWhiteSpace(district))
-            return $"{nameof(district)} can't be empty";
+            return Errors.General.ValueIsRequired("district");
 
         if (district.Length > Constants.MAX_HIGH_TEXT_LENGTH)
-            return $"{nameof(district)} value is too long";
+            return Errors.General.ValueIsRequired("district");
 
         if (string.IsNullOrWhiteSpace(street))
-            return $"{nameof(street)} can't be empty";
+            return Errors.General.ValueIsRequired("street");
 
         if (street.Length > Constants.MAX_HIGH_TEXT_LENGTH)
-            return $"{nameof(street)} value is too long";
+            return Errors.General.ValueIsRequired("street");
 
         if (string.IsNullOrWhiteSpace(structure))
-            return $"{nameof(structure)} can't be empty";
+            return Errors.General.ValueIsRequired("structure");
 
         if (structure.Length > Constants.MAX_HIGH_TEXT_LENGTH)
-            return $"{nameof(structure)} value is too long";
+            return Errors.General.ValueIsRequired("structure");
 
         return new Address(city, district, street, structure);
     }

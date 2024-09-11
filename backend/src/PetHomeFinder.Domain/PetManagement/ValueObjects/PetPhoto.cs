@@ -14,13 +14,13 @@ namespace PetHomeFinder.Domain.Pets
         public string FilePath { get; }
         public bool IsMain { get; }
 
-        public static Result<PetPhoto, string> Create(string filePath, bool isMain = false)
+        public static Result<PetPhoto> Create(string filePath, bool isMain = false)
         {
             if (string.IsNullOrWhiteSpace(filePath))
-                return $"File path can't be empty";
+                return Errors.General.ValueIsRequired("FilePath");
 
             if (filePath.Length > Constants.MAX_HIGH_TEXT_LENGTH)
-                return $"File path is too long";
+                return Errors.General.ValueIsRequired("FilePath");
 
             return new PetPhoto(filePath, isMain);
         }
