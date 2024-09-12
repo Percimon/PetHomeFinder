@@ -1,5 +1,3 @@
-using System;
-using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
@@ -16,13 +14,13 @@ public class Breed : Shared.Entity<BreedId>
     }
 
     public string Value { get; private set; }
-    public static Result<Breed, string> Create(BreedId id, string breed)
+    public static Result<Breed> Create(BreedId id, string breed)
     {
         if (string.IsNullOrWhiteSpace(breed))
-            return "Breed name cant be empty";
+            return Errors.General.ValueIsRequired("Breed");
 
-        if (breed.Length > Constants.MAX_HIGH_TEXT_LENGTH)
-            return "Breed name is too long";
+        if (breed.Length > Constants.MAX_LOW_TEXT_LENGTH)
+            return Errors.General.ValueIsRequired("Breed");
 
         return new Breed(id, breed);
     }

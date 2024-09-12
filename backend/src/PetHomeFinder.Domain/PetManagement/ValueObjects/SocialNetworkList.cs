@@ -1,3 +1,5 @@
+using PetHomeFinder.Domain.Shared;
+
 namespace PetHomeFinder.Domain.Volunteers
 {
     public record SocialNetworkList
@@ -12,8 +14,10 @@ namespace PetHomeFinder.Domain.Volunteers
             SocialNetworks = socialNetworks.ToList();
         }
 
-        public static SocialNetworkList Create(IEnumerable<SocialNetwork> socialNetworks) =>
-            new SocialNetworkList(socialNetworks);
+        public static Result<SocialNetworkList> Create(IEnumerable<SocialNetwork> socialNetworks)
+        {
+            return new SocialNetworkList(socialNetworks);
+        }
     }
 
 }

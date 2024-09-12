@@ -1,5 +1,6 @@
 using System;
 using PetHomeFinder.Domain.Pets;
+using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
@@ -15,6 +16,8 @@ public record PetPhotoList
         PetPhotos = petPhotos.ToList();
     }
 
-    public static PetPhotoList Create(IEnumerable<PetPhoto> petPhotos) => new PetPhotoList(petPhotos);
-
+    public static Result<PetPhotoList> Create(IEnumerable<PetPhoto> petPhotos)
+    {
+        return new PetPhotoList(petPhotos);
+    }
 }

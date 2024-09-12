@@ -11,7 +11,10 @@ namespace PetHomeFinder.Domain.Shared
             Credentials = credentials.ToList();
         }
 
-        public static CredentialList Create(IEnumerable<Credential> credentials) => new CredentialList(credentials);
+        public static Result<CredentialList> Create(IEnumerable<Credential> credentials)
+        {
+            return new CredentialList(credentials);
+        }
     }
 
 }

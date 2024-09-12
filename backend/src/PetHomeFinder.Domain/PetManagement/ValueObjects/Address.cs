@@ -26,25 +26,25 @@ public record Address
         if (string.IsNullOrWhiteSpace(city))
             return Errors.General.ValueIsRequired("city");
 
-        if (city.Length > Constants.MAX_HIGH_TEXT_LENGTH)
+        if (city.Length > Constants.MAX_LOW_TEXT_LENGTH)
             return Errors.General.ValueIsRequired("city");
 
         if (string.IsNullOrWhiteSpace(district))
             return Errors.General.ValueIsRequired("district");
 
-        if (district.Length > Constants.MAX_HIGH_TEXT_LENGTH)
+        if (district.Length > Constants.MAX_LOW_TEXT_LENGTH)
             return Errors.General.ValueIsRequired("district");
 
         if (string.IsNullOrWhiteSpace(street))
             return Errors.General.ValueIsRequired("street");
 
-        if (street.Length > Constants.MAX_HIGH_TEXT_LENGTH)
+        if (street.Length > Constants.MAX_LOW_TEXT_LENGTH)
             return Errors.General.ValueIsRequired("street");
 
         if (string.IsNullOrWhiteSpace(structure))
             return Errors.General.ValueIsRequired("structure");
 
-        if (structure.Length > Constants.MAX_HIGH_TEXT_LENGTH)
+        if (structure.Length > Constants.MAX_LOW_TEXT_LENGTH)
             return Errors.General.ValueIsRequired("structure");
 
         return new Address(city, district, street, structure);
