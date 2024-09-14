@@ -1,4 +1,5 @@
 using System;
+using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Pets;
 
@@ -11,5 +12,11 @@ public record HealthInfo
         Value = value;
     }
 
-    public static HealthInfo Create(string value) => new HealthInfo(value);
+    public static Result<HealthInfo> Create(string value)
+    {
+        if (value.Length > Constants.MAX_HIGH_TEXT_LENGTH)
+            return Errors.General.ValueIsRequired("HealthInfo");
+
+        return new HealthInfo(value);
+    }
 }

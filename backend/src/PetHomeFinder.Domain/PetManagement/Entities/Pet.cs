@@ -10,6 +10,41 @@ namespace PetHomeFinder.Domain.Pets
         {
         }
 
+        public Pet(
+            PetId id,
+            Name name,
+            SpeciesBreed speciesBreed,
+            Description description,
+            Color color,
+            HealthInfo healthInfo,
+            Address address,
+            Weight weight,
+            Height height,
+            PhoneNumber ownerPhoneNumber,
+            bool isCastrated,
+            bool isVaccinated,
+            DateTime birthDate,
+            HelpStatusEnum helpStatus,
+            CredentialList credentials,
+            DateTime createDate) : base(id)
+        {
+            Name = name;
+            SpeciesBreed = speciesBreed;
+            Description = description;
+            Color = color;
+            HealthInfo = healthInfo;
+            Address = address;
+            Weight = weight;
+            Height = height;
+            OwnerPhoneNumber = ownerPhoneNumber;
+            IsCastrated = isCastrated;
+            IsVaccinated = isVaccinated;
+            BirthDate = birthDate;
+            HelpStatus = helpStatus;
+            Credentials = credentials;
+            CreateDate = createDate;
+        }
+
         public Name Name { get; private set; }
         public SpeciesBreed SpeciesBreed { get; private set; }
         public Description Description { get; private set; }

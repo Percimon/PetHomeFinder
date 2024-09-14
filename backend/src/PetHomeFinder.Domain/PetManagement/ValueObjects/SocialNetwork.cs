@@ -1,4 +1,6 @@
-﻿namespace PetHomeFinder.Domain.Volunteers
+﻿using PetHomeFinder.Domain.Shared;
+
+namespace PetHomeFinder.Domain.Volunteers
 {
     public record SocialNetwork
     {
@@ -11,7 +13,21 @@
         public string Name { get; }
         public string Link { get; }
 
-        public static SocialNetwork Create(string name, string link) => new SocialNetwork(name, link);
+        public static Result<SocialNetwork> Create(string name, string link)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Errors.General.ValueIsRequired("Name");
 
+            if (name.Length > Constants.MAX_LOW_TEXT_LENGTH)
+                return Errors.General.ValueIsRequired("Name");
+
+            if (string.IsNullOrWhiteSpace(link))
+                return Errors.General.ValueIsRequired("Link");
+
+            if (link.Length > Constants.MAX_LOW_TEXT_LENGTH)
+                return Errors.General.ValueIsRequired("Link");
+
+            return new SocialNetwork(name, link);
+        }
     }
 }

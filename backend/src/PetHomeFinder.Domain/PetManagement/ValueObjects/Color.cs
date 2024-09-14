@@ -1,4 +1,5 @@
 using System;
+using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Pets;
 
@@ -11,5 +12,14 @@ public record Color
         Value = value;
     }
 
-    public static Color Create(string value) => new Color(value);
+    public static Result<Color> Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.General.ValueIsRequired("color");
+
+        if (value.Length > Constants.MAX_LOW_TEXT_LENGTH)
+            return Errors.General.ValueIsRequired("color");
+
+        return new Color(value);
+    }
 }

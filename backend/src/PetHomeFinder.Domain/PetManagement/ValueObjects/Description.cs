@@ -11,6 +11,11 @@ public record Description
         Value = value;
     }
 
-    public static Description Create(string value) => new Description(value);
+    public static Result<Description> Create(string value)
+    {
+        if (value.Length > Constants.MAX_HIGH_TEXT_LENGTH)
+            return Errors.General.ValueIsRequired("Description");
 
+        return new Description(value);
+    }
 }

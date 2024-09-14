@@ -10,7 +10,14 @@ public record PhoneNumber
         Value = value;
     }
 
-    public static PhoneNumber Create(string value) =>
-        new PhoneNumber(value);
+    public static Result<PhoneNumber> Create(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return Errors.General.ValueIsRequired("PhoneNumber");
 
+        if (value.Length > Constants.MAX_LOW_TEXT_LENGTH)
+            return Errors.General.ValueIsRequired("PhoneNumber");
+
+        return new PhoneNumber(value);
+    }
 }

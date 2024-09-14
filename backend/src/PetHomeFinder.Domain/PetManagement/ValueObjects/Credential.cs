@@ -15,7 +15,13 @@
             if (string.IsNullOrWhiteSpace(name))
                 return Errors.General.ValueIsRequired("Credential.Name");
 
+            if (name.Length > Constants.MAX_LOW_TEXT_LENGTH)
+                return Errors.General.ValueIsRequired("Credential.Name");
+
             if (string.IsNullOrWhiteSpace(description))
+                return Errors.General.ValueIsRequired("Credential.Description");
+
+            if (description.Length > Constants.MAX_LOW_TEXT_LENGTH)
                 return Errors.General.ValueIsRequired("Credential.Description");
 
             return new Credential(name, description);

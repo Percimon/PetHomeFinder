@@ -1,4 +1,5 @@
 using System;
+using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
 namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
@@ -15,7 +16,7 @@ public record SpeciesBreed
 
     public Guid BreedId { get; }
 
-    public static SpeciesBreed Create(SpeciesId speciesId, Guid breedId)
+    public static Result<SpeciesBreed> Create(SpeciesId speciesId, Guid breedId)
     {
         return new SpeciesBreed(speciesId, breedId);
     }
