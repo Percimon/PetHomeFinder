@@ -1,5 +1,3 @@
-using PetHomeFinder.Domain.Shared;
-
 namespace PetHomeFinder.Domain.Volunteers
 {
     public record SocialNetworkList

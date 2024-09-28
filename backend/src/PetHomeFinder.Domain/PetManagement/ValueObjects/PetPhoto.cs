@@ -1,5 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using PetHomeFinder.Domain.Shared;
+﻿using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Pets
 {

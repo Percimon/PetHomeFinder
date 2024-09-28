@@ -1,4 +1,3 @@
-using System;
 using PetHomeFinder.Domain.Volunteers;
 
 namespace PetHomeFinder.Application.Volunteers;

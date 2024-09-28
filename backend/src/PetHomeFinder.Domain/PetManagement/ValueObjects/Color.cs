@@ -1,4 +1,3 @@
-using System;
 using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.Pets;

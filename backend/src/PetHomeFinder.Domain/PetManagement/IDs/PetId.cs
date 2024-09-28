@@ -1,5 +1,3 @@
-using System;
-
 namespace PetHomeFinder.Domain.PetManagement.IDs;
 
 public record PetId

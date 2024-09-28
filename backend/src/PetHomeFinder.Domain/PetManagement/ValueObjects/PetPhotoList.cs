@@ -1,6 +1,4 @@
-using System;
 using PetHomeFinder.Domain.Pets;
-using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 

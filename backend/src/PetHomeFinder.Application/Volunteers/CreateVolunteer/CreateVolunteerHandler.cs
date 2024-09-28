@@ -33,22 +33,20 @@ public class CreateVolunteerHandler
         var experience = Experience.Create(experienceDto);
         var phoneNumber = PhoneNumber.Create(phoneNumberDto);
 
-        var credentialList = CredentialList.Create(
+        var credentialList = new CredentialList(
             credentialListDto.Credentials
-                                .Select(c => Credential.Create(c.Name, c.Description).Value)
-                                );
+                                .Select(c => Credential.Create(c.Name, c.Description).Value));
 
-        var socialNetworkList = SocialNetworkList.Create(
+        var socialNetworkList = new SocialNetworkList(
             socialNetworkListDto.SocialNetworks
-                    .Select(c => SocialNetwork.Create(c.Name, c.Link))
-                    );
+                    .Select(c => SocialNetwork.Create(c.Name, c.Link).Value));
 
         var volunteer = new Volunteer(
             id,
-            fullName,
-            description,
-            experience,
-            phoneNumber,
+            fullName.Value,
+            description.Value,
+            experience.Value,
+            phoneNumber.Value,
             credentialList,
             socialNetworkList
         );

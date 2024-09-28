@@ -1,4 +1,3 @@
-using System;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
