@@ -1,6 +1,7 @@
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Pets;
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record Address
 {
@@ -17,7 +18,7 @@ public record Address
         Structure = structure;
     }
 
-    public static Result<Address> Create(
+    public static Result<Address, Error> Create(
         string city,
         string district,
         string street,

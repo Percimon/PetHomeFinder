@@ -1,5 +1,3 @@
-using PetHomeFinder.Domain.Pets;
-
 namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record PetPhotoList

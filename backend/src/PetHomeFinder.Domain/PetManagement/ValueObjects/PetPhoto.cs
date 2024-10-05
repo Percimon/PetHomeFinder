@@ -1,6 +1,7 @@
-﻿using PetHomeFinder.Domain.Shared;
+﻿using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Pets
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects
 {
     public record PetPhoto
     {
@@ -13,7 +14,7 @@ namespace PetHomeFinder.Domain.Pets
         public string FilePath { get; }
         public bool IsMain { get; }
 
-        public static Result<PetPhoto> Create(string filePath, bool isMain = false)
+        public static Result<PetPhoto, Error> Create(string filePath, bool isMain = false)
         {
             if (string.IsNullOrWhiteSpace(filePath))
                 return Errors.General.ValueIsRequired("FilePath");

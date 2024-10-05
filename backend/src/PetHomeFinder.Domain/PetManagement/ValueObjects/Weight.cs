@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
@@ -11,7 +12,7 @@ public record Weight
         Value = value;
     }
 
-    public static Result<Weight> Create(double value)
+    public static Result<Weight, Error> Create(double value)
     {
         if (value < Constants.MIN_PHYSICAL_PARAMETER)
             return Errors.General.ValueIsInvalid("Weight");

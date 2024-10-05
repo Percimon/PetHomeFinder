@@ -1,4 +1,7 @@
-namespace PetHomeFinder.Domain.Shared;
+using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.Shared;
+
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record Description
 {
@@ -9,7 +12,7 @@ public record Description
         Value = value;
     }
 
-    public static Result<Description> Create(string value)
+    public static Result<Description, Error> Create(string value)
     {
         if (value.Length > Constants.MAX_HIGH_TEXT_LENGTH)
             return Errors.General.ValueIsRequired("Description");

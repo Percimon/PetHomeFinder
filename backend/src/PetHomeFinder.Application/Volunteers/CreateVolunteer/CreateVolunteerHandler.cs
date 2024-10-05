@@ -1,4 +1,9 @@
+using CSharpFunctionalExtensions;
+using FluentValidation;
+using Microsoft.AspNetCore.Http.HttpResults;
+using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.PetManagement.IDs;
+using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.Volunteers;
 
@@ -7,18 +12,26 @@ namespace PetHomeFinder.Application.Volunteers.CreateVolunteer;
 public class CreateVolunteerHandler
 {
     private readonly IVolunteerRepository _repository;
+    private readonly IValidator<CreateVolunteerRequest> _validator;
 
     public CreateVolunteerHandler(
-        IVolunteerRepository repository)
+        IVolunteerRepository repository,
+        IValidator<CreateVolunteerRequest> validator)
     {
         _repository = repository;
+        _validator = validator;
     }
 
-    public async Task<Result<Guid>> Handle(
+    public async Task<Result<Guid, ErrorList>> Handle(
         CreateVolunteerRequest request,
-        CancellationToken cancellationToken = default
-    )
+        CancellationToken cancellationToken = default)
     {
+        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        if (validationResult.IsValid == false)
+        {
+            return validationResult.ToErrorList();
+        }
+
         var id = VolunteerId.New();
 
         var fullNameDto = request.FullName;

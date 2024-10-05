@@ -1,6 +1,7 @@
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Pets;
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record Color
 {
@@ -11,7 +12,7 @@ public record Color
         Value = value;
     }
 
-    public static Result<Color> Create(string value)
+    public static Result<Color, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return Errors.General.ValueIsRequired("color");

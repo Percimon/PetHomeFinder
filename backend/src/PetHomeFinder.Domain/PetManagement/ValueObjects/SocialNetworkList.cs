@@ -1,4 +1,4 @@
-namespace PetHomeFinder.Domain.Volunteers
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects
 {
     public record SocialNetworkList
     {

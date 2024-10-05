@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
@@ -15,7 +16,7 @@ public record SpeciesBreed
 
     public Guid BreedId { get; }
 
-    public static Result<SpeciesBreed> Create(SpeciesId speciesId, Guid breedId)
+    public static Result<SpeciesBreed, Error> Create(SpeciesId speciesId, Guid breedId)
     {
         return new SpeciesBreed(speciesId, breedId);
     }

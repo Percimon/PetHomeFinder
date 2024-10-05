@@ -1,6 +1,7 @@
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Volunteers;
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record FullName
 {
@@ -15,7 +16,7 @@ public record FullName
     public string LastName { get; }
     public string Surname { get; }
 
-    public static Result<FullName> Create(string firstName, string lastName, string surname)
+    public static Result<FullName, Error> Create(string firstName, string lastName, string surname)
     {
         if (string.IsNullOrWhiteSpace(firstName))
             return Errors.General.ValueIsRequired("FirstName");

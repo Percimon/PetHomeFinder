@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
@@ -14,7 +15,7 @@ public class Breed : Shared.Entity<BreedId>
     }
 
     public string Value { get; private set; }
-    public static Result<Breed> Create(BreedId id, string breed)
+    public static Result<Breed, Error> Create(BreedId id, string breed)
     {
         if (string.IsNullOrWhiteSpace(breed))
             return Errors.General.ValueIsRequired("Breed");
