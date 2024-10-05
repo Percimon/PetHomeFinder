@@ -1,6 +1,7 @@
-using System;
+using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Shared;
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record PhoneNumber
 {
@@ -10,7 +11,7 @@ public record PhoneNumber
         Value = value;
     }
 
-    public static Result<PhoneNumber> Create(string value)
+    public static Result<PhoneNumber, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return Errors.General.ValueIsRequired("PhoneNumber");

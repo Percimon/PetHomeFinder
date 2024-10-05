@@ -1,4 +1,7 @@
-﻿namespace PetHomeFinder.Domain.Shared
+﻿using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.Shared;
+
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects
 {
     public record Credential
     {
@@ -10,7 +13,7 @@
             Description = description;
         }
 
-        public static Result<Credential> Create(string name, string description)
+        public static Result<Credential, Error> Create(string name, string description)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Errors.General.ValueIsRequired("Credential.Name");

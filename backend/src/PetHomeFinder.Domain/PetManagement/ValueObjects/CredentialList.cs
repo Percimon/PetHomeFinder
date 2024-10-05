@@ -1,4 +1,4 @@
-namespace PetHomeFinder.Domain.Shared
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects
 {
     public record CredentialList
     {

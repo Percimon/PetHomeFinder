@@ -1,5 +1,3 @@
-using System;
-
 namespace PetHomeFinder.Domain.Shared;
 
 public abstract class Entity<TId> where TId : notnull

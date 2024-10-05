@@ -1,7 +1,7 @@
-using System;
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Pets;
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record Name
 {
@@ -12,7 +12,7 @@ public record Name
         Value = value;
     }
 
-    public static Result<Name> Create(string value)
+    public static Result<Name, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return Errors.General.ValueIsRequired("Name");

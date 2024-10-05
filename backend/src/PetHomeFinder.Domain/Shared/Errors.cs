@@ -1,5 +1,3 @@
-using System;
-
 namespace PetHomeFinder.Domain.Shared;
 
 public static class Errors

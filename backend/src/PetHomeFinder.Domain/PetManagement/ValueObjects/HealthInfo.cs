@@ -1,7 +1,7 @@
-using System;
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Pets;
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 public record HealthInfo
 {
@@ -12,7 +12,7 @@ public record HealthInfo
         Value = value;
     }
 
-    public static Result<HealthInfo> Create(string value)
+    public static Result<HealthInfo, Error> Create(string value)
     {
         if (value.Length > Constants.MAX_HIGH_TEXT_LENGTH)
             return Errors.General.ValueIsRequired("HealthInfo");

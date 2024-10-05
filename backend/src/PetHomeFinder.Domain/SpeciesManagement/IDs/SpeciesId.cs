@@ -1,5 +1,3 @@
-using System;
-
 namespace PetHomeFinder.Domain.SpeciesManagement.IDs;
 
 public record SpeciesId

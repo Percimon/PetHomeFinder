@@ -1,6 +1,7 @@
-﻿using PetHomeFinder.Domain.Shared;
+﻿using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Volunteers
+namespace PetHomeFinder.Domain.PetManagement.ValueObjects
 {
     public record SocialNetwork
     {
@@ -13,7 +14,7 @@ namespace PetHomeFinder.Domain.Volunteers
         public string Name { get; }
         public string Link { get; }
 
-        public static Result<SocialNetwork> Create(string name, string link)
+        public static Result<SocialNetwork, Error> Create(string name, string link)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Errors.General.ValueIsRequired("Name");
