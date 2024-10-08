@@ -1,19 +1,30 @@
+using PetHomeFinder.API;
 using PetHomeFinder.Application;
-using PetHomeFinder.Application.Volunteers;
-using PetHomeFinder.Application.Volunteers.CreateVolunteer;
 using PetHomeFinder.Infrastructure;
-using PetHomeFinder.Infrastructure.Repositories;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.Debug()
+            .WriteTo.Seq(builder.Configuration.GetConnectionString("Seq")
+                         ?? throw new ArgumentNullException("Seq"))
+            .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
+            .CreateLogger();
+
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddApi();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())
 {
