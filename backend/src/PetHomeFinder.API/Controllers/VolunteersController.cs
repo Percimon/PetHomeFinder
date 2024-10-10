@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PetHomeFinder.Application.Volunteers.CreateVolunteer;
+using PetHomeFinder.Application.Volunteers.Create;
 
 namespace PetHomeFinder.API.Controllers
 {

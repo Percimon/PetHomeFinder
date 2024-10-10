@@ -1,6 +1,6 @@
 using PetHomeFinder.Application.DTOs;
 
-namespace PetHomeFinder.Application.Volunteers.CreateVolunteer;
+namespace PetHomeFinder.Application.Volunteers.Create;
 
 public record CreateVolunteerRequest(
     FullNameDto FullName,

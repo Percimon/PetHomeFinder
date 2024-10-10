@@ -1,7 +1,7 @@
 using System;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using PetHomeFinder.Application.Volunteers.CreateVolunteer;
+using PetHomeFinder.Application.Volunteers.Create;
 
 namespace PetHomeFinder.Application;
 

@@ -7,7 +7,7 @@ using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.Volunteers;
 
-namespace PetHomeFinder.Application.Volunteers.CreateVolunteer;
+namespace PetHomeFinder.Application.Volunteers.Create;
 
 public class CreateVolunteerHandler
 {
