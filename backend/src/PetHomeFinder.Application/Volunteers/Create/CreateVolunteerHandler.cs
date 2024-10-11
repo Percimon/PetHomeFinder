@@ -11,11 +11,11 @@ namespace PetHomeFinder.Application.Volunteers.Create;
 
 public class CreateVolunteerHandler
 {
-    private readonly IVolunteerRepository _repository;
+    private readonly IVolunteersRepository _repository;
     private readonly IValidator<CreateVolunteerRequest> _validator;
 
     public CreateVolunteerHandler(
-        IVolunteerRepository repository,
+        IVolunteersRepository repository,
         IValidator<CreateVolunteerRequest> validator)
     {
         _repository = repository;

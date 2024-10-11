@@ -19,5 +19,11 @@ namespace PetHomeFinder.API.Controllers
             return Ok(result.Value);
         }
 
+        [HttpPut("{id:guid}/main-info")]
+        public async Task<ActionResult> UpdateMainInfo()
+        {
+
+        }
+
     }
 }

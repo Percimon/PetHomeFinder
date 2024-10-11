@@ -7,5 +7,5 @@ public record CreateVolunteerRequest(
     string Description,
     int Experience,
     string PhoneNumber,
-    CredentialsDto CredentialList,
+    CredentialListDto CredentialList,
     SocialNetworkListDto SocialNetworkList);

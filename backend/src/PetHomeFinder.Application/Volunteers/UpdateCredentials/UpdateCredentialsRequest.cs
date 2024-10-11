@@ -1,8 +1,6 @@
 using System;
+using PetHomeFinder.Application.DTOs;
 
 namespace PetHomeFinder.Application.Volunteers.UpdateCredentials;
 
-public class UpdateCredentialsRequest
-{
-
-}
+public record UpdateCredentialsRequest(Guid VolunteerId, CredentialListDto CredentialList);

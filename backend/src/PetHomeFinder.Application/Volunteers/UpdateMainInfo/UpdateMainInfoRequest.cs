@@ -1,8 +1,12 @@
 using System;
+using FluentValidation;
+using PetHomeFinder.Application.DTOs;
 
 namespace PetHomeFinder.Application.Volunteers.UpdateMainInfo;
 
-public class UpdateMainInfoRequest
-{
-
-}
+public record UpdateMainInfoRequest(
+    Guid VolunteerId,
+    FullNameDto FullName,
+    string Description,
+    int Experience,
+    string PhoneNumber);
