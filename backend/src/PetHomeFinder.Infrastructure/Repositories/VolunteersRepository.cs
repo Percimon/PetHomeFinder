@@ -7,11 +7,11 @@ using PetHomeFinder.Domain.Volunteers;
 
 namespace PetHomeFinder.Infrastructure.Repositories;
 
-public class VolunteerRepository : IVolunteersRepository
+public class VolunteersRepository : IVolunteersRepository
 {
     private readonly ApplicationDbContext _applicationDbContext;
 
-    public VolunteerRepository(ApplicationDbContext applicationDbContext)
+    public VolunteersRepository(ApplicationDbContext applicationDbContext)
     {
         _applicationDbContext = applicationDbContext;
     }
