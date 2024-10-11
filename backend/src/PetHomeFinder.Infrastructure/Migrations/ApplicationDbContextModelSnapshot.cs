@@ -201,7 +201,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     b.ToTable("pets", (string)null);
                 });
 
-            modelBuilder.Entity("PetHomeFinder.Domain.Pets.Species", b =>
+            modelBuilder.Entity("PetHomeFinder.Domain.SpeciesManagement.AggregateRoot.Species", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
@@ -287,7 +287,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
 
             modelBuilder.Entity("PetHomeFinder.Domain.Pets.Breed", b =>
                 {
-                    b.HasOne("PetHomeFinder.Domain.Pets.Species", null)
+                    b.HasOne("PetHomeFinder.Domain.SpeciesManagement.AggregateRoot.Species", null)
                         .WithMany("BreedList")
                         .HasForeignKey("species_id")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -318,7 +318,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_id");
 
-                            b1.OwnsMany("PetHomeFinder.Domain.Pets.PetPhoto", "PetPhotos", b2 =>
+                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.PetPhoto", "PetPhotos", b2 =>
                                 {
                                     b2.Property<Guid>("PetPhotoListPetId")
                                         .HasColumnType("uuid");
@@ -350,7 +350,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                             b1.Navigation("PetPhotos");
                         });
 
-                    b.OwnsOne("PetHomeFinder.Domain.Shared.CredentialList", "Credentials", b1 =>
+                    b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.CredentialList", "Credentials", b1 =>
                         {
                             b1.Property<Guid>("PetId")
                                 .HasColumnType("uuid");
@@ -366,7 +366,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pets_pets_pet_id");
 
-                            b1.OwnsMany("PetHomeFinder.Domain.Shared.Credential", "Credentials", b2 =>
+                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.Credential", "Credentials", b2 =>
                                 {
                                     b2.Property<Guid>("CredentialListPetId")
                                         .HasColumnType("uuid");
@@ -409,7 +409,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
 
             modelBuilder.Entity("PetHomeFinder.Domain.Volunteers.Volunteer", b =>
                 {
-                    b.OwnsOne("PetHomeFinder.Domain.Volunteers.SocialNetworkList", "SocialNetworks", b1 =>
+                    b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.SocialNetworkList", "SocialNetworks", b1 =>
                         {
                             b1.Property<Guid>("VolunteerId")
                                 .HasColumnType("uuid")
@@ -425,7 +425,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                                 .HasForeignKey("VolunteerId")
                                 .HasConstraintName("fk_volunteers_volunteers_id");
 
-                            b1.OwnsMany("PetHomeFinder.Domain.Volunteers.SocialNetwork", "SocialNetworks", b2 =>
+                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.SocialNetwork", "SocialNetworks", b2 =>
                                 {
                                     b2.Property<Guid>("SocialNetworkListVolunteerId")
                                         .HasColumnType("uuid");
@@ -459,7 +459,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                             b1.Navigation("SocialNetworks");
                         });
 
-                    b.OwnsOne("PetHomeFinder.Domain.Shared.CredentialList", "Credentials", b1 =>
+                    b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.CredentialList", "Credentials", b1 =>
                         {
                             b1.Property<Guid>("VolunteerId")
                                 .HasColumnType("uuid")
@@ -475,7 +475,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                                 .HasForeignKey("VolunteerId")
                                 .HasConstraintName("fk_volunteers_volunteers_id");
 
-                            b1.OwnsMany("PetHomeFinder.Domain.Shared.Credential", "Credentials", b2 =>
+                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.Credential", "Credentials", b2 =>
                                 {
                                     b2.Property<Guid>("CredentialListVolunteerId")
                                         .HasColumnType("uuid");
@@ -516,7 +516,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PetHomeFinder.Domain.Pets.Species", b =>
+            modelBuilder.Entity("PetHomeFinder.Domain.SpeciesManagement.AggregateRoot.Species", b =>
                 {
                     b.Navigation("BreedList");
                 });
