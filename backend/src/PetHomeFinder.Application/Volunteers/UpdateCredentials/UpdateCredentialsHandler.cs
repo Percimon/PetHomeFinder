@@ -45,6 +45,8 @@ public class UpdateCredentialsHandler
 
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
 
+        _logger.LogInformation("Credentials of volunteer updated with id: {VolunteerId}.", request.VolunteerId);
+
         return volunteerResult.Value.Id.Value;
     }
 }

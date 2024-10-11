@@ -45,6 +45,8 @@ public class UpdateSocialNetworksHandler
 
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
 
+        _logger.LogInformation("Social networks of volunteer updated with id: {VolunteerId}.", request.VolunteerId);
+
         return volunteerResult.Value.Id.Value;
     }
 }
