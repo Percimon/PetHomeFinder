@@ -1,25 +1,29 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.Volunteers;
 
-namespace PetHomeFinder.Application.Volunteers.CreateVolunteer;
+namespace PetHomeFinder.Application.Volunteers.Create;
 
 public class CreateVolunteerHandler
 {
-    private readonly IVolunteerRepository _repository;
+    private readonly ILogger<CreateVolunteerHandler> _logger;
+    private readonly IVolunteersRepository _repository;
     private readonly IValidator<CreateVolunteerRequest> _validator;
 
     public CreateVolunteerHandler(
-        IVolunteerRepository repository,
-        IValidator<CreateVolunteerRequest> validator)
+        IVolunteersRepository repository,
+        IValidator<CreateVolunteerRequest> validator,
+        ILogger<CreateVolunteerHandler> logger)
     {
         _repository = repository;
         _validator = validator;
+        _logger = logger;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -65,6 +69,8 @@ public class CreateVolunteerHandler
         );
 
         await _repository.Add(volunteer);
+
+        _logger.LogInformation("Volunteer created with id: {VolunteerId}.", volunteer.Id.Value);
 
         return volunteer.Id.Value;
     }

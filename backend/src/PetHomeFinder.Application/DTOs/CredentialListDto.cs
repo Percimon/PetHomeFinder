@@ -1,3 +1,3 @@
 namespace PetHomeFinder.Application.DTOs;
 
-public record CredentialsDto(IEnumerable<CredentialDto> Credentials);
+public record CredentialListDto(IEnumerable<CredentialDto> Credentials);

@@ -43,6 +43,28 @@ namespace PetHomeFinder.Domain.Volunteers
         public int GetPetInTreatmentCount() =>
             PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.NEED_TREATMENT).Count();
 
+        public void UpdateMainInfo(
+            FullName fullName,
+            Description description,
+            Experience experience,
+            PhoneNumber phoneNumber)
+        {
+            FullName = fullName;
+            Description = description;
+            Experience = experience;
+            PhoneNumber = phoneNumber;
+        }
+
+        public void UpdateCredentials(IEnumerable<Credential> credentials)
+        {
+            Credentials = new CredentialList(credentials);
+        }
+
+        public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
+        {
+            SocialNetworks = new SocialNetworkList(socialNetworks);
+        }
+
     }
 
 }
