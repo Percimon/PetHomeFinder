@@ -100,6 +100,10 @@ public sealed class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             });
         });
 
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
+
         builder.HasMany(v => v.PetsOwning)
             .WithOne()
             .HasForeignKey("volunteer_id")

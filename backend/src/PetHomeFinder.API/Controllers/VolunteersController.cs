@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Extensions;
 using PetHomeFinder.Application.Volunteers.Create;
+using PetHomeFinder.Application.Volunteers.Delete;
 using PetHomeFinder.Application.Volunteers.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.UpdateMainInfo;
 using PetHomeFinder.Application.Volunteers.UpdateSocialNetworks;
@@ -72,6 +73,21 @@ namespace PetHomeFinder.API.Controllers
             var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
                 result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(
+        [FromRoute] Guid id,
+        [FromServices] DeleteVolunteerHandler handler,
+        CancellationToken cancellationToken = default)
+        {
+            var request = new DeleteVolunteerRequest(id);
+
+            var result = await handler.Handle(request, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
 
             return Ok(result.Value);
         }
