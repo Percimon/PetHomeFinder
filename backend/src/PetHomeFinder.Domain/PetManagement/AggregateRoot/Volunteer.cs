@@ -7,6 +7,9 @@ namespace PetHomeFinder.Domain.Volunteers
 {
     public class Volunteer : Entity<VolunteerId>
     {
+        private bool _isDeleted = false;
+        private readonly List<Pet> _petsOwning;
+
         public Volunteer(VolunteerId id) : base(id)
         {
         }
@@ -26,6 +29,7 @@ namespace PetHomeFinder.Domain.Volunteers
             PhoneNumber = phoneNumber;
             Credentials = credentials;
             SocialNetworks = socialNetworks;
+            _petsOwning = new List<Pet>();
         }
 
         public FullName FullName { get; private set; }
@@ -34,7 +38,7 @@ namespace PetHomeFinder.Domain.Volunteers
         public PhoneNumber PhoneNumber { get; private set; }
         public SocialNetworkList SocialNetworks { get; private set; }
         public CredentialList Credentials { get; private set; }
-        public List<Pet> PetsOwning { get; private set; }
+        public IReadOnlyList<Pet> PetsOwning => _petsOwning;
 
         public int GetPetHomeFoundCount() =>
             PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.FOUND_HOME).Count();
@@ -63,6 +67,16 @@ namespace PetHomeFinder.Domain.Volunteers
         public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
         {
             SocialNetworks = new SocialNetworkList(socialNetworks);
+        }
+
+        public void SoftDelete()
+        {
+            if (_isDeleted)
+                return;
+
+            _isDeleted = true;
+            foreach (var pet in _petsOwning)
+                pet.SoftDelete();
         }
 
     }

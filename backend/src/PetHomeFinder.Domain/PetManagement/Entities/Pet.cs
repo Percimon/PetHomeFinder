@@ -6,6 +6,8 @@ namespace PetHomeFinder.Domain.Pets
 {
     public class Pet : Entity<PetId>
     {
+        private bool _isDeleted = false;
+
         public Pet(PetId id) : base(id)
         {
         }
@@ -61,6 +63,15 @@ namespace PetHomeFinder.Domain.Pets
         public CredentialList Credentials { get; private set; }
         public DateTime CreateDate { get; private set; }
         public PetPhotoList Photos { get; private set; }
+
+        public void SoftDelete()
+        {
+            if (_isDeleted)
+                return;
+
+            _isDeleted = true;
+        }
+
     }
 
     public enum HelpStatusEnum
