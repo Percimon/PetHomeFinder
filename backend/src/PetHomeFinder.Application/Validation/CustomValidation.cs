@@ -1,4 +1,3 @@
-using System;
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using PetHomeFinder.Domain.Shared;

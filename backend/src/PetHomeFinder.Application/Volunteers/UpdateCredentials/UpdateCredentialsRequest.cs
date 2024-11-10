@@ -1,4 +1,3 @@
-using System;
 using PetHomeFinder.Application.DTOs;
 
 namespace PetHomeFinder.Application.Volunteers.UpdateCredentials;

@@ -1,5 +1,3 @@
-using System;
-using FluentValidation;
 using PetHomeFinder.Application.DTOs;
 
 namespace PetHomeFinder.Application.Volunteers.UpdateMainInfo;
