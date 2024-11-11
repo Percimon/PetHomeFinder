@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHomeFinder.Domain.Pets;
+using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Domain.SpeciesManagement.Entities;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
 namespace PetHomeFinder.Infrastructure.Configurations;
@@ -17,5 +19,13 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
                 id => id.Value,
                 value => BreedId.Create(value)
             );
+        
+        builder.ComplexProperty(x => x.Name, tb =>
+        {
+            tb.Property(d => d.Value)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("name");
+        });
     }
 }

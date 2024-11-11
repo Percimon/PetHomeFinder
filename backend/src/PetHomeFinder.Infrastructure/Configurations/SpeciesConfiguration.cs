@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
@@ -18,9 +19,19 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
                 value => SpeciesId.Create(value)
             );
 
-        builder.HasMany(v => v.BreedList)
+        builder.ComplexProperty(x => x.Name, tb =>
+        {
+            tb.Property(d => d.Value)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("name");
+        });
+
+        builder.HasMany(x => x.Breeds)
            .WithOne()
            .HasForeignKey("species_id")
            .OnDelete(DeleteBehavior.NoAction);
+        
+        builder.Navigation(s => s.Breeds).AutoInclude();
     }
 }

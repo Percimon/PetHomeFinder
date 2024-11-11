@@ -16,7 +16,9 @@ public class VolunteersRepository : IVolunteersRepository
         _applicationDbContext = applicationDbContext;
     }
 
-    public async Task<Guid> Add(Volunteer volunteer, CancellationToken cancellationToken)
+    public async Task<Guid> Add(
+        Volunteer volunteer, 
+        CancellationToken cancellationToken)
     {
         await _applicationDbContext.Volunteers.AddAsync(volunteer, cancellationToken);
         await _applicationDbContext.SaveChangesAsync(cancellationToken);
