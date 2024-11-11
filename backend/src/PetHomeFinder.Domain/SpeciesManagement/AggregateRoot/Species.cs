@@ -1,32 +1,51 @@
 using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Pets;
 using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Domain.SpeciesManagement.Entities;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
 namespace PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 
 public class Species : Shared.Entity<SpeciesId>
 {
+    private readonly List<Breed> _breeds;
+    
     private Species(SpeciesId id) : base(id)
     {
     }
-    private Species(SpeciesId id, string species, IEnumerable<Breed> breedList) : base(id)
+    
+    public Species(
+        SpeciesId id, 
+        Name name) : base(id)
     {
-        BreedList = breedList.ToList();
-        Value = species;
+        Name = name;
+        _breeds = new List<Breed>();
+    }
+    
+    public Name Name { get; private set; }
+
+    public IReadOnlyList<Breed> Breeds => _breeds;
+
+    public Result<Guid, Error> AddBreed(Breed breed)
+    {
+        var result = _breeds.FirstOrDefault(b => b.Name == breed.Name);
+        
+        if (result is not null)
+            return Errors.General.AlreadyExists(
+                nameof(Breed), 
+                nameof(breed.Name).ToLower(), 
+                breed.Name.Value);
+
+        _breeds.Add(breed);
+
+        return breed.Id.Value;
     }
 
-    public List<Breed> BreedList { get; private set; }
-    public string Value { get; private set; }
-
-    public static Result<Species, Error> Create(SpeciesId id, string species, IEnumerable<Breed> breedList)
+    public Result<Guid, Error> DeleteBreed(Breed breed)
     {
-        if (string.IsNullOrWhiteSpace(species))
-            return Errors.General.ValueIsRequired("Species");
+        _breeds.Remove(breed);
 
-        if (species.Length > Constants.MAX_LOW_TEXT_LENGTH)
-            return Errors.General.ValueIsRequired("Species");
-
-        return new Species(id, species, breedList);
+        return breed.Id.Value;
     }
 }

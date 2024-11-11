@@ -1,5 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetHomeFinder.Application.SpeciesBreeds.AddBreed;
+using PetHomeFinder.Application.SpeciesBreeds.Create;
 using PetHomeFinder.Application.Volunteers.Create;
 using PetHomeFinder.Application.Volunteers.Delete;
 using PetHomeFinder.Application.Volunteers.FileTest.Delete;
@@ -16,6 +18,7 @@ public static class Inject
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddVolunteerHandlers();
+        services.AddSpeciesBreedsHandlers();
         services.AddFileTestHandlers();
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 
@@ -29,6 +32,14 @@ public static class Inject
         services.AddScoped<UpdateCredentialsHandler>();
         services.AddScoped<UpdateSocialNetworksHandler>();
         services.AddScoped<DeleteVolunteerHandler>();
+        
+        return services;
+    }
+    
+    private static IServiceCollection AddSpeciesBreedsHandlers(this IServiceCollection services)
+    {
+        services.AddScoped<CreateSpeciesHandler>();
+        services.AddScoped<AddBreedHandler>();
         
         return services;
     }
