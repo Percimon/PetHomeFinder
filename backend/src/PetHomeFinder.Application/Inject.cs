@@ -17,40 +17,25 @@ public static class Inject
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddVolunteerHandlers();
-        services.AddSpeciesBreedsHandlers();
-        services.AddFileTestHandlers();
+        services.AddHandlers();
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 
         return services;
     }
 
-    private static IServiceCollection AddVolunteerHandlers(this IServiceCollection services)
+    private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
         services.AddScoped<CreateVolunteerHandler>();
         services.AddScoped<UpdateMainInfoHandler>();
         services.AddScoped<UpdateCredentialsHandler>();
         services.AddScoped<UpdateSocialNetworksHandler>();
         services.AddScoped<DeleteVolunteerHandler>();
-        
-        return services;
-    }
-    
-    private static IServiceCollection AddSpeciesBreedsHandlers(this IServiceCollection services)
-    {
         services.AddScoped<CreateSpeciesHandler>();
         services.AddScoped<AddBreedHandler>();
-        
-        return services;
-    }
-
-    private static IServiceCollection AddFileTestHandlers(this IServiceCollection services)
-    {
         services.AddScoped<UploadFileHandler>();
         services.AddScoped<DeleteFileHandler>();
         services.AddScoped<GetFileHandler>();
         
         return services;
     }
-    
 }

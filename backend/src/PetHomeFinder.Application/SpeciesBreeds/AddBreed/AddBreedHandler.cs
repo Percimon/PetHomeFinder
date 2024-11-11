@@ -39,8 +39,12 @@ public class AddBreedHandler
             return speciesResult.Error.ToErrorList();
         
         var breedId = BreedId.New();
-        var name = Name.Create(request.Name).Value;
-        var breed = new Breed(breedId, name);
+        
+        var nameResult = Name.Create(request.Name);
+        if(nameResult.IsFailure)
+            return nameResult.Error.ToErrorList();
+        
+        var breed = new Breed(breedId, nameResult.Value);
 
         var addBreedResult = speciesResult.Value.AddBreed(breed);
         if (addBreedResult.IsFailure)
