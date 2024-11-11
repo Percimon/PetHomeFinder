@@ -1,4 +1,3 @@
-using System;
 using FluentValidation.Results;
 using PetHomeFinder.Domain.Shared;
 

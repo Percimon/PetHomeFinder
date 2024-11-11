@@ -18,9 +18,9 @@ Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
             .CreateLogger();
 
-builder.Services.AddApi();
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApi();
 
 var app = builder.Build();
 

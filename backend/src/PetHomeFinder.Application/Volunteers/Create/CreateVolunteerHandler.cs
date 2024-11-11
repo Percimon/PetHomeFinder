@@ -1,6 +1,5 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.PetManagement.IDs;
