@@ -1,8 +1,9 @@
-﻿using PetHomeFinder.Domain.PetManagement.IDs;
+﻿using System.Collections;
+using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Pets
+namespace PetHomeFinder.Domain.PetManagement.Entities
 {
     public class Pet : Entity<PetId>
     {
@@ -28,7 +29,8 @@ namespace PetHomeFinder.Domain.Pets
             DateTime birthDate,
             HelpStatusEnum helpStatus,
             CredentialList credentials,
-            DateTime createDate) : base(id)
+            DateTime createDate,
+            IEnumerable<PetPhoto>? photos = null) : base(id)
         {
             Name = name;
             SpeciesBreed = speciesBreed;
@@ -45,6 +47,10 @@ namespace PetHomeFinder.Domain.Pets
             HelpStatus = helpStatus;
             Credentials = credentials;
             CreateDate = createDate;
+
+            Photos = photos == null 
+                ? new PetPhotoList(Enumerable.Empty<PetPhoto>()) 
+                : new PetPhotoList(photos);
         }
 
         public Name Name { get; private set; }

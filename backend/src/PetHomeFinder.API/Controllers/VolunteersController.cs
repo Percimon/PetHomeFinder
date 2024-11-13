@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using PetHomeFinder.API.Contracts;
 using PetHomeFinder.API.Extensions;
+using PetHomeFinder.Application.Volunteers.AddPet;
 using PetHomeFinder.Application.Volunteers.Create;
 using PetHomeFinder.Application.Volunteers.Delete;
 using PetHomeFinder.Application.Volunteers.UpdateCredentials;
@@ -8,16 +10,17 @@ using PetHomeFinder.Application.Volunteers.UpdateSocialNetworks;
 
 namespace PetHomeFinder.API.Controllers
 {
-
     public class VolunteersController : ApplicationController
     {
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
-                [FromServices] CreateVolunteerHandler handler,
-                [FromBody] CreateVolunteerRequest request,
-                CancellationToken cancellationToken = default)
+            [FromServices] CreateVolunteerHandler handler,
+            [FromBody] CreateVolunteerRequest request,
+            CancellationToken cancellationToken = default)
         {
-            var result = await handler.Handle(request, cancellationToken);
+            var command = request.ToCommand();
+
+            var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -26,17 +29,12 @@ namespace PetHomeFinder.API.Controllers
 
         [HttpPut("{id:guid}/main-info")]
         public async Task<ActionResult> UpdateMainInfo(
-        [FromRoute] Guid id,
-        [FromServices] UpdateMainInfoHandler handler,
-        [FromBody] UpdateMainInfoRequest request,
-        CancellationToken cancellationToken = default)
+            [FromRoute] Guid id,
+            [FromServices] UpdateMainInfoHandler handler,
+            [FromBody] UpdateMainInfoRequest request,
+            CancellationToken cancellationToken = default)
         {
-            var command = new UpdateMainInfoRequest(
-                id,
-                request.FullName,
-                request.Description,
-                request.Experience,
-                request.PhoneNumber);
+            var command = request.ToCommand(id);
 
             var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
@@ -52,7 +50,7 @@ namespace PetHomeFinder.API.Controllers
             [FromBody] UpdateCredentialsRequest request,
             CancellationToken cancellationToken = default)
         {
-            var command = new UpdateCredentialsRequest(id, request.CredentialList);
+            var command = request.ToCommand(id);
 
             var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
@@ -68,7 +66,7 @@ namespace PetHomeFinder.API.Controllers
             [FromBody] UpdateSocialNetworksRequest request,
             CancellationToken cancellationToken = default)
         {
-            var command = new UpdateSocialNetworksRequest(id, request.SocialNetworkList);
+            var command = request.ToCommand(id);
 
             var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
@@ -79,18 +77,33 @@ namespace PetHomeFinder.API.Controllers
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(
-        [FromRoute] Guid id,
-        [FromServices] DeleteVolunteerHandler handler,
-        CancellationToken cancellationToken = default)
+            [FromRoute] Guid id,
+            [FromServices] DeleteVolunteerHandler handler,
+            CancellationToken cancellationToken = default)
         {
-            var request = new DeleteVolunteerRequest(id);
+            var command = new DeleteVolunteerCommand(id);
 
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
                 return result.Error.ToResponse();
 
             return Ok(result.Value);
         }
 
+        [HttpPost("{id:guid}/pet")]
+        public async Task<ActionResult<Guid>> AddPet(
+            [FromRoute] Guid id,
+            [FromServices] AddPetHandler handler,
+            [FromBody] AddPetRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(id);
+            
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result.Value);
+        }
     }
 }

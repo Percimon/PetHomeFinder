@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHomeFinder.Domain.PetManagement.AggregateRoot;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.Shared;
-using PetHomeFinder.Domain.Volunteers;
 
 namespace PetHomeFinder.Infrastructure.Configurations;
 

@@ -5,7 +5,7 @@ using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Application.Volunteers.UpdateMainInfo;
 
-public class UpdateMainInfoValidator : AbstractValidator<UpdateMainInfoRequest>
+public class UpdateMainInfoValidator : AbstractValidator<UpdateMainInfoCommand>
 {
     public UpdateMainInfoValidator()
     {

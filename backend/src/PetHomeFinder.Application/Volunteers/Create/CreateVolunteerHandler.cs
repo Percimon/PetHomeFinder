@@ -2,10 +2,10 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Extensions;
+using PetHomeFinder.Domain.PetManagement.AggregateRoot;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
-using PetHomeFinder.Domain.Volunteers;
 
 namespace PetHomeFinder.Application.Volunteers.Create;
 
@@ -13,11 +13,11 @@ public class CreateVolunteerHandler
 {
     private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IVolunteersRepository _repository;
-    private readonly IValidator<CreateVolunteerRequest> _validator;
+    private readonly IValidator<CreateVolunteerCommand> _validator;
 
     public CreateVolunteerHandler(
         IVolunteersRepository repository,
-        IValidator<CreateVolunteerRequest> validator,
+        IValidator<CreateVolunteerCommand> validator,
         ILogger<CreateVolunteerHandler> logger)
     {
         _repository = repository;
@@ -26,10 +26,10 @@ public class CreateVolunteerHandler
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
-        CreateVolunteerRequest request,
+        CreateVolunteerCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid == false)
         {
             return validationResult.ToErrorList();
@@ -37,12 +37,12 @@ public class CreateVolunteerHandler
 
         var id = VolunteerId.New();
 
-        var fullNameDto = request.FullName;
-        var descriptionDto = request.Description;
-        var experienceDto = request.Experience;
-        var phoneNumberDto = request.PhoneNumber;
-        var credentialListDto = request.CredentialList;
-        var socialNetworkListDto = request.SocialNetworkList;
+        var fullNameDto = command.FullName;
+        var descriptionDto = command.Description;
+        var experienceDto = command.Experience;
+        var phoneNumberDto = command.PhoneNumber;
+        var credentialListDto = command.CredentialList;
+        var socialNetworkListDto = command.SocialNetworkList;
 
         var fullName = FullName.Create(fullNameDto.FirstName, fullNameDto.LastName, fullNameDto.Surname);
         var description = Description.Create(descriptionDto);

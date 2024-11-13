@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace PetHomeFinder.Application.Volunteers.UpdateCredentials;
 
-public class UpdateCredentialsValidator : AbstractValidator<UpdateCredentialsRequest>
+public class UpdateCredentialsValidator : AbstractValidator<UpdateCredentialsCommand>
 {
 
 }

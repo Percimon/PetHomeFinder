@@ -4,7 +4,7 @@ using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Application.Volunteers.Delete;
 
-public class DeleteVolunteerValidator : AbstractValidator<DeleteVolunteerRequest>
+public class DeleteVolunteerValidator : AbstractValidator<DeleteVolunteerCommand>
 {
     public DeleteVolunteerValidator()
     {

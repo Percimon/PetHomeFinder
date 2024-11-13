@@ -11,11 +11,11 @@ public class UpdateMainInfoHandler
 {
     private readonly ILogger<UpdateMainInfoHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IValidator<UpdateMainInfoRequest> _validator;
+    private readonly IValidator<UpdateMainInfoCommand> _validator;
 
     public UpdateMainInfoHandler(
         IVolunteersRepository volunteersRepository,
-        IValidator<UpdateMainInfoRequest> validator,
+        IValidator<UpdateMainInfoCommand> validator,
         ILogger<UpdateMainInfoHandler> logger)
     {
         _volunteersRepository = volunteersRepository;
@@ -24,25 +24,25 @@ public class UpdateMainInfoHandler
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
-        UpdateMainInfoRequest request,
+        UpdateMainInfoCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
 
-        var volunteerResult = await _volunteersRepository.GetById(request.VolunteerId, cancellationToken);
+        var volunteerResult = await _volunteersRepository.GetById(command.VolunteerId, cancellationToken);
         if (volunteerResult.IsFailure)
             return volunteerResult.Error.ToErrorList();
 
         var fullName = FullName.Create(
-            request.FullName.FirstName,
-            request.FullName.LastName,
-            request.FullName.Surname)
+            command.FullName.FirstName,
+            command.FullName.LastName,
+            command.FullName.Surname)
             .Value;
-        var description = Description.Create(request.Description).Value;
-        var experience = Experience.Create(request.Experience).Value;
-        var phoneNumber = PhoneNumber.Create(request.PhoneNumber).Value;
+        var description = Description.Create(command.Description).Value;
+        var experience = Experience.Create(command.Experience).Value;
+        var phoneNumber = PhoneNumber.Create(command.PhoneNumber).Value;
 
         volunteerResult.Value.UpdateMainInfo(
             fullName,
@@ -52,7 +52,7 @@ public class UpdateMainInfoHandler
 
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
 
-        _logger.LogInformation("Main info of volunteer updated with id: {VolunteerId}.", request.VolunteerId);
+        _logger.LogInformation("Main info of volunteer updated with id: {VolunteerId}.", command.VolunteerId);
 
         return volunteerResult.Value.Id.Value;
     }

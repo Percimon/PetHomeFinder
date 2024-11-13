@@ -11,11 +11,11 @@ public class UpdateCredentialsHandler
 {
     private readonly ILogger<UpdateCredentialsHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
-    private readonly IValidator<UpdateCredentialsRequest> _validator;
+    private readonly IValidator<UpdateCredentialsCommand> _validator;
 
     public UpdateCredentialsHandler(
         IVolunteersRepository volunteersRepository,
-        IValidator<UpdateCredentialsRequest> validator,
+        IValidator<UpdateCredentialsCommand> validator,
         ILogger<UpdateCredentialsHandler> logger)
     {
         _volunteersRepository = volunteersRepository;
@@ -24,18 +24,18 @@ public class UpdateCredentialsHandler
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
-        UpdateCredentialsRequest request,
+        UpdateCredentialsCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
 
-        var volunteerResult = await _volunteersRepository.GetById(request.VolunteerId, cancellationToken);
+        var volunteerResult = await _volunteersRepository.GetById(command.VolunteerId, cancellationToken);
         if (volunteerResult.IsFailure)
             return volunteerResult.Error.ToErrorList();
 
-        var credentials = new ValueObjectList<Credential>(request
+        var credentials = new ValueObjectList<Credential>(command
             .CredentialList
             .Credentials
             .Select(r => Credential.Create(r.Name, r.Description).Value));
@@ -44,7 +44,7 @@ public class UpdateCredentialsHandler
 
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
 
-        _logger.LogInformation("Credentials of volunteer updated with id: {VolunteerId}.", request.VolunteerId);
+        _logger.LogInformation("Credentials of volunteer updated with id: {VolunteerId}.", command.VolunteerId);
 
         return volunteerResult.Value.Id.Value;
     }

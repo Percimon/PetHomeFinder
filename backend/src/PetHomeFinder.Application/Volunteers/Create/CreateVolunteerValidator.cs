@@ -4,7 +4,7 @@ using PetHomeFinder.Domain.PetManagement.ValueObjects;
 
 namespace PetHomeFinder.Application.Volunteers.Create;
 
-public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerRequest>
+public class CreateVolunteerValidator : AbstractValidator<CreateVolunteerCommand>
 {
     public CreateVolunteerValidator()
     {
