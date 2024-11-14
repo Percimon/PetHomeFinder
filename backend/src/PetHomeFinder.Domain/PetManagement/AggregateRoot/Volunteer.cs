@@ -1,11 +1,12 @@
-﻿using PetHomeFinder.Domain.PetManagement.Entities;
+﻿using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.PetManagement.Entities;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 {
-    public class Volunteer : Entity<VolunteerId>
+    public class Volunteer : Shared.Entity<VolunteerId>
     {
         private bool _isDeleted = false;
         private readonly List<Pet> _petsOwning = [];
@@ -78,9 +79,10 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
                 pet.SoftDelete();
         }
 
-        public void AddPet(Pet pet)
+        public UnitResult<Error> AddPet(Pet pet)
         {
             _petsOwning.Add(pet);
+            return Result.Success<Error>();
         }
         
     }

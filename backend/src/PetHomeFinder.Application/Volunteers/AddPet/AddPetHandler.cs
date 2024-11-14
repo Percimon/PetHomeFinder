@@ -107,20 +107,3 @@ public class AddPetHandler
         return pet.Id.Value;
     }
 }
-
-// PetId id,
-//     Name name,
-// SpeciesBreed speciesBreed,
-//     Description description,
-// Color color,
-//     HealthInfo healthInfo,
-// Address address,
-//     Weight weight,
-// Height height,
-//     PhoneNumber ownerPhoneNumber,
-// bool isCastrated, 
-// bool isVaccinated,
-//     DateTime birthDate,
-// HelpStatusEnum helpStatus,
-//     CredentialList credentials,
-// DateTime createDate
