@@ -8,7 +8,7 @@ namespace PetHomeFinder.Application.Volunteers;
 public interface IVolunteersRepository
 {
     Task<Guid> Add(Volunteer volunteer, CancellationToken cancellationToken = default);
-    Task<Guid> Save(Volunteer volunteer, CancellationToken cancellationToken = default);
-    Task<Guid> Delete(Volunteer volunteer, CancellationToken cancellationToken = default);
+    Guid Save(Volunteer volunteer);
+    Guid Delete(Volunteer volunteer);
     Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId, CancellationToken cancellationToken = default);
 }

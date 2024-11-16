@@ -77,6 +77,11 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
             _isDeleted = true;
         }
+        
+        public void UpdatePhotos(IEnumerable<PetPhoto> photos)
+        {
+            Photos = new PetPhotoList(photos);
+        }
 
     }
 

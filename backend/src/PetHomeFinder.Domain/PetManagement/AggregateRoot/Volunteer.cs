@@ -85,6 +85,15 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
             return Result.Success<Error>();
         }
         
+        public Result<Pet, Error> GetPetById(PetId petId)
+        {
+            var pet = PetsOwning.FirstOrDefault(p => p.Id == petId);
+            if (pet is null)
+                return Errors.General.NotFound(petId.Value);
+
+            return pet;
+        }
+        
     }
 
 }

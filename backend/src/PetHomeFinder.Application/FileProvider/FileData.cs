@@ -1,6 +1,8 @@
+using PetHomeFinder.Domain.Shared;
+
 namespace PetHomeFinder.Application.FileProvider;
 
 public record FileData(
     Stream FileStream,
-    string BucketName,
-    string FilePath);
+    FilePath FilePath,
+    string BucketName);

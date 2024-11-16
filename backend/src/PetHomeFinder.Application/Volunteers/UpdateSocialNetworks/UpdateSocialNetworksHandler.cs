@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
@@ -11,14 +12,17 @@ public class UpdateSocialNetworksHandler
 {
     private readonly ILogger<UpdateSocialNetworksHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateSocialNetworksCommand> _validator;
 
     public UpdateSocialNetworksHandler(
         IVolunteersRepository volunteersRepository,
+        IUnitOfWork unitOfWork,
         IValidator<UpdateSocialNetworksCommand> validator,
         ILogger<UpdateSocialNetworksHandler> logger)
     {
         _volunteersRepository = volunteersRepository;
+        _unitOfWork = unitOfWork;
         _validator = validator;
         _logger = logger;
     }
@@ -42,8 +46,10 @@ public class UpdateSocialNetworksHandler
 
         volunteerResult.Value.UpdateSocialNetworks(socialNetworks);
 
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        _volunteersRepository.Save(volunteerResult.Value);
 
+        await _unitOfWork.SaveChanges(cancellationToken);
+        
         _logger.LogInformation("Social networks of volunteer updated with id: {VolunteerId}.", command.VolunteerId);
 
         return volunteerResult.Value.Id.Value;

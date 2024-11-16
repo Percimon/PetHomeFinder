@@ -11,6 +11,7 @@ using PetHomeFinder.Application.Volunteers.FileTest.Upload;
 using PetHomeFinder.Application.Volunteers.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.UpdateMainInfo;
 using PetHomeFinder.Application.Volunteers.UpdateSocialNetworks;
+using PetHomeFinder.Application.Volunteers.UploadFilesToPet;
 
 namespace PetHomeFinder.Application;
 
@@ -39,6 +40,7 @@ public static class Inject
         services.AddScoped<AddBreedHandler>();
         
         services.AddScoped<UploadFileHandler>();
+        services.AddScoped<UploadFilesToPetHandler>();
         services.AddScoped<DeleteFileHandler>();
         services.AddScoped<GetFileHandler>();
         

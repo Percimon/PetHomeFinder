@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Application.SpeciesBreeds;
 using PetHomeFinder.Application.Volunteers.Create;
@@ -16,17 +17,20 @@ public class AddPetHandler
 {
     private readonly ILogger<AddPetHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IValidator<AddPetCommand> _validator;
 
     public AddPetHandler(
         ILogger<AddPetHandler> logger,
         IVolunteersRepository volunteersRepository,
+        IUnitOfWork unitOfWork,
         ISpeciesRepository speciesRepository,
         IValidator<AddPetCommand> validator)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
+        _unitOfWork = unitOfWork;
         _speciesRepository = speciesRepository;
         _validator = validator;
     }
@@ -100,7 +104,10 @@ public class AddPetHandler
             command.CreateDate);
 
         volunteerResult.Value.AddPet(pet);
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        
+        _volunteersRepository.Save(volunteerResult.Value);
+        
+        await _unitOfWork.SaveChanges(cancellationToken);
         
         _logger.LogInformation("Pet added with id: {PetId}.", pet.Id.Value);
 

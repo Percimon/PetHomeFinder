@@ -14,17 +14,22 @@ public class UploadFileHandler
         _fileProvider = fileProvider;
     }
 
-    public async Task<Result<string, Error>> Handle(
+    public async Task<Result<string, ErrorList>> Handle(
         UploadFileRequest request,
         CancellationToken cancellationToken = default)
     {
+        var filePathResult = FilePath.Create(request.FilePath);
+
+        if (filePathResult.IsFailure)
+            return filePathResult.Error.ToErrorList();
+
         var fileData = new FileData(
             request.FileStream,
-            request.BucketName,
-            request.FilePath);
-        
+            filePathResult.Value,
+            request.BucketName);
+
         var result = await _fileProvider.UploadFile(fileData, cancellationToken);
 
-        return result;
+        return result.Value;
     }
 }

@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.PetManagement.AggregateRoot;
 using PetHomeFinder.Domain.PetManagement.IDs;
@@ -11,16 +12,19 @@ namespace PetHomeFinder.Application.Volunteers.Create;
 
 public class CreateVolunteerHandler
 {
-    private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IVolunteersRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ILogger<CreateVolunteerHandler> _logger;
     private readonly IValidator<CreateVolunteerCommand> _validator;
 
     public CreateVolunteerHandler(
         IVolunteersRepository repository,
+        IUnitOfWork unitOfWork,
         IValidator<CreateVolunteerCommand> validator,
         ILogger<CreateVolunteerHandler> logger)
     {
         _repository = repository;
+        _unitOfWork = unitOfWork;
         _validator = validator;
         _logger = logger;
     }
@@ -67,8 +71,10 @@ public class CreateVolunteerHandler
             socialNetworkList
         );
 
-        await _repository.Add(volunteer);
-
+        await _repository.Add(volunteer, cancellationToken);
+        
+        await _unitOfWork.SaveChanges(cancellationToken);
+        
         _logger.LogInformation("Volunteer created with id: {VolunteerId}.", volunteer.Id.Value);
 
         return volunteer.Id.Value;

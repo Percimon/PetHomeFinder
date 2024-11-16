@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Contracts;
 using PetHomeFinder.API.Extensions;
+using PetHomeFinder.API.Processors;
 using PetHomeFinder.Application.Volunteers.AddPet;
 using PetHomeFinder.Application.Volunteers.Create;
 using PetHomeFinder.Application.Volunteers.Delete;
 using PetHomeFinder.Application.Volunteers.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.UpdateMainInfo;
 using PetHomeFinder.Application.Volunteers.UpdateSocialNetworks;
+using PetHomeFinder.Application.Volunteers.UploadFilesToPet;
 
 namespace PetHomeFinder.API.Controllers
 {
@@ -98,11 +100,31 @@ namespace PetHomeFinder.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var command = request.ToCommand(id);
-            
+
             var result = await handler.Handle(command, cancellationToken);
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
+            return Ok(result.Value);
+        }
+
+        [HttpPost("{volunteerId:guid}/pet/{petId:guid}/files")]
+        public async Task<ActionResult> UploadFilesToPet(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId,
+            [FromForm] IFormFileCollection files,
+            [FromServices] UploadFilesToPetHandler handler,
+            CancellationToken cancellationToken)
+        {
+            await using var fileProcessor = new FormFileProcessor();
+            var fileDtos = fileProcessor.ToUploadFileDtos(files);
+            
+            var command = new UploadFilesToPetCommand(volunteerId, petId, fileDtos);
+            
+            var result = await handler.Handle(command, cancellationToken);
+            if(result.IsFailure)
+                return result.Error.ToResponse(); 
+            
             return Ok(result.Value);
         }
     }
