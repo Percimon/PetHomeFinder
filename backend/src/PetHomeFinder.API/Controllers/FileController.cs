@@ -29,8 +29,8 @@ public class FileController : ApplicationController
 
         var request = new UploadFileRequest(
             stream,
-            BUCKET_NAME_PHOTOS,
-            Guid.NewGuid().ToString());
+            Guid.NewGuid().ToString(),
+            BUCKET_NAME_PHOTOS);
 
         var result = await handler.Handle(request, cancellationToken);
 

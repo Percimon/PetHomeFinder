@@ -2,6 +2,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Providers;
 using PetHomeFinder.Application.SpeciesBreeds;
 using PetHomeFinder.Application.Volunteers;
@@ -18,6 +19,7 @@ public static class Inject
         IConfiguration configuration)
     {
         services.AddScoped<ApplicationDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IVolunteersRepository, VolunteersRepository>();
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
        

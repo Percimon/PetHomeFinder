@@ -1,14 +1,15 @@
-﻿using PetHomeFinder.Domain.PetManagement.IDs;
+﻿using CSharpFunctionalExtensions;
+using PetHomeFinder.Domain.PetManagement.Entities;
+using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
-using PetHomeFinder.Domain.Pets;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Domain.Volunteers
+namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 {
-    public class Volunteer : Entity<VolunteerId>
+    public class Volunteer : Shared.Entity<VolunteerId>
     {
         private bool _isDeleted = false;
-        private readonly List<Pet> _petsOwning;
+        private readonly List<Pet> _petsOwning = [];
 
         public Volunteer(VolunteerId id) : base(id)
         {
@@ -29,7 +30,6 @@ namespace PetHomeFinder.Domain.Volunteers
             PhoneNumber = phoneNumber;
             Credentials = credentials;
             SocialNetworks = socialNetworks;
-            _petsOwning = new List<Pet>();
         }
 
         public FullName FullName { get; private set; }
@@ -79,6 +79,21 @@ namespace PetHomeFinder.Domain.Volunteers
                 pet.SoftDelete();
         }
 
+        public UnitResult<Error> AddPet(Pet pet)
+        {
+            _petsOwning.Add(pet);
+            return Result.Success<Error>();
+        }
+        
+        public Result<Pet, Error> GetPetById(PetId petId)
+        {
+            var pet = PetsOwning.FirstOrDefault(p => p.Id == petId);
+            if (pet is null)
+                return Errors.General.NotFound(petId.Value);
+
+            return pet;
+        }
+        
     }
 
 }
