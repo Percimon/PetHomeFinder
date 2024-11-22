@@ -12,12 +12,14 @@ namespace PetHomeFinder.Infrastructure
         private readonly IConfiguration _configuration;
 
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
+
         public DbSet<Species> Species => Set<Species>();
 
         public ApplicationDbContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(_configuration.GetConnectionString(Constants.DATABASE));
@@ -32,7 +34,5 @@ namespace PetHomeFinder.Infrastructure
 
         private ILoggerFactory CreateLoggerFactory() =>
             LoggerFactory.Create(builder => builder.AddConsole());
-
-
     }
 }

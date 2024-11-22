@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Domain.PetManagement.Entities
 {
-    public class Pet : Entity<PetId>
+    public class Pet : Shared.Entity<PetId>
     {
         private bool _isDeleted = false;
 
@@ -54,20 +55,37 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
         }
 
         public Name Name { get; private set; }
+
         public SpeciesBreed SpeciesBreed { get; private set; }
+
+        public Position Position { get; private set; }
+
         public Description Description { get; private set; }
+
         public Color Color { get; private set; }
+
         public HealthInfo HealthInfo { get; private set; }
+
         public Address Address { get; private set; }
+
         public Weight Weight { get; private set; }
+
         public Height Height { get; private set; }
+
         public PhoneNumber OwnerPhoneNumber { get; private set; }
+
         public bool IsCastrated { get; private set; }
+
         public bool IsVaccinated { get; private set; }
+
         public DateTime BirthDate { get; private set; }
+
         public HelpStatusEnum HelpStatus { get; private set; }
+
         public CredentialList Credentials { get; private set; }
+
         public DateTime CreateDate { get; private set; }
+
         public PetPhotoList Photos { get; private set; }
 
         public void SoftDelete()
@@ -83,6 +101,31 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
             Photos = new PetPhotoList(photos);
         }
 
+        public void SetPosition(Position position) =>
+            Position = position;
+
+        public UnitResult<Error> MoveForward()
+        {
+            var newPosition = Position.Forward();
+            if (newPosition.IsFailure)
+                return newPosition.Error;
+
+            Position = newPosition.Value;
+
+            return Result.Success<Error>();
+        }
+
+        public UnitResult<Error> MoveBack()
+        {
+            var newPosition = Position.Back();
+            if (newPosition.IsFailure)
+                return newPosition.Error;
+
+            Position = newPosition.Value;
+
+            return Result.Success<Error>();
+        }
+        
     }
 
     public enum HelpStatusEnum
