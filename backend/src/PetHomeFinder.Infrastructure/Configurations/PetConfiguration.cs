@@ -29,7 +29,14 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
                         .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                         .HasColumnName("name");
                 });
-
+                
+                builder.ComplexProperty(p => p.Position, sb =>
+                {
+                        sb.Property(n => n.Value)
+                                .IsRequired()
+                                .HasColumnName("position");
+                });
+                
                 builder.ComplexProperty(p => p.SpeciesBreed, pb =>
                 {
                         pb.Property(s => s.SpeciesId)

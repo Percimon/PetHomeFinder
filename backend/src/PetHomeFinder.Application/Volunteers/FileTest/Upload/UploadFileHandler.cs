@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using PetHomeFinder.Application.FileProvider;
 using PetHomeFinder.Application.Providers;
 using PetHomeFinder.Domain.Shared;
+using FileInfo = PetHomeFinder.Application.FileProvider.FileInfo;
 
 namespace PetHomeFinder.Application.Volunteers.FileTest.Upload;
 
@@ -22,11 +23,14 @@ public class UploadFileHandler
 
         if (filePathResult.IsFailure)
             return filePathResult.Error.ToErrorList();
+        
+        var fileInfo = new FileInfo(
+            filePathResult.Value,
+            request.BucketName);
 
         var fileData = new FileData(
             request.FileStream,
-            filePathResult.Value,
-            request.BucketName);
+            fileInfo);
 
         var result = await _fileProvider.UploadFile(fileData, cancellationToken);
 
