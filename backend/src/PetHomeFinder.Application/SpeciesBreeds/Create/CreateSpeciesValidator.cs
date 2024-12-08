@@ -4,7 +4,7 @@ using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Application.SpeciesBreeds.Create;
 
-public class CreateSpeciesValidator : AbstractValidator<CreateSpeciesRequest>
+public class CreateSpeciesValidator : AbstractValidator<CreateSpeciesCommand>
 {
     public CreateSpeciesValidator()
     {

@@ -1,3 +1,3 @@
 namespace PetHomeFinder.Application.SpeciesBreeds.AddBreed;
 
-public record AddBreedRequest(Guid SpeciesId, string Name);
+public record AddBreedCommand(Guid SpeciesId, string Name);

@@ -1,7 +1,7 @@
 using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Application.Volunteers.UpdateMainInfo;
 
-namespace PetHomeFinder.API.Contracts;
+namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 
 public record UpdateMainInfoRequest(
     FullNameDto FullName,

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using PetHomeFinder.API.Controllers.Species.Requests;
 using PetHomeFinder.Application.SpeciesBreeds.AddBreed;
 using PetHomeFinder.Application.SpeciesBreeds.Create;
-using PetHomeFinder.Application.Volunteers.Create;
 
-namespace PetHomeFinder.API.Controllers;
+namespace PetHomeFinder.API.Controllers.Species;
 
 public class SpeciesController : ApplicationController
 {
@@ -13,7 +13,9 @@ public class SpeciesController : ApplicationController
         [FromBody] CreateSpeciesRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await handler.Handle(request, cancellationToken);
+        var command = request.ToCommand();
+        
+        var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)
             return BadRequest(result.Error);
 
@@ -27,7 +29,7 @@ public class SpeciesController : ApplicationController
         [FromBody] AddBreedRequest request,
         CancellationToken cancellationToken = default)
     {
-        var command = new AddBreedRequest(speciesId, request.Name);
+        var command = request.ToCommand(speciesId);
         
         var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)

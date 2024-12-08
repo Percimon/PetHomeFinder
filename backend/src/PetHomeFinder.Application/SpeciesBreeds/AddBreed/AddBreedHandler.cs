@@ -12,12 +12,12 @@ namespace PetHomeFinder.Application.SpeciesBreeds.AddBreed;
 
 public class AddBreedHandler
 {
-    private readonly IValidator<AddBreedRequest> _validator;
+    private readonly IValidator<AddBreedCommand> _validator;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<AddBreedHandler> _logger;
 
     public AddBreedHandler(
-        IValidator<AddBreedRequest> validator,
+        IValidator<AddBreedCommand> validator,
         ISpeciesRepository speciesRepository,
         ILogger<AddBreedHandler> logger)
     {
@@ -27,20 +27,20 @@ public class AddBreedHandler
     }
     
     public async Task<Result<Guid, ErrorList>> Handle(
-        AddBreedRequest request,
+        AddBreedCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
 
-        var speciesResult = await _speciesRepository.GetById(request.SpeciesId, cancellationToken);
+        var speciesResult = await _speciesRepository.GetById(command.SpeciesId, cancellationToken);
         if(speciesResult.IsFailure)
             return speciesResult.Error.ToErrorList();
         
         var breedId = BreedId.New();
         
-        var nameResult = Name.Create(request.Name);
+        var nameResult = Name.Create(command.Name);
         if(nameResult.IsFailure)
             return nameResult.Error.ToErrorList();
         
