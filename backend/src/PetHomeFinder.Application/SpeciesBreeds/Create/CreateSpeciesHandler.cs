@@ -10,12 +10,12 @@ namespace PetHomeFinder.Application.SpeciesBreeds.Create;
 
 public class CreateSpeciesHandler
 {
-    private readonly IValidator<CreateSpeciesRequest> _validator;
+    private readonly IValidator<CreateSpeciesCommand> _validator;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<CreateSpeciesHandler> _logger;
 
     public CreateSpeciesHandler(
-        IValidator<CreateSpeciesRequest> validator,
+        IValidator<CreateSpeciesCommand> validator,
         ISpeciesRepository speciesRepository,
         ILogger<CreateSpeciesHandler> logger)
     {
@@ -25,15 +25,15 @@ public class CreateSpeciesHandler
     }
     
     public async Task<Result<Guid, ErrorList>> Handle(
-        CreateSpeciesRequest request,
+        CreateSpeciesCommand command,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
 
         var specieId = SpeciesId.New();
-        var name = Name.Create(request.Name).Value;
+        var name = Name.Create(command.Name).Value;
 
         var species = new Species(specieId, name);
 

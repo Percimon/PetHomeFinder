@@ -2,7 +2,7 @@ using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Application.Volunteers.AddPet;
 using PetHomeFinder.Domain.PetManagement.Entities;
 
-namespace PetHomeFinder.API.Contracts;
+namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 
 public record AddPetRequest(
     string Name,

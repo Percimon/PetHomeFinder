@@ -4,7 +4,7 @@ using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Application.SpeciesBreeds.AddBreed;
 
-public class AddBreedValidator : AbstractValidator<AddBreedRequest>
+public class AddBreedValidator : AbstractValidator<AddBreedCommand>
 {
     public AddBreedValidator()
     {

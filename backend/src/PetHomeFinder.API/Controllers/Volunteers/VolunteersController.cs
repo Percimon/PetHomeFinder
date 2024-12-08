@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using PetHomeFinder.API.Contracts;
+using PetHomeFinder.API.Controllers.Volunteers.Requests;
 using PetHomeFinder.API.Extensions;
 using PetHomeFinder.API.Processors;
 using PetHomeFinder.Application.Volunteers.AddPet;
