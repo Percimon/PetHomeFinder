@@ -4,37 +4,38 @@ using PetHomeFinder.Application.Volunteers;
 using PetHomeFinder.Domain.PetManagement.AggregateRoot;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Infrastructure.DbContexts;
 
 namespace PetHomeFinder.Infrastructure.Repositories;
 
 public class VolunteersRepository : IVolunteersRepository
 {
-    private readonly ApplicationDbContext _applicationDbContext;
+    private readonly WriteDbContext _writeDbContext;
 
-    public VolunteersRepository(ApplicationDbContext applicationDbContext)
+    public VolunteersRepository(WriteDbContext writeDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _writeDbContext = writeDbContext;
     }
 
     public async Task<Guid> Add(
         Volunteer volunteer,
         CancellationToken cancellationToken)
     {
-        await _applicationDbContext.Volunteers.AddAsync(volunteer, cancellationToken);
+        await _writeDbContext.Volunteers.AddAsync(volunteer, cancellationToken);
 
         return volunteer.Id.Value;
     }
 
     public Guid Save(Volunteer volunteer)
     {
-        _applicationDbContext.Volunteers.Attach(volunteer);
+        _writeDbContext.Volunteers.Attach(volunteer);
 
         return volunteer.Id.Value;
     }
 
     public Guid Delete(Volunteer volunteer)
     {
-        _applicationDbContext.Volunteers.Remove(volunteer);
+        _writeDbContext.Volunteers.Remove(volunteer);
 
         return volunteer.Id.Value;
     }
@@ -43,7 +44,7 @@ public class VolunteersRepository : IVolunteersRepository
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default)
     {
-        var volunteer = await _applicationDbContext.Volunteers
+        var volunteer = await _writeDbContext.Volunteers
             .Include(v => v.PetsOwning)
             .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 

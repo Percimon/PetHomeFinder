@@ -2,15 +2,15 @@ using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Controllers.Volunteers.Requests;
 using PetHomeFinder.API.Extensions;
 using PetHomeFinder.API.Processors;
-using PetHomeFinder.Application.Volunteers.AddPet;
-using PetHomeFinder.Application.Volunteers.Create;
-using PetHomeFinder.Application.Volunteers.Delete;
-using PetHomeFinder.Application.Volunteers.UpdateCredentials;
-using PetHomeFinder.Application.Volunteers.UpdateMainInfo;
-using PetHomeFinder.Application.Volunteers.UpdateSocialNetworks;
-using PetHomeFinder.Application.Volunteers.UploadFilesToPet;
+using PetHomeFinder.Application.Volunteers.Commands.AddPet;
+using PetHomeFinder.Application.Volunteers.Commands.Create;
+using PetHomeFinder.Application.Volunteers.Commands.Delete;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
+using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
 
-namespace PetHomeFinder.API.Controllers
+namespace PetHomeFinder.API.Controllers.Volunteers
 {
     public class VolunteersController : ApplicationController
     {

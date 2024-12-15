@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Minio;
 using PetHomeFinder.API.Extensions;
-using PetHomeFinder.Application.Volunteers.FileTest.Delete;
-using PetHomeFinder.Application.Volunteers.FileTest.Get;
-using PetHomeFinder.Application.Volunteers.FileTest.Upload;
+using PetHomeFinder.Application.Volunteers.Commands.FileTest.Delete;
+using PetHomeFinder.Application.Volunteers.Commands.FileTest.Get;
+using PetHomeFinder.Application.Volunteers.Commands.FileTest.Upload;
 
 namespace PetHomeFinder.API.Controllers;
 

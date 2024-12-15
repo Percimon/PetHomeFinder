@@ -9,6 +9,7 @@ using PetHomeFinder.Application.Providers;
 using PetHomeFinder.Application.SpeciesBreeds;
 using PetHomeFinder.Application.Volunteers;
 using PetHomeFinder.Infrastructure.BackgroundServices;
+using PetHomeFinder.Infrastructure.DbContexts;
 using PetHomeFinder.Infrastructure.Files;
 using PetHomeFinder.Infrastructure.MessageQueues;
 using PetHomeFinder.Infrastructure.Options;
@@ -24,21 +25,59 @@ public static class Inject
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<ApplicationDbContext>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddDatabase()
+            .AddRepositories()
+            .AddMinio(configuration)
+            .AddServices()
+            .AddHostedServices()
+            .AddMessageQueues();
+        
+        return services;
+    }
+    
+    private static IServiceCollection AddRepositories(
+        this IServiceCollection services)
+    {
         services.AddScoped<IVolunteersRepository, VolunteersRepository>();
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
-       
-        services.AddMinio(configuration);
-
-        services.AddHostedService<FileCleanerBackgroundService>();
-
-        services.AddSingleton<IMessageQueue<IEnumerable<FileInfo>>, InMemoryMessageQueue<IEnumerable<FileInfo>>>();
         
+        return services;
+    }
+    
+    private static IServiceCollection AddDatabase(
+        this IServiceCollection services)
+    {
+        services.AddScoped<ReadDbContext>();
+        services.AddScoped<WriteDbContext>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        return services;
+    }
+    
+    private static IServiceCollection AddMessageQueues(
+        this IServiceCollection services)
+    {
+        services.AddSingleton<IMessageQueue<IEnumerable<FileInfo>>, InMemoryMessageQueue<IEnumerable<FileInfo>>>();
+
+        return services;
+    }
+    
+    private static IServiceCollection AddServices(
+        this IServiceCollection services)
+    {
         services.AddScoped<IFileCleanerService, FileCleanerService>();
         
         return services;
     }
+    
+    private static IServiceCollection AddHostedServices(
+        this IServiceCollection services)
+    {
+        services.AddHostedService<FileCleanerBackgroundService>();
+        
+        return services;
+    }
+
 
     private static IServiceCollection AddMinio(
         this IServiceCollection services,

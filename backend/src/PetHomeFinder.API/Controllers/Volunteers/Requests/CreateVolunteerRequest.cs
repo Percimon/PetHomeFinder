@@ -1,5 +1,5 @@
 using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Application.Volunteers.Create;
+using PetHomeFinder.Application.Volunteers.Commands.Create;
 
 namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 

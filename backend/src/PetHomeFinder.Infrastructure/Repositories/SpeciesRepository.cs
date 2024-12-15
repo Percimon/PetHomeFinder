@@ -4,16 +4,17 @@ using PetHomeFinder.Application.SpeciesBreeds;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
+using PetHomeFinder.Infrastructure.DbContexts;
 
 namespace PetHomeFinder.Infrastructure.Repositories;
 
 public class SpeciesRepository : ISpeciesRepository
 {
-    private readonly ApplicationDbContext _applicationDbContext;
+    private readonly WriteDbContext _writeDbContext;
 
-    public SpeciesRepository(ApplicationDbContext applicationDbContext)
+    public SpeciesRepository(WriteDbContext writeDbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _writeDbContext = writeDbContext;
     }
 
     public async Task<Result<Guid, Error>> Add(
@@ -29,8 +30,8 @@ public class SpeciesRepository : ISpeciesRepository
                 species.Name.Value);
         }
         
-        await _applicationDbContext.Species.AddAsync(species, cancellationToken);
-        await _applicationDbContext.SaveChangesAsync(cancellationToken);
+        await _writeDbContext.Species.AddAsync(species, cancellationToken);
+        await _writeDbContext.SaveChangesAsync(cancellationToken);
         
         return species.Id.Value;
     }
@@ -39,8 +40,8 @@ public class SpeciesRepository : ISpeciesRepository
         Species species, 
         CancellationToken cancellationToken = default)
     {
-        _applicationDbContext.Species.Attach(species);
-        await _applicationDbContext.SaveChangesAsync(cancellationToken);
+        _writeDbContext.Species.Attach(species);
+        await _writeDbContext.SaveChangesAsync(cancellationToken);
 
         return species.Id.Value;
     }
@@ -49,8 +50,8 @@ public class SpeciesRepository : ISpeciesRepository
         Species species, 
         CancellationToken cancellationToken = default)
     {
-        _applicationDbContext.Species.Remove(species);
-        await _applicationDbContext.SaveChangesAsync(cancellationToken);
+        _writeDbContext.Species.Remove(species);
+        await _writeDbContext.SaveChangesAsync(cancellationToken);
 
         return species.Id.Value;
     }
@@ -59,7 +60,7 @@ public class SpeciesRepository : ISpeciesRepository
         SpeciesId speciesId, 
         CancellationToken cancellationToken = default)
     {
-        var species = await _applicationDbContext.Species
+        var species = await _writeDbContext.Species
             .FirstOrDefaultAsync(v => v.Id == speciesId, cancellationToken);
 
         if (species is null)
@@ -70,7 +71,7 @@ public class SpeciesRepository : ISpeciesRepository
 
     public async Task<Result<Species, Error>> GetByName(Name name, CancellationToken cancellationToken = default)
     {
-        var species = await _applicationDbContext.Species
+        var species = await _writeDbContext.Species
             .FirstOrDefaultAsync(v => v.Name.Value == name.Value, cancellationToken);
 
         if (species is null)

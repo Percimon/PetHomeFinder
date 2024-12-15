@@ -1,14 +1,15 @@
 using System.Data;
 using Microsoft.EntityFrameworkCore.Storage;
 using PetHomeFinder.Application.Database;
+using PetHomeFinder.Infrastructure.DbContexts;
 
 namespace PetHomeFinder.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly ReadDbContext _dbContext;
 
-    public UnitOfWork(ApplicationDbContext dbContext)
+    public UnitOfWork(ReadDbContext dbContext)
     {
         _dbContext = dbContext;
     }
