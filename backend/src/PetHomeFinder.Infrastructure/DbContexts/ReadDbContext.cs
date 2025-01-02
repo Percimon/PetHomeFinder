@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Domain.PetManagement.AggregateRoot;
 using PetHomeFinder.Domain.Shared;
@@ -8,13 +9,13 @@ using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 
 namespace PetHomeFinder.Infrastructure.DbContexts;
 
-public class ReadDbContext : DbContext
+public class ReadDbContext : DbContext, IReadDbContext
 {
     private readonly IConfiguration _configuration;
 
-    public DbSet<VolunteerDto> Volunteers => Set<VolunteerDto>();
-
-    public DbSet<PetDto> Pets => Set<PetDto>();
+    public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
+ 
+    public IQueryable<PetDto> Pets => Set<PetDto>();
     
     public ReadDbContext(IConfiguration configuration)
     {
@@ -26,6 +27,8 @@ public class ReadDbContext : DbContext
         optionsBuilder.UseNpgsql(_configuration.GetConnectionString(Constants.DATABASE));
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+        
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

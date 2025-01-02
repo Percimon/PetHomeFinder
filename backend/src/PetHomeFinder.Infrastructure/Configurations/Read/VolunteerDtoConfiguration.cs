@@ -18,5 +18,7 @@ public sealed class VolunteerDtoConfiguration : IEntityTypeConfiguration<Volunte
         builder.HasMany(p => p.Pets)
             .WithOne()
             .HasForeignKey(x => x.VolunteerId);
+        
+        //builder.HasQueryFilter()
     }
 }
