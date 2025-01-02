@@ -47,8 +47,8 @@ public static class Inject
     private static IServiceCollection AddDatabase(
         this IServiceCollection services)
     {
-        services.AddScoped<ReadDbContext>();
         services.AddScoped<WriteDbContext>();
+        services.AddScoped<IReadDbContext, ReadDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

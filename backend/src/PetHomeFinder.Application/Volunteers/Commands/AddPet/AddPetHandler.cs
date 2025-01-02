@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Application.SpeciesBreeds;
@@ -12,7 +13,7 @@ using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
 namespace PetHomeFinder.Application.Volunteers.Commands.AddPet;
 
-public class AddPetHandler
+public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
 {
     private readonly ILogger<AddPetHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;

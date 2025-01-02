@@ -1,3 +1,4 @@
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Domain.PetManagement.Entities;
 
@@ -20,4 +21,4 @@ public record AddPetCommand(
     DateTime BirthDate,
     HelpStatusEnum HelpStatus,
     CredentialListDto Credentials,
-    DateTime CreateDate);
+    DateTime CreateDate) : ICommand;

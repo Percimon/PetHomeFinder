@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Application.FileProvider;
@@ -14,7 +15,7 @@ using FileInfo = PetHomeFinder.Application.FileProvider.FileInfo;
 
 namespace PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
 
-public class UploadFilesToPetHandler
+public class UploadFilesToPetHandler : ICommandHandler<Guid, UploadFilesToPetCommand>
 {
     private const string BUCKET_NAME = "photos";
 
@@ -87,7 +88,7 @@ public class UploadFilesToPetHandler
         {
             await _messageQueue.WriteAsync(filesData.Select(f => f.FileInfo), cancellationToken);
             
-            return filePathsResult.Error.ToErrorList();
+            return filePathsResult.Error;
         }
 
         var petPhotos = filePathsResult.Value

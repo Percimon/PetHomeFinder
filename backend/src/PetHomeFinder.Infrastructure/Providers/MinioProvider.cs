@@ -25,7 +25,7 @@ public class MinioProvider : IFileProvider
         _logger = logger;
     }
 
-    public async Task<Result<string, Error>> UploadFile(
+    public async Task<Result<string, ErrorList>> UploadFile(
         FileData fileData,
         CancellationToken cancellationToken = default)
     {
@@ -45,11 +45,11 @@ public class MinioProvider : IFileProvider
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to upload file to minio");
-            return Error.Failure("file.upload", "Failed to upload file to minio");
+            return Error.Failure("file.upload", "Failed to upload file to minio").ToErrorList();
         }
     }
 
-    public async Task<Result<IReadOnlyList<FilePath>, Error>> UploadFiles(
+    public async Task<Result<IReadOnlyList<FilePath>, ErrorList>> UploadFiles(
         IEnumerable<FileData> filesData,
         CancellationToken cancellationToken = default)
     {
@@ -68,7 +68,7 @@ public class MinioProvider : IFileProvider
             var pathResult = await Task.WhenAll(tasks);
 
             if (pathResult.Any(p => p.IsFailure))
-                return pathResult.First().Error;
+                return pathResult.First().Error.ToErrorList();
 
             var results = pathResult.Select(p => p.Value).ToList();
 
@@ -81,11 +81,11 @@ public class MinioProvider : IFileProvider
             _logger.LogError(ex,
                 "Fail to upload files in minio, files amount: {amount}", filesList.Count);
 
-            return Error.Failure("file.upload", "Fail to upload files in minio");
+            return Error.Failure("file.upload", "Fail to upload files in minio").ToErrorList();
         }
     }
 
-    public async Task<Result<string, Error>> DeleteFile(
+    public async Task<Result<string, ErrorList>> DeleteFile(
         FileMetaData fileMetaData,
         CancellationToken cancellationToken = default)
     {
@@ -113,11 +113,11 @@ public class MinioProvider : IFileProvider
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to delete file from minio");
-            return Error.Failure("file.delete", "Failed to delete file from minio");
+            return Error.Failure("file.delete", "Failed to delete file from minio").ToErrorList();
         }
     }
     
-    public async Task<UnitResult<Error>> DeleteFile(
+    public async Task<UnitResult<ErrorList>> DeleteFile(
         FileInfo fileInfo,
         CancellationToken cancellationToken = default)
     {
@@ -130,7 +130,7 @@ public class MinioProvider : IFileProvider
                 .WithObject(fileInfo.FilePath.Path);
             var statObject = await _minioClient.StatObjectAsync(statObjectArgs, cancellationToken);
             if (statObject.Size == 0)
-                return Result.Success<Error>();
+                return Result.Success<ErrorList>();
             
             var removeArgs = new RemoveObjectArgs()
                 .WithBucket(fileInfo.BucketName)
@@ -145,13 +145,13 @@ public class MinioProvider : IFileProvider
                 fileInfo.FilePath.Path,
                 fileInfo.BucketName);
 
-            return Error.Failure("file.remove", "Failed to remove file in minio");
+            return Error.Failure("file.remove", "Failed to remove file in minio").ToErrorList();
         }
 
-        return Result.Success<Error>();
+        return Result.Success<ErrorList>();
     }
     
-    public async Task<Result<string, Error>> GetFile(
+    public async Task<Result<string, ErrorList>> GetFile(
         FileMetaData fileMetaData,
         CancellationToken cancellationToken = default)
     {
@@ -160,7 +160,7 @@ public class MinioProvider : IFileProvider
             var bucketExist = await IsBucketExist(fileMetaData.BucketName, cancellationToken);
             if (bucketExist == false)
             {
-                return Error.Failure("file.get", $"Bucket {fileMetaData.BucketName} not found");
+                return Error.Failure("file.get", $"Bucket {fileMetaData.BucketName} not found").ToErrorList();
             }
 
             var statObjectArgs = new StatObjectArgs()
@@ -169,19 +169,19 @@ public class MinioProvider : IFileProvider
             var statObject = await _minioClient.StatObjectAsync(statObjectArgs, cancellationToken);
             if (statObject.Size == 0)
             {
-                return Error.Failure("file.get", $"File {fileMetaData.ObjectName} not found");
+                return Error.Failure("file.get", $"File {fileMetaData.ObjectName} not found").ToErrorList();
             }
             
             return await GetFileUrl(fileMetaData);;
         }
         catch (Minio.Exceptions.ObjectNotFoundException)
         {
-            return Error.Failure("file.get", $"File {fileMetaData.ObjectName} not found");
+            return Error.Failure("file.get", $"File {fileMetaData.ObjectName} not found").ToErrorList();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get file from minio");
-            return Error.Failure("file.get", "Failed to get file from minio");
+            return Error.Failure("file.get", "Failed to get file from minio").ToErrorList();
         }
     }
 

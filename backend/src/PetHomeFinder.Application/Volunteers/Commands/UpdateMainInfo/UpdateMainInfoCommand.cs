@@ -1,3 +1,4 @@
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.DTOs;
 
 namespace PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
@@ -7,4 +8,4 @@ public record UpdateMainInfoCommand(
     FullNameDto FullName,
     string Description,
     int Experience,
-    string PhoneNumber);
+    string PhoneNumber) : ICommand;

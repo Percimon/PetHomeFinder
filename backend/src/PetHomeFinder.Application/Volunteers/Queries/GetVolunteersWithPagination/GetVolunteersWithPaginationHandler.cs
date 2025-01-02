@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Application.Extensions;
@@ -7,7 +8,7 @@ using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Application.Volunteers.Queries.GetVolunteersWithPagination;
 
-public class GetVolunteersWithPaginationHandler
+public class GetVolunteersWithPaginationHandler : IQueryHandler<PagedList<VolunteerDto>, GetVolunteersWithPaginationQuery>
 {
     private readonly IReadDbContext _readDbContext;
 

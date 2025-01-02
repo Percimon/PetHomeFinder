@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.SpeciesBreeds.AddBreed;
 using PetHomeFinder.Application.SpeciesBreeds.Create;
 using PetHomeFinder.Application.Volunteers.Commands.AddPet;
@@ -19,30 +20,31 @@ public static class Inject
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddHandlers();
+        services.AddCommands().AddQueries();
+        
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 
         return services;
     }
-
-    private static IServiceCollection AddHandlers(this IServiceCollection services)
+ 
+    private static IServiceCollection AddCommands(this IServiceCollection services)
     {
-        services.AddScoped<CreateVolunteerHandler>();
+        services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+            .AddClasses(classes => classes
+                .AssignableToAny(typeof(ICommandHandler<,>), typeof(ICommandHandler<>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
         
-        services.AddScoped<UpdateMainInfoHandler>();
-        services.AddScoped<UpdateCredentialsHandler>();
-        services.AddScoped<UpdateSocialNetworksHandler>();
-        services.AddScoped<AddPetHandler>();
-        
-        services.AddScoped<DeleteVolunteerHandler>();
-        
-        services.AddScoped<CreateSpeciesHandler>();
-        services.AddScoped<AddBreedHandler>();
-        
-        services.AddScoped<UploadFileHandler>();
-        services.AddScoped<UploadFilesToPetHandler>();
-        services.AddScoped<DeleteFileHandler>();
-        services.AddScoped<GetFileHandler>();
+        return services;
+    }
+    
+    private static IServiceCollection AddQueries(this IServiceCollection services)
+    {
+        services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+            .AddClasses(classes => classes
+                .AssignableTo(typeof(IQueryHandler<,>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
         
         return services;
     }

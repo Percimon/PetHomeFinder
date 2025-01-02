@@ -1,3 +1,4 @@
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.DTOs;
 
 namespace PetHomeFinder.Application.Volunteers.Commands.Create;
@@ -8,4 +9,4 @@ public record CreateVolunteerCommand(
     int Experience,
     string PhoneNumber,
     CredentialListDto CredentialList,
-    SocialNetworkListDto SocialNetworkList);
+    SocialNetworkListDto SocialNetworkList) : ICommand;

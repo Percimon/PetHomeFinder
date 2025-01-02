@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
@@ -8,7 +9,7 @@ using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 
-public class UpdateCredentialsHandler
+public class UpdateCredentialsHandler : ICommandHandler<Guid, UpdateCredentialsCommand>
 {
     private readonly ILogger<UpdateCredentialsHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;

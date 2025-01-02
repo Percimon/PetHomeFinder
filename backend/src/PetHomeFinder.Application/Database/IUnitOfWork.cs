@@ -2,7 +2,7 @@ using System.Data;
 
 namespace PetHomeFinder.Application.Database;
 
-public interface   IUnitOfWork
+public interface IUnitOfWork
 {
     Task<IDbTransaction> BeginTransaction(CancellationToken cancellationToken = default);
 

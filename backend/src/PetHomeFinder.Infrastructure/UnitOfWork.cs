@@ -7,9 +7,9 @@ namespace PetHomeFinder.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ReadDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
 
-    public UnitOfWork(ReadDbContext dbContext)
+    public UnitOfWork(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }

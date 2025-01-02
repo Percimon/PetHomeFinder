@@ -1,6 +1,8 @@
+using PetHomeFinder.Application.Abstractions;
+
 namespace PetHomeFinder.Application.Volunteers.Commands.FileTest.Upload;
 
-public record UploadFileRequest(
+public record UploadFileCommand(
     Stream FileStream,
     string FilePath,
-    string BucketName);
+    string BucketName) : ICommand;
