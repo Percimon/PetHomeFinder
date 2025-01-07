@@ -9,7 +9,10 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
     public class Volunteer : Shared.Entity<VolunteerId>
     {
         private bool _isDeleted = false;
+
         private readonly List<Pet> _petsOwning = [];
+        private List<Credential> _credentials = [];
+        private List<SocialNetwork> _socialNetworks = [];
 
         public Volunteer(VolunteerId id) : base(id)
         {
@@ -21,15 +24,15 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
             Description description,
             Experience experience,
             PhoneNumber phoneNumber,
-            CredentialList credentials,
-            SocialNetworkList socialNetworks) : base(id)
+            IEnumerable<Credential> credentials,
+            IEnumerable<SocialNetwork> socialNetworks) : base(id)
         {
             FullName = fullName;
             Description = description;
             Experience = experience;
             PhoneNumber = phoneNumber;
-            Credentials = credentials;
-            SocialNetworks = socialNetworks;
+            _credentials = credentials.ToList();
+            _socialNetworks = socialNetworks.ToList();
         }
 
         public FullName FullName { get; private set; }
@@ -40,16 +43,18 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
         public PhoneNumber PhoneNumber { get; private set; }
 
-        public SocialNetworkList SocialNetworks { get; private set; }
+        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
 
-        public CredentialList Credentials { get; private set; }
+        public IReadOnlyList<Credential> Credentials => _credentials;
 
         public IReadOnlyList<Pet> PetsOwning => _petsOwning;
 
         public int GetPetHomeFoundCount() =>
             PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.FOUND_HOME).Count();
+
         public int GetPetSearchForHomeCount() =>
             PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.SEARCH_FOR_HOME).Count();
+
         public int GetPetInTreatmentCount() =>
             PetsOwning.Where(p => p.HelpStatus == HelpStatusEnum.NEED_TREATMENT).Count();
 
@@ -67,12 +72,12 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
         public void UpdateCredentials(IEnumerable<Credential> credentials)
         {
-            Credentials = new CredentialList(credentials);
+            _credentials = credentials.ToList();
         }
 
         public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
         {
-            SocialNetworks = new SocialNetworkList(socialNetworks);
+            _socialNetworks = socialNetworks.ToList();
         }
 
         public void SoftDelete()
@@ -97,7 +102,7 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
             return Result.Success<Error>();
         }
-        
+
         public Result<Pet, Error> GetPetById(PetId petId)
         {
             var pet = PetsOwning.FirstOrDefault(p => p.Id == petId);
@@ -106,7 +111,7 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
             return pet;
         }
-        
+
         public UnitResult<Error> MovePet(Pet pet, Position newPosition)
         {
             var currentPosition = pet.Position;
@@ -171,7 +176,5 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
             return lastPosition.Value;
         }
-        
     }
-
 }

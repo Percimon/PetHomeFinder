@@ -2,9 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.FileProvider;
-using PetHomeFinder.Application.Messaging;
-using PetHomeFinder.Application.Providers;
-using FileInfo = PetHomeFinder.Application.FileProvider.FileInfo;
 
 namespace PetHomeFinder.Infrastructure.BackgroundServices;
 

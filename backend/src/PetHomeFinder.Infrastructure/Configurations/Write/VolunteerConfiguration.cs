@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Domain.PetManagement.AggregateRoot;
 using PetHomeFinder.Domain.PetManagement.IDs;
+using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Infrastructure.Extensions;
 
 namespace PetHomeFinder.Infrastructure.Configurations.Write;
 
@@ -61,43 +64,17 @@ public sealed class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasColumnName("phone_number");
         });
 
-        builder.OwnsOne(v => v.Credentials, vb =>
-        {
-            vb.ToJson("credentials");
+        builder.Property(v => v.Credentials)
+            .ValueObjectsCollectionJsonConversion(
+                credential => new CredentialDto(credential.Description, credential.Name),
+                dto => Credential.Create(dto.Name, dto.Description).Value)
+            .HasColumnName("credentials");
 
-            vb.OwnsMany(cl => cl.Credentials, cl =>
-            {
-                cl.Property(c => c.Name)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("credential_name");
-
-                cl.Property(c => c.Description)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("credential_description");
-                ;
-            });
-        });
-
-        builder.OwnsOne(v => v.SocialNetworks, vb =>
-        {
-            vb.ToJson("social_networks");
-
-            vb.OwnsMany(cl => cl.SocialNetworks, cl =>
-            {
-                cl.Property(c => c.Name)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("social_network_name");
-
-
-                cl.Property(c => c.Link)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("social_network_link");
-            });
-        });
+        builder.Property(v => v.SocialNetworks)
+            .ValueObjectsCollectionJsonConversion(
+                socialNetworks => new SocialNetworkDto(socialNetworks.Name, socialNetworks.Link),
+                dto => SocialNetwork.Create(dto.Name, dto.Link).Value)
+            .HasColumnName("social_networks");
 
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)

@@ -1,9 +1,7 @@
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Domain.PetManagement.AggregateRoot;
-using PetHomeFinder.Domain.PetManagement.IDs;
-using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Infrastructure.Configurations.Read;
 
@@ -13,12 +11,21 @@ public sealed class VolunteerDtoConfiguration : IEntityTypeConfiguration<Volunte
     {
         builder.ToTable("volunteers");
 
-        builder.HasKey(x => x.Id);
+        builder.HasKey(v => v.Id);
 
-        builder.HasMany(p => p.Pets)
+        builder.HasMany(v => v.Pets)
             .WithOne()
-            .HasForeignKey(x => x.VolunteerId);
+            .HasForeignKey(p => p.VolunteerId);
+
+        builder.Property(v => v.Credentials)
+            .HasConversion(
+                values => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<CredentialDto[]>(json, JsonSerializerOptions.Default)!);
         
-        //builder.HasQueryFilter()
+        builder.Property(v => v.SocialNetworks)
+            .HasConversion(
+                values => JsonSerializer.Serialize(string.Empty, JsonSerializerOptions.Default),
+                json => JsonSerializer.Deserialize<SocialNetworkDto[]>(json, JsonSerializerOptions.Default)!);
+        
     }
 }

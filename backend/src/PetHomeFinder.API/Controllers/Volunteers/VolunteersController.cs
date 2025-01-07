@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Controllers.Volunteers.Requests;
 using PetHomeFinder.API.Extensions;
 using PetHomeFinder.API.Processors;
+using PetHomeFinder.Application.DTOs;
+using PetHomeFinder.Application.Models;
 using PetHomeFinder.Application.Volunteers.Commands.AddPet;
 using PetHomeFinder.Application.Volunteers.Commands.Create;
 using PetHomeFinder.Application.Volunteers.Commands.Delete;
@@ -9,11 +11,27 @@ using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
 using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
+using PetHomeFinder.Application.Volunteers.Queries.GetVolunteersWithPagination;
 
 namespace PetHomeFinder.API.Controllers.Volunteers
 {
     public class VolunteersController : ApplicationController
     {
+        [HttpGet]
+        public async Task<ActionResult> GetVolunteersWithPagination(
+            [FromServices] GetVolunteersWithPaginationHandler handler,
+            [FromQuery] GetVolunteersWithPaginationRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var query = request.ToQuery();
+            
+            var result = await handler.Handle(query, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+        
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
             [FromServices] CreateVolunteerHandler handler,

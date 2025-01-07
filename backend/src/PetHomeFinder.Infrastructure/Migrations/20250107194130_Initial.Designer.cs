@@ -13,7 +13,7 @@ using PetHomeFinder.Infrastructure.DbContexts;
 namespace PetHomeFinder.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20241215133832_Initial")]
+    [Migration("20250107194130_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,6 +31,16 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("Credentials")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("credentials");
+
+                    b.Property<string>("SocialNetworks")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("social_networks");
 
                     b.Property<bool>("_isDeleted")
                         .HasColumnType("boolean")
@@ -313,115 +323,6 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     b.ToTable("breeds", (string)null);
                 });
 
-            modelBuilder.Entity("PetHomeFinder.Domain.PetManagement.AggregateRoot.Volunteer", b =>
-                {
-                    b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.CredentialList", "Credentials", b1 =>
-                        {
-                            b1.Property<Guid>("VolunteerId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.HasKey("VolunteerId");
-
-                            b1.ToTable("volunteers");
-
-                            b1.ToJson("credentials");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VolunteerId")
-                                .HasConstraintName("fk_volunteers_volunteers_id");
-
-                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.Credential", "Credentials", b2 =>
-                                {
-                                    b2.Property<Guid>("CredentialListVolunteerId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Description")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("credential_description");
-
-                                    b2.Property<string>("Name")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("credential_name");
-
-                                    b2.HasKey("CredentialListVolunteerId", "Id")
-                                        .HasName("pk_volunteers");
-
-                                    b2.ToTable("volunteers");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("CredentialListVolunteerId")
-                                        .HasConstraintName("fk_volunteers_volunteers_credential_list_volunteer_id");
-                                });
-
-                            b1.Navigation("Credentials");
-                        });
-
-                    b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.SocialNetworkList", "SocialNetworks", b1 =>
-                        {
-                            b1.Property<Guid>("VolunteerId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.HasKey("VolunteerId");
-
-                            b1.ToTable("volunteers");
-
-                            b1.ToJson("social_networks");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VolunteerId")
-                                .HasConstraintName("fk_volunteers_volunteers_id");
-
-                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.SocialNetwork", "SocialNetworks", b2 =>
-                                {
-                                    b2.Property<Guid>("SocialNetworkListVolunteerId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Link")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("social_network_link");
-
-                                    b2.Property<string>("Name")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("social_network_name");
-
-                                    b2.HasKey("SocialNetworkListVolunteerId", "Id")
-                                        .HasName("pk_volunteers");
-
-                                    b2.ToTable("volunteers");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("SocialNetworkListVolunteerId")
-                                        .HasConstraintName("fk_volunteers_volunteers_social_network_list_volunteer_id");
-                                });
-
-                            b1.Navigation("SocialNetworks");
-                        });
-
-                    b.Navigation("Credentials")
-                        .IsRequired();
-
-                    b.Navigation("SocialNetworks")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PetHomeFinder.Domain.PetManagement.Entities.Pet", b =>
                 {
                     b.HasOne("PetHomeFinder.Domain.PetManagement.AggregateRoot.Volunteer", null)
@@ -433,10 +334,10 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.CredentialList", "Credentials", b1 =>
                         {
                             b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid");
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
 
-                            b1.HasKey("PetId")
-                                .HasName("pk_pets");
+                            b1.HasKey("PetId");
 
                             b1.ToTable("pets");
 
@@ -444,7 +345,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_pet_id");
+                                .HasConstraintName("fk_pets_pets_id");
 
                             b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.Credential", "Credentials", b2 =>
                                 {

@@ -3,9 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Domain.PetManagement.AggregateRoot;
 using PetHomeFinder.Domain.Shared;
-using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 
 namespace PetHomeFinder.Infrastructure.DbContexts;
 
