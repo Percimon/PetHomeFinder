@@ -49,6 +49,7 @@ public static class Inject
         services.AddScoped<WriteDbContext>();
         services.AddScoped<IReadDbContext, ReadDbContext>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
 
         return services;
     }

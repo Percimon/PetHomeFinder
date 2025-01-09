@@ -11,6 +11,7 @@ using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
 using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
+using PetHomeFinder.Application.Volunteers.Queries.GetVolunteerById;
 using PetHomeFinder.Application.Volunteers.Queries.GetVolunteersWithPagination;
 
 namespace PetHomeFinder.API.Controllers.Volunteers
@@ -21,6 +22,21 @@ namespace PetHomeFinder.API.Controllers.Volunteers
         public async Task<ActionResult> GetVolunteersWithPagination(
             [FromServices] GetVolunteersWithPaginationHandler handler,
             [FromQuery] GetVolunteersWithPaginationRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var query = request.ToQuery();
+
+            var result = await handler.Handle(query, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+        
+        [HttpGet("dapper")]
+        public async Task<ActionResult> GetVolunteerByIdDapper(
+            [FromServices] GetVolunteerByIdHandlerDapper handler,
+            [FromQuery] GetVolunteerByIdRequest request,
             CancellationToken cancellationToken = default)
         {
             var query = request.ToQuery();
@@ -136,13 +152,13 @@ namespace PetHomeFinder.API.Controllers.Volunteers
         {
             await using var fileProcessor = new FormFileProcessor();
             var fileDtos = fileProcessor.ToUploadFileDtos(files);
-            
+
             var command = new UploadFilesToPetCommand(volunteerId, petId, fileDtos);
-            
+
             var result = await handler.Handle(command, cancellationToken);
-            if(result.IsFailure)
-                return result.Error.ToResponse(); 
-            
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
             return Ok(result.Value);
         }
     }

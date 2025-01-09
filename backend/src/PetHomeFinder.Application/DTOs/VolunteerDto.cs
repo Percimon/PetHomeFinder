@@ -16,9 +16,9 @@ public class VolunteerDto
 
     public string PhoneNumber { get; init; } = string.Empty;
 
-    public CredentialDto[] Credentials { get; init; } = [];
+    public CredentialDto[] Credentials { get; set; } = [];
 
-    public SocialNetworkDto[] SocialNetworks { get; init; } = [];
+    public SocialNetworkDto[] SocialNetworks { get; set; } = [];
 
     public PetDto[] Pets { get; init; } = [];
 
