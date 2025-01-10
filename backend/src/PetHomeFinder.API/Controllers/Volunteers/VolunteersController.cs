@@ -33,13 +33,13 @@ namespace PetHomeFinder.API.Controllers.Volunteers
             return Ok(result.Value);
         }
         
-        [HttpGet("dapper")]
-        public async Task<ActionResult> GetVolunteerByIdDapper(
-            [FromServices] GetVolunteerByIdHandlerDapper handler,
-            [FromQuery] GetVolunteerByIdRequest request,
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult> GetVolunteerById(
+            [FromRoute] Guid id,
+            [FromServices] GetVolunteerByIdHandler handler,
             CancellationToken cancellationToken = default)
         {
-            var query = request.ToQuery();
+            var query = new GetVolunteerByIdQuery(id);
             
             var result = await handler.Handle(query, cancellationToken);
             if (result.IsFailure)

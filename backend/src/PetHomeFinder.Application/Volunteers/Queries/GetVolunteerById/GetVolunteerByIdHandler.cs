@@ -9,14 +9,14 @@ using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.Application.Volunteers.Queries.GetVolunteerById;
 
-public class GetVolunteerByIdHandlerDapper : IQueryHandler<VolunteerDto, GetVolunteerByIdQuery>
+public class GetVolunteerByIdHandler : IQueryHandler<VolunteerDto, GetVolunteerByIdQuery>
 {
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
-    private readonly ILogger<GetVolunteerByIdHandlerDapper> _logger;
+    private readonly ILogger<GetVolunteerByIdHandler> _logger;
 
-    public GetVolunteerByIdHandlerDapper(
+    public GetVolunteerByIdHandler(
         ISqlConnectionFactory sqlConnectionFactory,
-        ILogger<GetVolunteerByIdHandlerDapper> logger)
+        ILogger<GetVolunteerByIdHandler> logger)
     {
         _sqlConnectionFactory = sqlConnectionFactory;
         _logger = logger;
