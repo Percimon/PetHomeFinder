@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Minio;
 using PetHomeFinder.API.Extensions;
-using PetHomeFinder.Application.Volunteers.FileTest.Delete;
-using PetHomeFinder.Application.Volunteers.FileTest.Get;
-using PetHomeFinder.Application.Volunteers.FileTest.Upload;
+using PetHomeFinder.Application.Volunteers.Commands.FileTest.Delete;
+using PetHomeFinder.Application.Volunteers.Commands.FileTest.Get;
+using PetHomeFinder.Application.Volunteers.Commands.FileTest.Upload;
 
 namespace PetHomeFinder.API.Controllers;
 
@@ -27,7 +27,7 @@ public class FileController : ApplicationController
     {
         await using var stream = file.OpenReadStream();
 
-        var request = new UploadFileRequest(
+        var request = new UploadFileCommand(
             stream,
             Guid.NewGuid().ToString(),
             BUCKET_NAME_PHOTOS);
@@ -46,7 +46,7 @@ public class FileController : ApplicationController
         [FromServices] DeleteFileHandler handler,
         CancellationToken cancellationToken)
     {
-        var request = new DeleteFileRequest(BUCKET_NAME_PHOTOS, fileName.ToString());
+        var request = new DeleteFileCommand(BUCKET_NAME_PHOTOS, fileName.ToString());
         
         var result = await handler.Handle(request, cancellationToken);
 
@@ -64,7 +64,7 @@ public class FileController : ApplicationController
         [FromServices] GetFileHandler handler,
         CancellationToken cancellationToken)
     {
-        var request = new GetFileRequest(BUCKET_NAME_PHOTOS, fileName.ToString());
+        var request = new GetFileCommand(BUCKET_NAME_PHOTOS, fileName.ToString());
 
         var result = await handler.Handle(request, cancellationToken);
 

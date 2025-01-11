@@ -1,5 +1,5 @@
 using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Application.Volunteers.UpdateMainInfo;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
 
 namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 

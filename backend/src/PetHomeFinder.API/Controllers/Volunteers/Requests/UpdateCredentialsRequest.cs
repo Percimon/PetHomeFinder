@@ -1,5 +1,5 @@
 using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Application.Volunteers.UpdateCredentials;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 
 namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 

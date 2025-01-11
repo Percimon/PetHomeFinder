@@ -7,23 +7,23 @@ namespace PetHomeFinder.Application.Providers;
 
 public interface IFileProvider
 {
-    Task<Result<string, Error>> UploadFile(
+    Task<Result<string, ErrorList>> UploadFile(
         FileData fileData, 
         CancellationToken cancellationToken = default);
 
-    Task<Result<IReadOnlyList<FilePath>, Error>> UploadFiles(
+    Task<Result<IReadOnlyList<FilePath>, ErrorList>> UploadFiles(
         IEnumerable<FileData> filesData,
         CancellationToken cancellationToken = default);
     
-    Task<Result<string, Error>> DeleteFile(
+    Task<Result<string, ErrorList>> DeleteFile(
         FileMetaData fileMetaData, 
         CancellationToken cancellationToken = default);
     
-    Task<UnitResult<Error>> DeleteFile(
+    Task<UnitResult<ErrorList>> DeleteFile(
         FileInfo fileInfo, 
         CancellationToken cancellationToken = default);
     
-    Task<Result<string, Error>> GetFile(
+    Task<Result<string, ErrorList>> GetFile(
         FileMetaData fileMetaData, 
         CancellationToken cancellationToken = default);
 }

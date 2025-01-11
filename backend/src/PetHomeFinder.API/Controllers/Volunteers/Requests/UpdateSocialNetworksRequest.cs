@@ -1,5 +1,5 @@
 using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Application.Volunteers.UpdateSocialNetworks;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
 
 namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 

@@ -2,18 +2,52 @@ using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Controllers.Volunteers.Requests;
 using PetHomeFinder.API.Extensions;
 using PetHomeFinder.API.Processors;
-using PetHomeFinder.Application.Volunteers.AddPet;
-using PetHomeFinder.Application.Volunteers.Create;
-using PetHomeFinder.Application.Volunteers.Delete;
-using PetHomeFinder.Application.Volunteers.UpdateCredentials;
-using PetHomeFinder.Application.Volunteers.UpdateMainInfo;
-using PetHomeFinder.Application.Volunteers.UpdateSocialNetworks;
-using PetHomeFinder.Application.Volunteers.UploadFilesToPet;
+using PetHomeFinder.Application.DTOs;
+using PetHomeFinder.Application.Models;
+using PetHomeFinder.Application.Volunteers.Commands.AddPet;
+using PetHomeFinder.Application.Volunteers.Commands.Create;
+using PetHomeFinder.Application.Volunteers.Commands.Delete;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
+using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
+using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
+using PetHomeFinder.Application.Volunteers.Queries.GetVolunteerById;
+using PetHomeFinder.Application.Volunteers.Queries.GetVolunteersWithPagination;
 
-namespace PetHomeFinder.API.Controllers
+namespace PetHomeFinder.API.Controllers.Volunteers
 {
     public class VolunteersController : ApplicationController
     {
+        [HttpGet]
+        public async Task<ActionResult> GetVolunteersWithPagination(
+            [FromServices] GetVolunteersWithPaginationHandler handler,
+            [FromQuery] GetVolunteersWithPaginationRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var query = request.ToQuery();
+
+            var result = await handler.Handle(query, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+        
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult> GetVolunteerById(
+            [FromRoute] Guid id,
+            [FromServices] GetVolunteerByIdHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var query = new GetVolunteerByIdQuery(id);
+            
+            var result = await handler.Handle(query, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+        
         [HttpPost]
         public async Task<ActionResult<Guid>> Create(
             [FromServices] CreateVolunteerHandler handler,
@@ -118,13 +152,13 @@ namespace PetHomeFinder.API.Controllers
         {
             await using var fileProcessor = new FormFileProcessor();
             var fileDtos = fileProcessor.ToUploadFileDtos(files);
-            
+
             var command = new UploadFilesToPetCommand(volunteerId, petId, fileDtos);
-            
+
             var result = await handler.Handle(command, cancellationToken);
-            if(result.IsFailure)
-                return result.Error.ToResponse(); 
-            
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
             return Ok(result.Value);
         }
     }

@@ -129,17 +129,15 @@ public class VolunteerTests
         var description = Description.Create("test").Value;
         var experience = Experience.Create(1).Value;
         var phoneNumber = PhoneNumber.Create("123456789").Value;
-        var volunteerCredentials = new CredentialList(new List<Credential>());
-        var socialNetworks = new SocialNetworkList(new List<SocialNetwork>());
-
+        
         var volunteer = new Volunteer(
             volunteerId,
             fullName,
             description,
             experience,
             phoneNumber,
-            volunteerCredentials,
-            socialNetworks);
+            [],
+            []);
 
         var name = Name.Create("test").Value;
         var speciesId = SpeciesId.New();

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using PetHomeFinder.API.Middlewares;
+using PetHomeFinder.Infrastructure.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 await using var scope = app.Services.CreateAsyncScope();
-var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
 await dbContext.Database.MigrateAsync();
 
 app.Run();
