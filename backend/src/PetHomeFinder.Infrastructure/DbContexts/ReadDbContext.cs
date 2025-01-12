@@ -12,9 +12,13 @@ public class ReadDbContext : DbContext, IReadDbContext
     private readonly IConfiguration _configuration;
 
     public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
- 
+
     public IQueryable<PetDto> Pets => Set<PetDto>();
-    
+
+    public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
+
+    public IQueryable<BreedDto> Breeds => Set<BreedDto>();
+
     public ReadDbContext(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -25,7 +29,7 @@ public class ReadDbContext : DbContext, IReadDbContext
         optionsBuilder.UseNpgsql(_configuration.GetConnectionString(Constants.DATABASE));
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
-        
+
         optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     }
 

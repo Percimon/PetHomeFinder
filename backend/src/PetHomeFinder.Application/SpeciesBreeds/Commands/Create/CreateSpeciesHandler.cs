@@ -1,14 +1,15 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
-namespace PetHomeFinder.Application.SpeciesBreeds.Create;
+namespace PetHomeFinder.Application.SpeciesBreeds.Commands.Create;
 
-public class CreateSpeciesHandler
+public class CreateSpeciesHandler : ICommandHandler<Guid, CreateSpeciesCommand>
 {
     private readonly IValidator<CreateSpeciesCommand> _validator;
     private readonly ISpeciesRepository _speciesRepository;

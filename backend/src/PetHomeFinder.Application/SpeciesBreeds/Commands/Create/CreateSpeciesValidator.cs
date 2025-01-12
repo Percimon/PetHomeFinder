@@ -2,11 +2,11 @@ using FluentValidation;
 using PetHomeFinder.Application.Validation;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Application.SpeciesBreeds.AddBreed;
+namespace PetHomeFinder.Application.SpeciesBreeds.Commands.Create;
 
-public class AddBreedValidator : AbstractValidator<AddBreedCommand>
+public class CreateSpeciesValidator : AbstractValidator<CreateSpeciesCommand>
 {
-    public AddBreedValidator()
+    public CreateSpeciesValidator()
     {
         RuleFor(c => c.Name).MustBeValueObject(Name.Create);
     }

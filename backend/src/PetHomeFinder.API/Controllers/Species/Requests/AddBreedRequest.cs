@@ -1,4 +1,4 @@
-using PetHomeFinder.Application.SpeciesBreeds.AddBreed;
+using PetHomeFinder.Application.SpeciesBreeds.Commands.AddBreed;
 
 namespace PetHomeFinder.API.Controllers.Species.Requests;
 
