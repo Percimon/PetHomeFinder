@@ -13,17 +13,20 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
     private readonly IValidator<DeleteSpeciesCommand> _validator;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IReadDbContext _readDbContext;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<DeleteSpeciesHandler> _logger;
 
     public DeleteSpeciesHandler(
         IValidator<DeleteSpeciesCommand> validator,
         ISpeciesRepository speciesRepository,
         IReadDbContext readDbContext,
+        IUnitOfWork unitOfWork,
         ILogger<DeleteSpeciesHandler> logger)
     {
         _validator = validator;
         _speciesRepository = speciesRepository;
         _readDbContext = readDbContext;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -31,6 +34,27 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
         DeleteSpeciesCommand command,
         CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var petsQuery = _readDbContext.Pets;
+        
+        var result = petsQuery.FirstOrDefault(pet => pet.Id == command.SpeciesId);
+        if (result != null)
+        {
+            return Errors.General
+                .ValueIsInvalid($"Pet with species id {command.SpeciesId} exists")
+                .ToErrorList();
+        }
+        
+        var speciesResult = await _speciesRepository.GetById(command.SpeciesId, cancellationToken);
+        if (speciesResult.IsFailure)
+        {
+            return speciesResult.Error.ToErrorList();
+        }
+        
+        var deleteResult = _speciesRepository.Delete(speciesResult.Value);
+        await _unitOfWork.SaveChanges(cancellationToken);
+
+        _logger.LogInformation("Species deleted with id: {speciesId}.", deleteResult);
+        
+        return deleteResult;
     }
 }
