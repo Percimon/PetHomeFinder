@@ -5,6 +5,7 @@ using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.SpeciesBreeds.Commands.Create;
 using PetHomeFinder.Domain.Shared;
+using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 
 namespace PetHomeFinder.Application.SpeciesBreeds.Commands.Delete;
 
@@ -35,26 +36,24 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
         CancellationToken cancellationToken = default)
     {
         var petsQuery = _readDbContext.Pets;
-        
-        var result = petsQuery.FirstOrDefault(pet => pet.Id == command.SpeciesId);
+
+        var result = petsQuery.FirstOrDefault(pet => pet.SpeciesId == command.SpeciesId);
         if (result != null)
         {
-            return Errors.General
-                .ValueIsInvalid($"Pet with species id {command.SpeciesId} exists")
-                .ToErrorList();
+            return Errors.General.IsUsed(nameof(Species), command.SpeciesId).ToErrorList();
         }
-        
+
         var speciesResult = await _speciesRepository.GetById(command.SpeciesId, cancellationToken);
         if (speciesResult.IsFailure)
         {
             return speciesResult.Error.ToErrorList();
         }
-        
+
         var deleteResult = _speciesRepository.Delete(speciesResult.Value);
         await _unitOfWork.SaveChanges(cancellationToken);
 
         _logger.LogInformation("Species deleted with id: {speciesId}.", deleteResult);
-        
+
         return deleteResult;
     }
 }

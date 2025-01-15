@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Abstractions;
+using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.Entities;
@@ -13,16 +14,19 @@ public class AddBreedHandler : ICommandHandler<Guid, AddBreedCommand>
 {
     private readonly IValidator<AddBreedCommand> _validator;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<AddBreedHandler> _logger;
 
     public AddBreedHandler(
         IValidator<AddBreedCommand> validator,
         ISpeciesRepository speciesRepository,
-        ILogger<AddBreedHandler> logger)
+        ILogger<AddBreedHandler> logger, 
+        IUnitOfWork unitOfWork)
     {
         _validator = validator;
         _speciesRepository = speciesRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -49,7 +53,9 @@ public class AddBreedHandler : ICommandHandler<Guid, AddBreedCommand>
         if (addBreedResult.IsFailure)
             return addBreedResult.Error.ToErrorList();
         
-        await _speciesRepository.Save(speciesResult.Value, cancellationToken);
+        _speciesRepository.Save(speciesResult.Value);
+        
+        await _unitOfWork.SaveChanges(cancellationToken);
         
         _logger.LogInformation("Breed added with id {breedId}.", breedId.Value);
 
