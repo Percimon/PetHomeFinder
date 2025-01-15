@@ -50,6 +50,7 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
         }
 
         var deleteResult = _speciesRepository.Delete(speciesResult.Value);
+        
         await _unitOfWork.SaveChanges(cancellationToken);
 
         _logger.LogInformation("Species deleted with id: {speciesId}.", deleteResult);
