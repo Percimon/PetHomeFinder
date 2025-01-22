@@ -27,15 +27,15 @@ public class
         volunteersQuery = volunteersQuery.WhereIf(
             !string.IsNullOrWhiteSpace(query.FirstName),
             v => v.FirstName.Contains(query.FirstName));
-        
+
         volunteersQuery = volunteersQuery.WhereIf(
             !string.IsNullOrWhiteSpace(query.LastName),
             v => v.LastName.Contains(query.LastName));
-        
+
         volunteersQuery = volunteersQuery.WhereIf(
             !string.IsNullOrWhiteSpace(query.Surname),
             v => v.Surname.Contains(query.Surname));
-        
+
         var result = await volunteersQuery
             .ToPagedList(query.Page, query.PageSize, cancellationToken);
 
