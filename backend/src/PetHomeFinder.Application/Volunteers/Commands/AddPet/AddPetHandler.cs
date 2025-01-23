@@ -19,6 +19,7 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly IReadDbContext _readDbContext;
     private readonly IValidator<AddPetCommand> _validator;
 
     public AddPetHandler(
@@ -26,6 +27,7 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
         IVolunteersRepository volunteersRepository,
         IUnitOfWork unitOfWork,
         ISpeciesRepository speciesRepository,
+        IReadDbContext readDbContext,
         IValidator<AddPetCommand> validator)
     {
         _logger = logger;
@@ -33,6 +35,7 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
         _unitOfWork = unitOfWork;
         _speciesRepository = speciesRepository;
         _validator = validator;
+        _readDbContext = readDbContext;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -51,16 +54,16 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
             return volunteerResult.Error.ToErrorList();
         }
 
-        var speciesResult = await _speciesRepository.GetById(command.SpeciesId, cancellationToken);
-        if (speciesResult.IsFailure)
+        var speciesResult = _readDbContext.Species
+            .FirstOrDefault(s => s.Id == command.SpeciesId);
+        if (speciesResult is null)
         {
-            return speciesResult.Error.ToErrorList();
+            return Errors.General.NotFound(command.SpeciesId).ToErrorList();
         }
 
-        var breedResult = speciesResult.Value
-            .Breeds
-            .FirstOrDefault(b => b.Id.Value == command.BreedId);
-        if (breedResult == null)
+        var breedResult = _readDbContext.Breeds
+            .FirstOrDefault(b => b.Id == command.BreedId);
+        if (breedResult is null)
         {
             return Errors.General.NotFound(command.BreedId).ToErrorList();
         }
@@ -104,11 +107,11 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
             command.CreateDate);
 
         volunteerResult.Value.AddPet(pet);
-        
+
         _volunteersRepository.Save(volunteerResult.Value);
-        
+
         await _unitOfWork.SaveChanges(cancellationToken);
-        
+
         _logger.LogInformation("Pet added with id: {PetId}.", pet.Id.Value);
 
         return pet.Id.Value;
