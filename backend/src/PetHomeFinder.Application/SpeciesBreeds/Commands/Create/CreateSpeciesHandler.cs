@@ -44,7 +44,7 @@ public class CreateSpeciesHandler : ICommandHandler<Guid, CreateSpeciesCommand>
         var species = new Species(specieId, name);
 
         var result = await _speciesRepository.Add(species, cancellationToken);
-        if (result.IsSuccess)
+        if (result.IsFailure)
             return result.Error.ToErrorList();
         
         await _unitOfWork.SaveChanges(cancellationToken);

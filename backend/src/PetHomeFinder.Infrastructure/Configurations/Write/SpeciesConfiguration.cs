@@ -13,6 +13,7 @@ public class SpeciesConfiguration : IEntityTypeConfiguration<Species>
         builder.ToTable("species");
 
         builder.HasKey(x => x.Id);
+        
         builder.Property(x => x.Id)
             .HasConversion(
                 id => id.Value,

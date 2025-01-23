@@ -5,6 +5,7 @@ using PetHomeFinder.Application.SpeciesBreeds.Commands.AddBreed;
 using PetHomeFinder.Application.SpeciesBreeds.Commands.Create;
 using PetHomeFinder.Application.SpeciesBreeds.Commands.Delete;
 using PetHomeFinder.Application.SpeciesBreeds.Commands.DeleteBreed;
+using PetHomeFinder.Application.SpeciesBreeds.Queries.GetBreedsBySpeciesId;
 using PetHomeFinder.Application.SpeciesBreeds.Queries.GetSpeciesWithPagination;
 using PetHomeFinder.Application.Volunteers.Commands.Delete;
 
@@ -27,6 +28,22 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
+    [HttpGet("{speciesId:guid}")]
+    public async Task<ActionResult> GetBreedsBySpeciesId(
+        [FromRoute] Guid speciesId,
+        [FromServices] GetBreedsBySpeciesIdHandler handler,
+        [FromQuery] GetBreedsBySpeciesIdRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var query = request.ToQuery(speciesId);
+
+        var result = await handler.Handle(query, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(
         [FromServices] CreateSpeciesHandler handler,
