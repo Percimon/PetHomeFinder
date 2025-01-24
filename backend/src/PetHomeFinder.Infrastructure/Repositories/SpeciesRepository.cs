@@ -18,46 +18,39 @@ public class SpeciesRepository : ISpeciesRepository
     }
 
     public async Task<Result<Guid, Error>> Add(
-        Species species, 
+        Species species,
         CancellationToken cancellationToken = default)
     {
         var result = await GetByName(species.Name, cancellationToken);
         if (result.IsSuccess)
         {
             return Errors.General.AlreadyExists(
-                nameof(Species), 
-                nameof(Species.Name).ToLower(), 
+                nameof(Species),
+                nameof(Species.Name).ToLower(),
                 species.Name.Value);
         }
-        
+
         await _writeDbContext.Species.AddAsync(species, cancellationToken);
-        await _writeDbContext.SaveChangesAsync(cancellationToken);
-        
+
         return species.Id.Value;
     }
 
-    public async Task<Guid> Save(
-        Species species, 
-        CancellationToken cancellationToken = default)
+    public Guid Save(Species species)
     {
         _writeDbContext.Species.Attach(species);
-        await _writeDbContext.SaveChangesAsync(cancellationToken);
 
         return species.Id.Value;
     }
 
-    public async Task<Guid> Delete(
-        Species species, 
-        CancellationToken cancellationToken = default)
+    public Guid Delete(Species species)
     {
         _writeDbContext.Species.Remove(species);
-        await _writeDbContext.SaveChangesAsync(cancellationToken);
 
         return species.Id.Value;
     }
 
     public async Task<Result<Species, Error>> GetById(
-        SpeciesId speciesId, 
+        SpeciesId speciesId,
         CancellationToken cancellationToken = default)
     {
         var species = await _writeDbContext.Species

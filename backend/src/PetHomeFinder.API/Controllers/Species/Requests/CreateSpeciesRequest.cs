@@ -1,4 +1,4 @@
-using PetHomeFinder.Application.SpeciesBreeds.Create;
+using PetHomeFinder.Application.SpeciesBreeds.Commands.Create;
 
 namespace PetHomeFinder.API.Controllers.Species.Requests;
 

@@ -1,29 +1,32 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Application.Abstractions;
+using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
-using PetHomeFinder.Application.SpeciesBreeds.Create;
 using PetHomeFinder.Domain.Shared;
-using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 using PetHomeFinder.Domain.SpeciesManagement.Entities;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
 
-namespace PetHomeFinder.Application.SpeciesBreeds.AddBreed;
+namespace PetHomeFinder.Application.SpeciesBreeds.Commands.AddBreed;
 
-public class AddBreedHandler
+public class AddBreedHandler : ICommandHandler<Guid, AddBreedCommand>
 {
     private readonly IValidator<AddBreedCommand> _validator;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<AddBreedHandler> _logger;
 
     public AddBreedHandler(
         IValidator<AddBreedCommand> validator,
         ISpeciesRepository speciesRepository,
-        ILogger<AddBreedHandler> logger)
+        ILogger<AddBreedHandler> logger, 
+        IUnitOfWork unitOfWork)
     {
         _validator = validator;
         _speciesRepository = speciesRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -50,7 +53,9 @@ public class AddBreedHandler
         if (addBreedResult.IsFailure)
             return addBreedResult.Error.ToErrorList();
         
-        await _speciesRepository.Save(speciesResult.Value, cancellationToken);
+        _speciesRepository.Save(speciesResult.Value);
+        
+        await _unitOfWork.SaveChanges(cancellationToken);
         
         _logger.LogInformation("Breed added with id {breedId}.", breedId.Value);
 

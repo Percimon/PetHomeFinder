@@ -1,12 +1,10 @@
 namespace PetHomeFinder.Application.DTOs;
 
-public class PetDto
+public class BreedDto
 {
     public Guid Id { get; init; }
 
     public Guid SpeciesId { get; init; }
 
-    public Guid BreedId { get; init; }
-
-    public Guid VolunteerId { get; init; }
+    public string Name { get; init; }
 }

@@ -9,8 +9,8 @@ namespace PetHomeFinder.Application.SpeciesBreeds;
 public interface ISpeciesRepository
 {
     Task<Result<Guid, Error>> Add(Species species, CancellationToken cancellationToken = default);
-    Task<Guid> Save(Species species, CancellationToken cancellationToken = default);
-    Task<Guid> Delete(Species species, CancellationToken cancellationToken = default);
+    Guid Save(Species species);
+    Guid Delete(Species species);
     Task<Result<Species, Error>> GetById(SpeciesId volunteerId, CancellationToken cancellationToken = default);
     Task<Result<Species, Error>> GetByName(Name name, CancellationToken cancellationToken = default);
 }
