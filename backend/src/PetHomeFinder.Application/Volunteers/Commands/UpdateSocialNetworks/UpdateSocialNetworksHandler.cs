@@ -40,17 +40,17 @@ public class UpdateSocialNetworksHandler : ICommandHandler<Guid, UpdateSocialNet
         if (volunteerResult.IsFailure)
             return volunteerResult.Error.ToErrorList();
 
-        var socialNetworks = new ValueObjectList<SocialNetwork>(command
-            .SocialNetworkList
-            .SocialNetworks
-            .Select(r => SocialNetwork.Create(r.Name, r.Link).Value));
+        var socialNetworks =
+            new ValueObjectList<SocialNetwork>(
+                command.SocialNetworks.Select(r =>
+                    SocialNetwork.Create(r.Name, r.Link).Value));
 
         volunteerResult.Value.UpdateSocialNetworks(socialNetworks);
 
         _volunteersRepository.Save(volunteerResult.Value);
 
         await _unitOfWork.SaveChanges(cancellationToken);
-        
+
         _logger.LogInformation("Social networks of volunteer updated with id: {VolunteerId}.", command.VolunteerId);
 
         return volunteerResult.Value.Id.Value;

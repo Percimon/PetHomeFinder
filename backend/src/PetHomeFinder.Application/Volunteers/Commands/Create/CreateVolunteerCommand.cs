@@ -8,5 +8,5 @@ public record CreateVolunteerCommand(
     string Description,
     int Experience,
     string PhoneNumber,
-    CredentialListDto CredentialList,
-    SocialNetworkListDto SocialNetworkList) : ICommand;
+    IEnumerable<CredentialDto> Credentials,
+    IEnumerable<SocialNetworkDto> SocialNetworks) : ICommand;

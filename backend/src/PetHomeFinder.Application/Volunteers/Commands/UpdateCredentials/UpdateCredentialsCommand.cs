@@ -5,4 +5,4 @@ namespace PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 
 public record UpdateCredentialsCommand(
     Guid VolunteerId,
-    CredentialListDto CredentialList) : ICommand;
+    IEnumerable<CredentialDto> Credentials) : ICommand;

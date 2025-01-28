@@ -70,7 +70,9 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     birth_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     help_status = table.Column<int>(type: "integer", nullable: false),
+                    credentials = table.Column<string>(type: "jsonb", nullable: false),
                     create_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    photos = table.Column<string>(type: "jsonb", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     district = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -85,9 +87,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     position = table.Column<int>(type: "integer", nullable: false),
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    weight = table.Column<double>(type: "double precision", nullable: false),
-                    credentials = table.Column<string>(type: "jsonb", nullable: false),
-                    photos = table.Column<string>(type: "jsonb", nullable: false)
+                    weight = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -9,6 +9,7 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
     public class Pet : Shared.Entity<PetId>
     {
         private bool _isDeleted = false;
+        private List<Credential> _credentials = [];
 
         public Pet(PetId id) : base(id)
         {
@@ -29,7 +30,7 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
             bool isVaccinated,
             DateTime birthDate,
             HelpStatusEnum helpStatus,
-            CredentialList credentials,
+            IEnumerable<Credential> credentials,
             DateTime createDate,
             IEnumerable<PetPhoto>? photos = null) : base(id)
         {
@@ -46,12 +47,12 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
             IsVaccinated = isVaccinated;
             BirthDate = birthDate;
             HelpStatus = helpStatus;
-            Credentials = credentials;
+            Credentials = credentials.ToList();
             CreateDate = createDate;
 
-            Photos = photos == null 
-                ? new PetPhotoList(Enumerable.Empty<PetPhoto>()) 
-                : new PetPhotoList(photos);
+            Photos = photos == null
+                ? Enumerable.Empty<PetPhoto>().ToList()
+                : photos.ToList();
         }
 
         public Name Name { get; private set; }
@@ -82,11 +83,11 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
         public HelpStatusEnum HelpStatus { get; private set; }
 
-        public CredentialList Credentials { get; private set; }
+        public IReadOnlyList<Credential> Credentials { get; private set; }
 
         public DateTime CreateDate { get; private set; }
 
-        public PetPhotoList Photos { get; private set; }
+        public IReadOnlyList<PetPhoto> Photos { get; private set; }
 
         public void SoftDelete()
         {
@@ -95,10 +96,10 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
             _isDeleted = true;
         }
-        
+
         public void UpdatePhotos(IEnumerable<PetPhoto> photos)
         {
-            Photos = new PetPhotoList(photos);
+            Photos = photos.ToList();
         }
 
         public void SetPosition(Position position) =>
@@ -125,7 +126,36 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
             return Result.Success<Error>();
         }
-        
+
+        public void Update(
+            Name name,
+            Description description,
+            SpeciesBreed speciesBreed,
+            Color color,
+            HealthInfo healthInfo,
+            Address address,
+            Weight weight,
+            Height height,
+            PhoneNumber phoneNumber,
+            bool isCastrated,
+            bool isVaccinated,
+            DateTime birthDate,
+            IEnumerable<Credential> credentials)
+        {
+            Name = name;
+            Description = description;
+            SpeciesBreed = speciesBreed;
+            Color = color;
+            HealthInfo = healthInfo;
+            Address = address;
+            Weight = weight;
+            Height = height;
+            OwnerPhoneNumber = phoneNumber;
+            IsCastrated = isCastrated;
+            IsVaccinated = isVaccinated;
+            BirthDate = birthDate;
+            _credentials = credentials.ToList();
+        }
     }
 
     public enum HelpStatusEnum
@@ -134,5 +164,4 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
         SEARCH_FOR_HOME,
         FOUND_HOME
     }
-
 }

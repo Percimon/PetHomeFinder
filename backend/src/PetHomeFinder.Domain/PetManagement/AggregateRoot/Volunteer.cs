@@ -102,6 +102,38 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
             return Result.Success<Error>();
         }
+        
+        public void UpdatePet(
+            PetId petId, 
+            Name name,
+            Description description,
+            SpeciesBreed speciesBreed,
+            Color color,
+            HealthInfo healthInfo,
+            Address address,
+            Weight weight,
+            Height height,
+            PhoneNumber phoneNumber,
+            bool isCastrated,
+            bool isVaccinated,
+            DateTime birthDate,
+            IEnumerable<Credential> credentials)
+        {
+            _petsOwning.FirstOrDefault(p => p.Id == petId)?.Update(
+                name,
+                description,
+                speciesBreed,
+                color,
+                healthInfo,
+                address,
+                weight,
+                height,
+                phoneNumber,
+                isCastrated,
+                isVaccinated,
+                birthDate,
+                credentials);
+        }
 
         public Result<Pet, Error> GetPetById(PetId petId)
         {

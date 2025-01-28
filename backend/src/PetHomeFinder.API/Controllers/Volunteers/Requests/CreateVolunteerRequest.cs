@@ -8,9 +8,9 @@ public record CreateVolunteerRequest(
     string Description,
     int Experience,
     string PhoneNumber,
-    CredentialListDto CredentialList,
-    SocialNetworkListDto SocialNetworkList)
+    IEnumerable<CredentialDto> Credentials,
+    IEnumerable<SocialNetworkDto> SocialNetworks)
 {
     public CreateVolunteerCommand ToCommand() =>
-        new(FullName, Description, Experience, PhoneNumber, CredentialList, SocialNetworkList);
+        new(FullName, Description, Experience, PhoneNumber, Credentials, SocialNetworks);
 }
