@@ -10,6 +10,7 @@ using PetHomeFinder.Application.Volunteers.Commands.Delete;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
 using PetHomeFinder.Application.Volunteers.Commands.UpdatePet;
+using PetHomeFinder.Application.Volunteers.Commands.UpdatePetStatus;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
 using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
 using PetHomeFinder.Application.Volunteers.Queries.GetVolunteerById;
@@ -149,6 +150,23 @@ namespace PetHomeFinder.API.Controllers.Volunteers
             [FromRoute] Guid petId,
             [FromServices] UpdatePetHandler handler,
             [FromBody] UpdatePetRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(id, petId);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result.Value);
+        }
+        
+        [HttpPost("{id:guid}/pet/{petId:guid}/status")]
+        public async Task<ActionResult<Guid>> UpdatePetStatus(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] UpdatePetStatusHandler handler,
+            [FromBody] UpdatePetStatusRequest request,
             CancellationToken cancellationToken = default)
         {
             var command = request.ToCommand(id, petId);

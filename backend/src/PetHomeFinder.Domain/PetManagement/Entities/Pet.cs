@@ -156,6 +156,11 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
             BirthDate = birthDate;
             _credentials = credentials.ToList();
         }
+
+        public void UpdateStatus(HelpStatusEnum status)
+        {
+            HelpStatus = status;
+        }
     }
 
     public enum HelpStatusEnum

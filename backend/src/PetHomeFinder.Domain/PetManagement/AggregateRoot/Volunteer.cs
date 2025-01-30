@@ -208,5 +208,10 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
             return lastPosition.Value;
         }
+
+        public void UpdatePetStatus(PetId petId, HelpStatusEnum status)
+        {
+            _petsOwning.FirstOrDefault(p => p.Id == petId)?.UpdateStatus(status);
+        }
     }
 }
