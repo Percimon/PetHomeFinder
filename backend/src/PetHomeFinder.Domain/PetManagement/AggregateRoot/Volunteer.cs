@@ -223,5 +223,18 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
         {
             _petsOwning.FirstOrDefault(p => p.Id == id)?.SoftDelete();
         }
+
+        public UnitResult<Error> UpdatePetMainPhoto(Pet pet, PetPhoto photo)
+        {
+            var petResult = GetPetById(pet.Id);
+            if (petResult.IsFailure)
+                return petResult.Error;
+
+            var updateResult = petResult.Value.UpdateMainPhoto(photo);
+            if(updateResult.IsFailure)
+                return updateResult.Error;
+
+            return Result.Success<Error>();
+        }
     }
 }

@@ -10,6 +10,7 @@ using PetHomeFinder.Application.Volunteers.Commands.SoftDeletePetById;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
 using PetHomeFinder.Application.Volunteers.Commands.UpdatePet;
+using PetHomeFinder.Application.Volunteers.Commands.UpdatePetMainPhoto;
 using PetHomeFinder.Application.Volunteers.Commands.UpdatePetStatus;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
 using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
@@ -229,5 +230,23 @@ namespace PetHomeFinder.API.Controllers.Volunteers
 
             return Ok(result.Value);
         }
+        
+        [HttpPost("{volunteerId:guid}/pet/{petId:guid}/main-photo")]
+        public async Task<ActionResult> UpdatePetMainPhoto(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId,
+            [FromBody] UpdatePetMainPhotoRequest request,
+            [FromServices] UpdatePetMainPhotoHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(volunteerId, petId);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+
     }
 }

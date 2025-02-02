@@ -9,6 +9,7 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
     {
         private bool _isDeleted = false;
         private List<Credential> _credentials = [];
+        private List<PetPhoto> _photos = [];
 
         public Pet(PetId id) : base(id)
         {
@@ -46,10 +47,11 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
             IsVaccinated = isVaccinated;
             BirthDate = birthDate;
             HelpStatus = helpStatus;
-            Credentials = credentials.ToList();
             CreateDate = createDate;
 
-            Photos = photos == null
+            _credentials = credentials.ToList();
+            
+            _photos = photos == null
                 ? Enumerable.Empty<PetPhoto>().ToList()
                 : photos.ToList();
         }
@@ -82,11 +84,11 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
         public HelpStatusEnum HelpStatus { get; private set; }
 
-        public IReadOnlyList<Credential> Credentials { get; private set; }
+        public IReadOnlyList<Credential> Credentials => _credentials;
 
         public DateTime CreateDate { get; private set; }
 
-        public IReadOnlyList<PetPhoto> Photos { get; private set; }
+        public IReadOnlyList<PetPhoto> Photos => _photos;
 
         public void SoftDelete()
         {
@@ -98,7 +100,7 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
         public void UpdatePhotos(IEnumerable<PetPhoto> photos)
         {
-            Photos = photos.ToList();
+            _photos = photos.ToList();
         }
 
         public void SetPosition(Position position) =>
@@ -159,6 +161,21 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
         public void UpdateStatus(HelpStatusEnum status)
         {
             HelpStatus = status;
+        }
+
+        public UnitResult<Error> UpdateMainPhoto(PetPhoto newMainPhoto)
+        {
+            var photoExists = _photos.FirstOrDefault(p => p.FilePath == newMainPhoto.FilePath);
+            if (photoExists is null)
+                return Errors.General.NotFound();
+
+            _photos = _photos
+                .Select(p => 
+                    PetPhoto.Create(p.FilePath, p.FilePath == newMainPhoto.FilePath).Value)
+                .OrderByDescending(p => p.IsMain)
+                .ToList();
+
+            return Result.Success<Error>();
         }
     }
 
