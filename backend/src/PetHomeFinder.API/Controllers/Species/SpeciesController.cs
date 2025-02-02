@@ -7,7 +7,6 @@ using PetHomeFinder.Application.SpeciesBreeds.Commands.Delete;
 using PetHomeFinder.Application.SpeciesBreeds.Commands.DeleteBreed;
 using PetHomeFinder.Application.SpeciesBreeds.Queries.GetBreedsBySpeciesId;
 using PetHomeFinder.Application.SpeciesBreeds.Queries.GetSpeciesWithPagination;
-using PetHomeFinder.Application.Volunteers.Commands.Delete;
 
 namespace PetHomeFinder.API.Controllers.Species;
 

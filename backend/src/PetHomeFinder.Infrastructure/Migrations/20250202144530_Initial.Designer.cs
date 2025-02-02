@@ -13,7 +13,7 @@ using PetHomeFinder.Infrastructure.DbContexts;
 namespace PetHomeFinder.Infrastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    [Migration("20250127210311_Initial")]
+    [Migration("20250202144530_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -142,6 +142,10 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb")
                         .HasColumnName("photos");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")

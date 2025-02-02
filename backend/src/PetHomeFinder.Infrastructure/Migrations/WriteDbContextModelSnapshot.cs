@@ -140,6 +140,10 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("photos");
 
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");

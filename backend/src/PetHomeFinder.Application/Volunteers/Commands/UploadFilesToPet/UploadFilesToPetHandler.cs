@@ -17,8 +17,6 @@ namespace PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
 
 public class UploadFilesToPetHandler : ICommandHandler<Guid, UploadFilesToPetCommand>
 {
-    private const string BUCKET_NAME = "photos";
-
     private readonly IFileProvider _fileProvider;
     private readonly ILogger<UploadFilesToPetHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
@@ -76,7 +74,7 @@ public class UploadFilesToPetHandler : ICommandHandler<Guid, UploadFilesToPetCom
             if (filePath.IsFailure)
                 return filePath.Error.ToErrorList();
 
-            var fileInfo = new FileInfo(filePath.Value, BUCKET_NAME);
+            var fileInfo = new FileInfo(filePath.Value, Constants.BUCKET_NAME_PHOTOS);
             
             var fileData = new FileData(file.Content, fileInfo);
 

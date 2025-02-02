@@ -213,5 +213,15 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
         {
             _petsOwning.FirstOrDefault(p => p.Id == petId)?.UpdateStatus(status);
         }
+
+        public void HardDeletePet(Pet pet)
+        {
+            _petsOwning.Remove(pet);
+        }
+        
+        public void SoftDeletePet(PetId id)
+        {
+            _petsOwning.FirstOrDefault(p => p.Id == id)?.SoftDelete();
+        }
     }
 }

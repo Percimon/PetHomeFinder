@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Response;
 using PetHomeFinder.Domain.Shared;

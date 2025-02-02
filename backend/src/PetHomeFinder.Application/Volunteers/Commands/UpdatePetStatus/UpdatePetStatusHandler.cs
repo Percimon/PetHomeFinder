@@ -36,19 +36,21 @@ public class UpdatePetStatusHandler : ICommandHandler<Guid, UpdatePetStatusComma
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
 
+        var volunteerId = VolunteerId.Create(command.VolunteerId);
+        
         var volunteerResult = await _volunteersRepository
-            .GetById(VolunteerId.Create(command.VolunteerId), cancellationToken);
+            .GetById(volunteerId, cancellationToken);
         if (volunteerResult.IsFailure)
             return volunteerResult.Error.ToErrorList();
         
+        var petId = PetId.Create(command.PetId);
+        
         var petExistResult = volunteerResult.Value
-            .PetsOwning.FirstOrDefault(p => p.Id.Value == command.PetId);
-        if(petExistResult is null)
-            return Errors.General.NotFound(command.PetId).ToErrorList();
+            .GetPetById(petId);
+        if(petExistResult.IsFailure)
+            return petExistResult.Error.ToErrorList();
 
         var status = Enum.Parse<HelpStatusEnum>(command.Status);
-
-        var petId = PetId.Create(command.PetId);
         
         volunteerResult.Value.UpdatePetStatus(petId, status);
 

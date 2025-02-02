@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
-using PetHomeFinder.Application.SpeciesBreeds.Commands.Create;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.AggregateRoot;
 

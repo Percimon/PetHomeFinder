@@ -5,7 +5,6 @@ using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Application.Extensions;
 using PetHomeFinder.Application.Models;
 using PetHomeFinder.Domain.Shared;
-using PetHomeFinder.Domain.SpeciesManagement.Entities;
 
 namespace PetHomeFinder.Application.SpeciesBreeds.Queries.GetBreedsBySpeciesId;
 

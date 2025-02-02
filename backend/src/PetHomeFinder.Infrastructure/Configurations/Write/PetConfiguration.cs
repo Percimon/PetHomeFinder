@@ -154,5 +154,9 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
                 dto => PetPhoto.Create(dto.PathToStorage, dto.IsMain).Value)
             .HasColumnName("photos");
         
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
+        
     }
 }

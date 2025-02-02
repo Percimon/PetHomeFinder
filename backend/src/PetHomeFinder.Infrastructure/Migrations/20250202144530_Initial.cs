@@ -73,6 +73,7 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     credentials = table.Column<string>(type: "jsonb", nullable: false),
                     create_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     photos = table.Column<string>(type: "jsonb", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     district = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),

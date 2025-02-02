@@ -1,5 +1,4 @@
 using CSharpFunctionalExtensions;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
@@ -40,9 +39,11 @@ public class UpdatePetHandler : ICommandHandler<Guid, UpdatePetCommand>
         if (volunteerResult.IsFailure)
             return Errors.General.NotFound(command.VolunteerId).ToErrorList();
 
-        var petResult = volunteerResult.Value.PetsOwning.FirstOrDefault(p => p.Id.Value == command.PetId);
-        if (petResult is null)
-            return Errors.General.NotFound(command.PetId).ToErrorList();
+        var petId = PetId.Create(command.PetId);
+        
+        var petResult = volunteerResult.Value.GetPetById(petId);
+        if (petResult.IsFailure)
+            return petResult.Error.ToErrorList();
 
         var speciesResult = await _speciesRepository.GetById(command.SpeciesId, cancellationToken);
         if (speciesResult.IsFailure)
@@ -52,7 +53,6 @@ public class UpdatePetHandler : ICommandHandler<Guid, UpdatePetCommand>
         if (breedResult is null)
             return Errors.General.NotFound(command.BreedId).ToErrorList();
 
-        var petId = PetId.Create(command.PetId);
         var name = Name.Create(command.Name).Value;
         var description = Description.Create(command.Description).Value;
         var address = Address.Create(

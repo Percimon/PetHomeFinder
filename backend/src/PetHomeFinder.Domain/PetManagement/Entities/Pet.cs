@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
