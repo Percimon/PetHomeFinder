@@ -1,5 +1,4 @@
 using CSharpFunctionalExtensions;
-using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.Entities;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;

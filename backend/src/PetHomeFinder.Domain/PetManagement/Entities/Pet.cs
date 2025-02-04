@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
@@ -9,6 +8,8 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
     public class Pet : Shared.Entity<PetId>
     {
         private bool _isDeleted = false;
+        private List<Credential> _credentials = [];
+        private List<PetPhoto> _photos = [];
 
         public Pet(PetId id) : base(id)
         {
@@ -29,7 +30,7 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
             bool isVaccinated,
             DateTime birthDate,
             HelpStatusEnum helpStatus,
-            CredentialList credentials,
+            IEnumerable<Credential> credentials,
             DateTime createDate,
             IEnumerable<PetPhoto>? photos = null) : base(id)
         {
@@ -46,12 +47,13 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
             IsVaccinated = isVaccinated;
             BirthDate = birthDate;
             HelpStatus = helpStatus;
-            Credentials = credentials;
             CreateDate = createDate;
 
-            Photos = photos == null 
-                ? new PetPhotoList(Enumerable.Empty<PetPhoto>()) 
-                : new PetPhotoList(photos);
+            _credentials = credentials.ToList();
+            
+            _photos = photos == null
+                ? Enumerable.Empty<PetPhoto>().ToList()
+                : photos.ToList();
         }
 
         public Name Name { get; private set; }
@@ -82,11 +84,11 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
         public HelpStatusEnum HelpStatus { get; private set; }
 
-        public CredentialList Credentials { get; private set; }
+        public IReadOnlyList<Credential> Credentials => _credentials;
 
         public DateTime CreateDate { get; private set; }
 
-        public PetPhotoList Photos { get; private set; }
+        public IReadOnlyList<PetPhoto> Photos => _photos;
 
         public void SoftDelete()
         {
@@ -95,10 +97,10 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
             _isDeleted = true;
         }
-        
+
         public void UpdatePhotos(IEnumerable<PetPhoto> photos)
         {
-            Photos = new PetPhotoList(photos);
+            _photos = photos.ToList();
         }
 
         public void SetPosition(Position position) =>
@@ -125,7 +127,56 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
 
             return Result.Success<Error>();
         }
-        
+
+        public void Update(
+            Name name,
+            Description description,
+            SpeciesBreed speciesBreed,
+            Color color,
+            HealthInfo healthInfo,
+            Address address,
+            Weight weight,
+            Height height,
+            PhoneNumber phoneNumber,
+            bool isCastrated,
+            bool isVaccinated,
+            DateTime birthDate,
+            IEnumerable<Credential> credentials)
+        {
+            Name = name;
+            Description = description;
+            SpeciesBreed = speciesBreed;
+            Color = color;
+            HealthInfo = healthInfo;
+            Address = address;
+            Weight = weight;
+            Height = height;
+            OwnerPhoneNumber = phoneNumber;
+            IsCastrated = isCastrated;
+            IsVaccinated = isVaccinated;
+            BirthDate = birthDate;
+            _credentials = credentials.ToList();
+        }
+
+        public void UpdateStatus(HelpStatusEnum status)
+        {
+            HelpStatus = status;
+        }
+
+        public UnitResult<Error> UpdateMainPhoto(PetPhoto newMainPhoto)
+        {
+            var photoExists = _photos.FirstOrDefault(p => p.FilePath == newMainPhoto.FilePath);
+            if (photoExists is null)
+                return Errors.General.NotFound();
+
+            _photos = _photos
+                .Select(p => 
+                    PetPhoto.Create(p.FilePath, p.FilePath == newMainPhoto.FilePath).Value)
+                .OrderByDescending(p => p.IsMain)
+                .ToList();
+
+            return Result.Success<Error>();
+        }
     }
 
     public enum HelpStatusEnum
@@ -134,5 +185,4 @@ namespace PetHomeFinder.Domain.PetManagement.Entities
         SEARCH_FOR_HOME,
         FOUND_HOME
     }
-
 }

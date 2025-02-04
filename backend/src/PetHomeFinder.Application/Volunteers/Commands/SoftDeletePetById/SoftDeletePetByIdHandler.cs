@@ -4,23 +4,23 @@ using Microsoft.Extensions.Logging;
 using PetHomeFinder.Application.Abstractions;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Application.Extensions;
-using PetHomeFinder.Domain.PetManagement.ValueObjects;
+using PetHomeFinder.Domain.PetManagement.IDs;
 using PetHomeFinder.Domain.Shared;
 
-namespace PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
+namespace PetHomeFinder.Application.Volunteers.Commands.SoftDeletePetById;
 
-public class UpdateSocialNetworksHandler : ICommandHandler<Guid, UpdateSocialNetworksCommand>
+public class SoftDeletePetByIdHandler : ICommandHandler<Guid, SoftDeletePetByIdCommand>
 {
-    private readonly ILogger<UpdateSocialNetworksHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IValidator<UpdateSocialNetworksCommand> _validator;
+    private readonly IValidator<SoftDeletePetByIdCommand> _validator;
+    private readonly ILogger<SoftDeletePetByIdHandler> _logger;
 
-    public UpdateSocialNetworksHandler(
+    public SoftDeletePetByIdHandler(
         IVolunteersRepository volunteersRepository,
         IUnitOfWork unitOfWork,
-        IValidator<UpdateSocialNetworksCommand> validator,
-        ILogger<UpdateSocialNetworksHandler> logger)
+        IValidator<SoftDeletePetByIdCommand> validator,
+        ILogger<SoftDeletePetByIdHandler> logger)
     {
         _volunteersRepository = volunteersRepository;
         _unitOfWork = unitOfWork;
@@ -29,7 +29,7 @@ public class UpdateSocialNetworksHandler : ICommandHandler<Guid, UpdateSocialNet
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
-        UpdateSocialNetworksCommand command,
+        SoftDeletePetByIdCommand command,
         CancellationToken cancellationToken = default)
     {
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -40,19 +40,17 @@ public class UpdateSocialNetworksHandler : ICommandHandler<Guid, UpdateSocialNet
         if (volunteerResult.IsFailure)
             return volunteerResult.Error.ToErrorList();
 
-        var socialNetworks =
-            new ValueObjectList<SocialNetwork>(
-                command.SocialNetworks.Select(r =>
-                    SocialNetwork.Create(r.Name, r.Link).Value));
+        var petId = PetId.Create(command.PetId);
+        var petResult = volunteerResult.Value.GetPetById(petId);
+        if (petResult.IsFailure)
+            return petResult.Error.ToErrorList();
 
-        volunteerResult.Value.UpdateSocialNetworks(socialNetworks);
-
-        _volunteersRepository.Save(volunteerResult.Value);
+        volunteerResult.Value.SoftDeletePet(petResult.Value.Id);
 
         await _unitOfWork.SaveChanges(cancellationToken);
 
-        _logger.LogInformation("Social networks of volunteer updated with id: {VolunteerId}.", command.VolunteerId);
+        _logger.LogInformation("Pet was soft deleted with id: {PetId}.", petResult.Value.Id);
 
-        return volunteerResult.Value.Id.Value;
+        return petResult.Value.Id.Value;
     }
 }

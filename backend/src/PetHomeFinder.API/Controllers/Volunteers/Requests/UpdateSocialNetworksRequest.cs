@@ -3,7 +3,8 @@ using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
 
 namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 
-public record UpdateSocialNetworksRequest(SocialNetworkListDto SocialNetworkList)
+public record UpdateSocialNetworksRequest(IEnumerable<SocialNetworkDto> SocialNetworkList)
 {
-    public UpdateSocialNetworksCommand ToCommand(Guid volunteerId) => new(volunteerId, SocialNetworkList); 
+    public UpdateSocialNetworksCommand ToCommand(Guid volunteerId) =>
+        new(volunteerId, SocialNetworkList);
 }

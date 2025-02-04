@@ -20,5 +20,5 @@ public record AddPetCommand(
     bool IsVaccinated,
     DateTime BirthDate,
     HelpStatusEnum HelpStatus,
-    CredentialListDto Credentials,
+    IEnumerable<CredentialDto> Credentials,
     DateTime CreateDate) : ICommand;

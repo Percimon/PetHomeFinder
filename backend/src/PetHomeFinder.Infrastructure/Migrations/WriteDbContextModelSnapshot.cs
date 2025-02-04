@@ -118,6 +118,11 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("create_date");
 
+                    b.Property<string>("Credentials")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("credentials");
+
                     b.Property<int>("HelpStatus")
                         .HasColumnType("integer")
                         .HasColumnName("help_status");
@@ -129,6 +134,15 @@ namespace PetHomeFinder.Infrastructure.Migrations
                     b.Property<bool>("IsVaccinated")
                         .HasColumnType("boolean")
                         .HasColumnName("is_vaccinated");
+
+                    b.Property<string>("Photos")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("photos");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -327,110 +341,6 @@ namespace PetHomeFinder.Infrastructure.Migrations
                         .HasForeignKey("volunteer_id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .HasConstraintName("fk_pets_volunteers_volunteer_id");
-
-                    b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.CredentialList", "Credentials", b1 =>
-                        {
-                            b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.HasKey("PetId");
-
-                            b1.ToTable("pets");
-
-                            b1.ToJson("credentials");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-
-                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.Credential", "Credentials", b2 =>
-                                {
-                                    b2.Property<Guid>("CredentialListPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Description")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("credential_description");
-
-                                    b2.Property<string>("Name")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("credential_name");
-
-                                    b2.HasKey("CredentialListPetId", "Id")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("CredentialListPetId")
-                                        .HasConstraintName("fk_pets_pets_credential_list_pet_id");
-                                });
-
-                            b1.Navigation("Credentials");
-                        });
-
-                    b.OwnsOne("PetHomeFinder.Domain.PetManagement.ValueObjects.PetPhotoList", "Photos", b1 =>
-                        {
-                            b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.HasKey("PetId");
-
-                            b1.ToTable("pets");
-
-                            b1.ToJson("photos");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-
-                            b1.OwnsMany("PetHomeFinder.Domain.PetManagement.ValueObjects.PetPhoto", "PetPhotos", b2 =>
-                                {
-                                    b2.Property<Guid>("PetPhotoListPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("FilePath")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("file_path");
-
-                                    b2.Property<bool>("IsMain")
-                                        .HasColumnType("boolean")
-                                        .HasColumnName("is_main");
-
-                                    b2.HasKey("PetPhotoListPetId", "Id")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("PetPhotoListPetId")
-                                        .HasConstraintName("fk_pets_pets_pet_photo_list_pet_id");
-                                });
-
-                            b1.Navigation("PetPhotos");
-                        });
-
-                    b.Navigation("Credentials")
-                        .IsRequired();
-
-                    b.Navigation("Photos")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PetHomeFinder.Domain.SpeciesManagement.Entities.Breed", b =>

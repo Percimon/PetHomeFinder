@@ -40,17 +40,15 @@ public class UpdateCredentialsHandler : ICommandHandler<Guid, UpdateCredentialsC
         if (volunteerResult.IsFailure)
             return volunteerResult.Error.ToErrorList();
 
-        var credentials = new ValueObjectList<Credential>(command
-            .CredentialList
-            .Credentials
+        var credentials = new ValueObjectList<Credential>(command.Credentials
             .Select(r => Credential.Create(r.Name, r.Description).Value));
 
         volunteerResult.Value.UpdateCredentials(credentials);
-        
+
         _volunteersRepository.Save(volunteerResult.Value);
 
         await _unitOfWork.SaveChanges(cancellationToken);
-        
+
         _logger.LogInformation("Credentials of volunteer updated with id: {VolunteerId}.", command.VolunteerId);
 
         return volunteerResult.Value.Id.Value;

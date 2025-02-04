@@ -153,7 +153,7 @@ public class VolunteerTests
         var birthDate = DateTime.Now;
         var createDate = DateTime.Now;
         var status = HelpStatusEnum.SEARCH_FOR_HOME;
-        var petCredentials = new CredentialList(new List<Credential>());
+        var petCredentials = new List<Credential>();
 
         for (int i = 0; i < petsCount; i++)
         {

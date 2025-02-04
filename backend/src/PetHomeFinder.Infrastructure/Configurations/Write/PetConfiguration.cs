@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHomeFinder.Application.DTOs;
 using PetHomeFinder.Domain.PetManagement.Entities;
 using PetHomeFinder.Domain.PetManagement.IDs;
+using PetHomeFinder.Domain.PetManagement.ValueObjects;
 using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Domain.SpeciesManagement.IDs;
+using PetHomeFinder.Infrastructure.Extensions;
 
 namespace PetHomeFinder.Infrastructure.Configurations.Write;
 
@@ -139,41 +142,21 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired()
             .HasColumnName("help_status");
 
-        builder.OwnsOne(p => p.Credentials, cb =>
-        {
-            cb.ToJson("credentials");
-
-            cb.OwnsMany(cl => cl.Credentials, cl =>
-            {
-                cl.Property(c => c.Name)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("credential_name");
-
-                cl.Property(c => c.Description)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("credential_description");
-                ;
-            });
-        });
-
-        builder.OwnsOne(p => p.Photos, pb =>
-        {
-            pb.ToJson("photos");
-
-            pb.OwnsMany(cl => cl.PetPhotos, ph =>
-            {
-                ph.Property(c => c.FilePath)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("file_path");
-
-                ph.Property(c => c.IsMain)
-                    .IsRequired()
-                    .HasColumnName("is_main");
-                ;
-            });
-        });
+        builder.Property(v => v.Credentials)
+            .ValueObjectsCollectionJsonConversion(
+                credential => new CredentialDto(credential.Description, credential.Name),
+                dto => Credential.Create(dto.Name, dto.Description).Value)
+            .HasColumnName("credentials");
+        
+        builder.Property(v => v.Photos)
+            .ValueObjectsCollectionJsonConversion(
+                petPhoto => new PetPhotoDto(petPhoto.FilePath, petPhoto.IsMain),
+                dto => PetPhoto.Create(dto.PathToStorage, dto.IsMain).Value)
+            .HasColumnName("photos");
+        
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
+        
     }
 }

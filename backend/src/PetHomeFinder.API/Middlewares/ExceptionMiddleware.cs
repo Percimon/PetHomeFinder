@@ -1,4 +1,3 @@
-using System;
 using PetHomeFinder.API.Response;
 using PetHomeFinder.Domain.Shared;
 

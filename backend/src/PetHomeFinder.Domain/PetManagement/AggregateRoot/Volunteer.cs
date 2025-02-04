@@ -102,6 +102,38 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
 
             return Result.Success<Error>();
         }
+        
+        public void UpdatePet(
+            PetId petId, 
+            Name name,
+            Description description,
+            SpeciesBreed speciesBreed,
+            Color color,
+            HealthInfo healthInfo,
+            Address address,
+            Weight weight,
+            Height height,
+            PhoneNumber phoneNumber,
+            bool isCastrated,
+            bool isVaccinated,
+            DateTime birthDate,
+            IEnumerable<Credential> credentials)
+        {
+            _petsOwning.FirstOrDefault(p => p.Id == petId)?.Update(
+                name,
+                description,
+                speciesBreed,
+                color,
+                healthInfo,
+                address,
+                weight,
+                height,
+                phoneNumber,
+                isCastrated,
+                isVaccinated,
+                birthDate,
+                credentials);
+        }
 
         public Result<Pet, Error> GetPetById(PetId petId)
         {
@@ -175,6 +207,34 @@ namespace PetHomeFinder.Domain.PetManagement.AggregateRoot
                 return lastPosition.Error;
 
             return lastPosition.Value;
+        }
+
+        public void UpdatePetStatus(PetId petId, HelpStatusEnum status)
+        {
+            _petsOwning.FirstOrDefault(p => p.Id == petId)?.UpdateStatus(status);
+        }
+
+        public void HardDeletePet(Pet pet)
+        {
+            _petsOwning.Remove(pet);
+        }
+        
+        public void SoftDeletePet(PetId id)
+        {
+            _petsOwning.FirstOrDefault(p => p.Id == id)?.SoftDelete();
+        }
+
+        public UnitResult<Error> UpdatePetMainPhoto(Pet pet, PetPhoto photo)
+        {
+            var petResult = GetPetById(pet.Id);
+            if (petResult.IsFailure)
+                return petResult.Error;
+
+            var updateResult = petResult.Value.UpdateMainPhoto(photo);
+            if(updateResult.IsFailure)
+                return updateResult.Error;
+
+            return Result.Success<Error>();
         }
     }
 }

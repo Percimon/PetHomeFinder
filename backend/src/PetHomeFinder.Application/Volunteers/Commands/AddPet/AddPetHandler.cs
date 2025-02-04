@@ -85,9 +85,8 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
         var weight = Weight.Create(command.Weight).Value;
         var height = Height.Create(command.Height).Value;
         var phoneNumber = PhoneNumber.Create(command.OwnerPhoneNumber).Value;
-        var credentials = new CredentialList(
-            command.Credentials.Credentials.Select(c =>
-                Credential.Create(c.Name, c.Description).Value));
+        var credentials = command.Credentials
+            .Select(c => Credential.Create(c.Name, c.Description).Value);
 
         var pet = new Pet(petId,
             name,

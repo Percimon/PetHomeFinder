@@ -4,13 +4,12 @@ using PetHomeFinder.API.Extensions;
 using PetHomeFinder.Application.Volunteers.Commands.FileTest.Delete;
 using PetHomeFinder.Application.Volunteers.Commands.FileTest.Get;
 using PetHomeFinder.Application.Volunteers.Commands.FileTest.Upload;
+using PetHomeFinder.Domain.Shared;
 
 namespace PetHomeFinder.API.Controllers;
 
 public class FileController : ApplicationController
 {
-    public const string BUCKET_NAME_PHOTOS = "photos";
-
     private readonly IMinioClient _minioClient;
 
     public FileController(IMinioClient minioClient)
@@ -30,7 +29,7 @@ public class FileController : ApplicationController
         var request = new UploadFileCommand(
             stream,
             Guid.NewGuid().ToString(),
-            BUCKET_NAME_PHOTOS);
+            Constants.BUCKET_NAME_PHOTOS);
 
         var result = await handler.Handle(request, cancellationToken);
 
@@ -46,7 +45,7 @@ public class FileController : ApplicationController
         [FromServices] DeleteFileHandler handler,
         CancellationToken cancellationToken)
     {
-        var request = new DeleteFileCommand(BUCKET_NAME_PHOTOS, fileName.ToString());
+        var request = new DeleteFileCommand(Constants.BUCKET_NAME_PHOTOS, fileName.ToString());
         
         var result = await handler.Handle(request, cancellationToken);
 
@@ -64,7 +63,7 @@ public class FileController : ApplicationController
         [FromServices] GetFileHandler handler,
         CancellationToken cancellationToken)
     {
-        var request = new GetFileCommand(BUCKET_NAME_PHOTOS, fileName.ToString());
+        var request = new GetFileCommand(Constants.BUCKET_NAME_PHOTOS, fileName.ToString());
 
         var result = await handler.Handle(request, cancellationToken);
 

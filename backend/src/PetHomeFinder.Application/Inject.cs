@@ -1,16 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHomeFinder.Application.Abstractions;
-using PetHomeFinder.Application.Volunteers.Commands.AddPet;
-using PetHomeFinder.Application.Volunteers.Commands.Create;
-using PetHomeFinder.Application.Volunteers.Commands.Delete;
-using PetHomeFinder.Application.Volunteers.Commands.FileTest.Delete;
-using PetHomeFinder.Application.Volunteers.Commands.FileTest.Get;
-using PetHomeFinder.Application.Volunteers.Commands.FileTest.Upload;
-using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
-using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
-using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
-using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
 
 namespace PetHomeFinder.Application;
 

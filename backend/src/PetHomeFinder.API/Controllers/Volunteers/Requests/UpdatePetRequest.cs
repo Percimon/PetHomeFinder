@@ -1,43 +1,39 @@
 using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Application.Volunteers.Commands.AddPet;
-using PetHomeFinder.Domain.PetManagement.Entities;
+using PetHomeFinder.Application.Volunteers.Commands.UpdatePet;
 
 namespace PetHomeFinder.API.Controllers.Volunteers.Requests;
 
-public record AddPetRequest(
-    string Name,
+public record UpdatePetRequest(
     Guid SpeciesId,
     Guid BreedId,
+    string Name,
     string Description,
     string Color,
     string HealthInfo,
     AddressDto Address,
     double Weight,
     double Height,
-    string OwnerPhoneNumber,
+    string PhoneNumber,
     bool IsCastrated,
     bool IsVaccinated,
     DateTime BirthDate,
-    HelpStatusEnum HelpStatus,
-    IEnumerable<CredentialDto> Credentials,
-    DateTime CreateDate)
+    IEnumerable<CredentialDto> Credentials)
 {
-    public AddPetCommand ToCommand(Guid volunteerId) =>
-        new(volunteerId, 
-            Name, 
-            SpeciesId, 
-            BreedId, 
+    public UpdatePetCommand ToCommand(Guid volunteerId, Guid petId) =>
+        new(volunteerId,
+            petId,
+            SpeciesId,
+            BreedId,
+            Name,
             Description,
             Color,
             HealthInfo,
             Address,
             Weight,
             Height,
-            OwnerPhoneNumber,
+            PhoneNumber,
             IsCastrated,
             IsVaccinated,
             BirthDate,
-            HelpStatus,
-            Credentials,
-            CreateDate);
+            Credentials);
 }

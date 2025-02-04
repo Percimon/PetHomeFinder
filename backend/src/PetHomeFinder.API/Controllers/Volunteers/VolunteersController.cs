@@ -2,13 +2,16 @@ using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Controllers.Volunteers.Requests;
 using PetHomeFinder.API.Extensions;
 using PetHomeFinder.API.Processors;
-using PetHomeFinder.Application.DTOs;
-using PetHomeFinder.Application.Models;
 using PetHomeFinder.Application.Volunteers.Commands.AddPet;
 using PetHomeFinder.Application.Volunteers.Commands.Create;
 using PetHomeFinder.Application.Volunteers.Commands.Delete;
+using PetHomeFinder.Application.Volunteers.Commands.HardDeletePetById;
+using PetHomeFinder.Application.Volunteers.Commands.SoftDeletePetById;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateCredentials;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateMainInfo;
+using PetHomeFinder.Application.Volunteers.Commands.UpdatePet;
+using PetHomeFinder.Application.Volunteers.Commands.UpdatePetMainPhoto;
+using PetHomeFinder.Application.Volunteers.Commands.UpdatePetStatus;
 using PetHomeFinder.Application.Volunteers.Commands.UpdateSocialNetworks;
 using PetHomeFinder.Application.Volunteers.Commands.UploadFilesToPet;
 using PetHomeFinder.Application.Volunteers.Queries.GetVolunteerById;
@@ -141,6 +144,72 @@ namespace PetHomeFinder.API.Controllers.Volunteers
 
             return Ok(result.Value);
         }
+        
+        [HttpPost("{id:guid}/pet/{petId:guid}")]
+        public async Task<ActionResult<Guid>> UpdatePet(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] UpdatePetHandler handler,
+            [FromBody] UpdatePetRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(id, petId);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result.Value);
+        }
+        
+        [HttpPost("{id:guid}/pet/{petId:guid}/status")]
+        public async Task<ActionResult<Guid>> UpdatePetStatus(
+            [FromRoute] Guid id,
+            [FromRoute] Guid petId,
+            [FromServices] UpdatePetStatusHandler handler,
+            [FromBody] UpdatePetStatusRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(id, petId);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result.Value);
+        }
+        
+        [HttpDelete("{volunteerId:guid}/pet/{petId:guid}/soft")]
+        public async Task<ActionResult> SoftDeletePet(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId,
+            [FromServices] SoftDeletePetByIdHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new SoftDeletePetByIdCommand(volunteerId, petId);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+
+        [HttpDelete("{volunteerId:guid}/pet/{petId:guid}/hard")]
+        public async Task<ActionResult> HardDeletePet(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId,
+            [FromServices] HardDeletePetByIdHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new HardDeletePetByIdCommand(volunteerId, petId);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
 
         [HttpPost("{volunteerId:guid}/pet/{petId:guid}/files")]
         public async Task<ActionResult> UploadFilesToPet(
@@ -161,5 +230,23 @@ namespace PetHomeFinder.API.Controllers.Volunteers
 
             return Ok(result.Value);
         }
+        
+        [HttpPost("{volunteerId:guid}/pet/{petId:guid}/main-photo")]
+        public async Task<ActionResult> UpdatePetMainPhoto(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId,
+            [FromBody] UpdatePetMainPhotoRequest request,
+            [FromServices] UpdatePetMainPhotoHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(volunteerId, petId);
+
+            var result = await handler.Handle(command, cancellationToken);
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(result.Value);
+        }
+
     }
 }
