@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9C307FD6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.UnitTests", "PetHomeFinder.UnitTests\PetHomeFinder.UnitTests.csproj", "{89BC1EE6-2E9A-4FCF-B8FB-9D0758C2250C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.IntegrationTests", "src\tests\PetHomeFinder.IntegrationTests\PetHomeFinder.IntegrationTests.csproj", "{BA91A1A8-4D49-47B0-BC6D-6A7B5C2CF42D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{89BC1EE6-2E9A-4FCF-B8FB-9D0758C2250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89BC1EE6-2E9A-4FCF-B8FB-9D0758C2250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89BC1EE6-2E9A-4FCF-B8FB-9D0758C2250C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA91A1A8-4D49-47B0-BC6D-6A7B5C2CF42D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA91A1A8-4D49-47B0-BC6D-6A7B5C2CF42D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA91A1A8-4D49-47B0-BC6D-6A7B5C2CF42D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA91A1A8-4D49-47B0-BC6D-6A7B5C2CF42D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{481C2E46-E090-431F-BC53-05ED092C5FE5} = {8B80A6D4-F816-4B71-8402-6A6B942C81C2}
 		{B5DE9AED-8A78-4321-AEA3-6C634C9E5BB1} = {8B80A6D4-F816-4B71-8402-6A6B942C81C2}
 		{89BC1EE6-2E9A-4FCF-B8FB-9D0758C2250C} = {9C307FD6-F2B4-4043-88B4-9D359DBC7D52}
+		{BA91A1A8-4D49-47B0-BC6D-6A7B5C2CF42D} = {9C307FD6-F2B4-4043-88B4-9D359DBC7D52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3A7365B-417C-42C4-BC9F-4F9F17012930}

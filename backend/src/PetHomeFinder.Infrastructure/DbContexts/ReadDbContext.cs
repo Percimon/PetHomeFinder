@@ -9,7 +9,7 @@ namespace PetHomeFinder.Infrastructure.DbContexts;
 
 public class ReadDbContext : DbContext, IReadDbContext
 {
-    private readonly IConfiguration _configuration;
+    private readonly string _connectionString;
 
     public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
 
@@ -19,14 +19,14 @@ public class ReadDbContext : DbContext, IReadDbContext
 
     public IQueryable<BreedDto> Breeds => Set<BreedDto>();
 
-    public ReadDbContext(IConfiguration configuration)
+    public ReadDbContext(string connectionString)
     {
-        _configuration = configuration;
+        _connectionString = connectionString;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString(Constants.DATABASE));
+        optionsBuilder.UseNpgsql(_connectionString);
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
 
