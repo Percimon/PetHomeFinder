@@ -6,7 +6,9 @@ namespace PetHomeFinder.Domain.PetManagement.ValueObjects
     public record Credential
     {
         public string Name { get; }
+        
         public string Description { get; }
+        
         private Credential(string name, string description)
         {
             Name = name;
