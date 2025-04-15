@@ -16,7 +16,7 @@ public class DeleteSpeciesTests : SpeciesBreedsTestsBase
     }
 
     [Fact]
-    public async Task Delete_Species_Should_Be_Successful()
+    public async Task Delete_species_should_work()
     {
         //Arrange
         var species = await SeedSpeciesAsync();

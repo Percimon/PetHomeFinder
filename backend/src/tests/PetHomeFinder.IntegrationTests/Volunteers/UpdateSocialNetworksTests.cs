@@ -18,6 +18,7 @@ public class UpdateSocialNetworksTests : VolunteerTestsBase
     [Fact]
     public async Task Update_social_networks_info_should_work()
     {
+        //arrange
         var volunteerId = await SeedVolunteerAsync();
 
         var dtos = new SocialNetworkDto[]
@@ -27,8 +28,10 @@ public class UpdateSocialNetworksTests : VolunteerTestsBase
         
         var command = new UpdateSocialNetworksCommand(volunteerId, dtos);
         
+        //act
         var result = await _sut.Handle(command, CancellationToken.None);
 
+        //assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

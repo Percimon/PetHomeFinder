@@ -97,6 +97,15 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
             createDate);
 
         volunteer.AddPet(pet);
+        
+        var photos = new List<PetPhoto>
+        {
+            PetPhoto.Create("testFile-1.jpg", true).Value,
+            PetPhoto.Create("testFile-2.jpg").Value,
+            PetPhoto.Create("testFile-3.jpg").Value,
+        };
+        
+        pet.UpdatePhotos(photos);
 
         await WriteDbContext.SaveChangesAsync(CancellationToken.None);
 

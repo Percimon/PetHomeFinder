@@ -17,14 +17,17 @@ public class UpdateMainInfoTests : VolunteerTestsBase
     [Fact]
     public async Task Update_main_info_should_work()
     {
+        //arrange
         var volunteerId = await SeedVolunteerAsync();
 
-        var newExperience = 5;        
+        var newExperience = 5;
         
         var command = Fixture.CreateUpdateMainInfoCommand(volunteerId, newExperience);
         
+        //act
         var result = await _sut.Handle(command, CancellationToken.None);
 
+        //assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

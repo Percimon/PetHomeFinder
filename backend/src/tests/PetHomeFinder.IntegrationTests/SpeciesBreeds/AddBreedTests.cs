@@ -15,7 +15,7 @@ public class AddBreedTests : SpeciesBreedsTestsBase
     }
     
     [Fact]
-    public async Task Add_Breed_Should_Be_Successful()
+    public async Task Add_breed_should_work()
     {
         //Arrange
         var species = await SeedSpeciesAsync();

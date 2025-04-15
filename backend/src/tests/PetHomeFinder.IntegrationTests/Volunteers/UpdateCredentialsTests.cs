@@ -19,6 +19,7 @@ public class UpdateCredentialsTests : VolunteerTestsBase
     [Fact]
     public async Task Update_credentials_should_work()
     {
+        //arrange
         var volunteerId = await SeedVolunteerAsync();
 
         var dtos = new CredentialDto[]
@@ -28,8 +29,10 @@ public class UpdateCredentialsTests : VolunteerTestsBase
         
         var command = new UpdateCredentialsCommand(volunteerId, dtos);
         
+        //act
         var result = await _sut.Handle(command, CancellationToken.None);
 
+        //assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

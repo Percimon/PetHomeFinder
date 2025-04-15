@@ -18,12 +18,15 @@ public class CreateVolunteerTests : VolunteerTestsBase
     }
 
     [Fact]
-    public async Task Create_volunteer()
+    public async Task Create_volunteer_should_work()
     { 
+        //arrange
         var command = Fixture.CreateCreateVolunteerCommand();
 
+        //act
         var result = await _sut.Handle(command, CancellationToken.None);
         
+        //assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

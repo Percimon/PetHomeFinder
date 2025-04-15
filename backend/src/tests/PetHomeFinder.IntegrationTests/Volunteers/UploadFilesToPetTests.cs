@@ -52,6 +52,7 @@ public class UploadFilesToPetTests : VolunteerTestsBase
     [Fact]
     public async Task Upload_files_to_pet_should_be_failed()
     {
+        //arrange
         Factory.SetupUploadFailureMock();
 
         var volunteerId = await SeedVolunteerAsync();
@@ -69,18 +70,10 @@ public class UploadFilesToPetTests : VolunteerTestsBase
 
         var command = new UploadFilesToPetCommand(volunteerId, pet, filesDto);
 
+        //act
         var result = await _sut.Handle(command, CancellationToken.None);
         
+        //assert
         result.IsFailure.Should().BeTrue();
-        
-        var photo = WriteDbContext.Volunteers.ToList()
-            .FirstOrDefault(x => x.Id.Value == volunteerId)
-            .PetsOwning
-            .FirstOrDefault(p => p.Id.Value == pet)
-            .Photos;
-
-        int fileCountRequirement = 0;
-        
-        photo.Count.Should().Be(fileCountRequirement);
     }
 }

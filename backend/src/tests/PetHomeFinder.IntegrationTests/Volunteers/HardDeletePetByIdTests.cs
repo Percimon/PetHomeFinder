@@ -17,6 +17,7 @@ public class HardDeletePetByIdTests : VolunteerTestsBase
     [Fact]
     public async Task Hard_delete_pet_by_id_should_work()
     {
+        //arrange
         var volunteerId = await SeedVolunteerAsync();
         
         var volunteer = WriteDbContext.Volunteers.ToList()
@@ -30,8 +31,10 @@ public class HardDeletePetByIdTests : VolunteerTestsBase
 
         var command = new HardDeletePetByIdCommand(volunteerId, pet);
         
+        //act
         var result = await _sut.Handle(command, CancellationToken.None);
 
+        //assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

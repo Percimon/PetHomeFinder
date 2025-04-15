@@ -17,6 +17,7 @@ public class AddPetTests : VolunteerTestsBase
     [Fact]
     public async Task Add_pet_to_database_should_work()
     {
+        //arrange
         var volunteerId = await SeedVolunteerAsync();
 
         var species = await SeedSpeciesAsync();
@@ -28,8 +29,10 @@ public class AddPetTests : VolunteerTestsBase
             species.Id,
             breedId);
 
+        //act
         var result = await _sut.Handle(command, CancellationToken.None);
 
+        //assert
         result.IsSuccess.Should().BeTrue();
 
         result.Value.Should().NotBeEmpty();

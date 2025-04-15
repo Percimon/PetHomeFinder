@@ -18,6 +18,7 @@ public class UpdatePetTests : VolunteerTestsBase
     [Fact]
     public async Task Update_pet_should_work()
     {
+        //arrange
         var volunteerId = await SeedVolunteerAsync();
 
         var species = await SeedSpeciesAsync();
@@ -40,8 +41,10 @@ public class UpdatePetTests : VolunteerTestsBase
             breedId,
             newDescription);
         
+        //act
         var result = await _sut.Handle(command);   
         
+        //assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

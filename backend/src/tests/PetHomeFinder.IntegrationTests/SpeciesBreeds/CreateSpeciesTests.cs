@@ -15,7 +15,7 @@ public class CreateSpeciesTests : SpeciesBreedsTestsBase
     }
     
     [Fact]
-    public async Task Creates_Species_Should_Be_Successful()
+    public async Task Creates_species_should_work()
     {
         //Arrange
         var command = new CreateSpeciesCommand("Test");
