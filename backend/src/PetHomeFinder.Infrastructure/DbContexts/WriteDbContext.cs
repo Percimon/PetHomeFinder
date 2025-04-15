@@ -9,20 +9,20 @@ namespace PetHomeFinder.Infrastructure.DbContexts
 {
     public class WriteDbContext : DbContext
     {
-        private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
 
         public DbSet<Volunteer> Volunteers => Set<Volunteer>();
 
         public DbSet<Species> Species => Set<Species>();
         
-        public WriteDbContext(IConfiguration configuration)
+        public WriteDbContext(string connectionString)
         {
-            _configuration = configuration;
+            _connectionString = connectionString;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_configuration.GetConnectionString(Constants.DATABASE));
+            optionsBuilder.UseNpgsql(_connectionString);
             optionsBuilder.UseSnakeCaseNamingConvention();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
         }

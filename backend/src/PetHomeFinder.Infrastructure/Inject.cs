@@ -7,6 +7,7 @@ using PetHomeFinder.Application.Messaging;
 using PetHomeFinder.Application.Providers;
 using PetHomeFinder.Application.SpeciesBreeds;
 using PetHomeFinder.Application.Volunteers;
+using PetHomeFinder.Domain.Shared;
 using PetHomeFinder.Infrastructure.BackgroundServices;
 using PetHomeFinder.Infrastructure.DbContexts;
 using PetHomeFinder.Infrastructure.Files;
@@ -24,7 +25,7 @@ public static class Inject
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDatabase()
+        services.AddDatabase(configuration)
             .AddRepositories()
             .AddMinio(configuration)
             .AddServices()
@@ -44,10 +45,15 @@ public static class Inject
     }
     
     private static IServiceCollection AddDatabase(
-        this IServiceCollection services)
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddScoped<WriteDbContext>();
-        services.AddScoped<IReadDbContext, ReadDbContext>();
+        services.AddScoped<WriteDbContext>(_ =>
+            new WriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        
+        services.AddScoped<IReadDbContext, ReadDbContext>(_ =>
+            new ReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
 

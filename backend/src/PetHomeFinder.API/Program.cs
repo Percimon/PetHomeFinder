@@ -41,3 +41,5 @@ var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
 await dbContext.Database.MigrateAsync();
 
 app.Run();
+
+public partial class Program { }

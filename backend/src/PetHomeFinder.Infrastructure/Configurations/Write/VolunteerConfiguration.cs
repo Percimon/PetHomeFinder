@@ -66,7 +66,7 @@ public sealed class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         builder.Property(v => v.Credentials)
             .ValueObjectsCollectionJsonConversion(
-                credential => new CredentialDto(credential.Description, credential.Name),
+                credential => new CredentialDto(credential.Name, credential.Description),
                 dto => Credential.Create(dto.Name, dto.Description).Value)
             .HasColumnName("credentials");
 
