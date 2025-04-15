@@ -17,10 +17,13 @@ public class CreateSpeciesTests : SpeciesBreedsTestsBase
     [Fact]
     public async Task Creates_Species_Should_Be_Successful()
     {
+        //Arrange
         var command = new CreateSpeciesCommand("Test");
         
+        //Act
         var result = await _sut.Handle(command, CancellationToken.None);
         
+        //Assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

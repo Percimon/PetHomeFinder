@@ -17,14 +17,17 @@ public class DeleteBreedTests : SpeciesBreedsTestsBase
     [Fact]
     public async Task Delete_Breed_Should_Be_Successful()
     {
+        //Arrange
         var species = await SeedSpeciesAsync();
         
         var breedId = await SeedBreedAsync(species);
         
         var command = new DeleteBreedCommand(species.Id, breedId);
         
+        //Act
         var result = await _sut.Handle(command, CancellationToken.None);
         
+        //Assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().Be(breedId);

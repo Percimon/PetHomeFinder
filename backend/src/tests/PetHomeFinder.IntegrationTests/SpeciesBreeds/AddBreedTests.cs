@@ -17,12 +17,15 @@ public class AddBreedTests : SpeciesBreedsTestsBase
     [Fact]
     public async Task Add_Breed_Should_Be_Successful()
     {
+        //Arrange
         var species = await SeedSpeciesAsync();
 
         var command = new AddBreedCommand(species.Id, "test");
         
+        //Act
         var result = await _sut.Handle(command, CancellationToken.None);
         
+        //Assert
         result.IsSuccess.Should().BeTrue();
         
         result.Value.Should().NotBeEmpty();

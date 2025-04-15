@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
 using PetHomeFinder.Application.Database;
 using PetHomeFinder.Infrastructure.DbContexts;
@@ -31,18 +32,10 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
     protected virtual void ConfigureDefaultServices(IServiceCollection services)
     {
-        var writeDbContext = services.SingleOrDefault(s =>
-            s.ServiceType == typeof(WriteDbContext));
-
-        var readDbContext = services.SingleOrDefault(s =>
-            s.ServiceType == typeof(IReadDbContext));
-
-        if (writeDbContext is not null)
-            services.Remove(writeDbContext);
-
-        if (readDbContext is not null)
-            services.Remove(readDbContext);
-
+        services.RemoveAll(typeof(WriteDbContext));
+        
+        services.RemoveAll(typeof(IReadDbContext));
+        
         services.AddScoped<WriteDbContext>(_ =>
             new WriteDbContext(_dbContainer.GetConnectionString()));
 
