@@ -25,6 +25,8 @@ builder.Services.AddApi();
 
 var app = builder.Build();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 app.UseExceptionMiddleware();
 app.UseSerilogRequestLogging();
 if (app.Environment.IsDevelopment())

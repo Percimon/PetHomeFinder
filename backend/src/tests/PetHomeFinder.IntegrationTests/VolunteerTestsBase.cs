@@ -60,21 +60,22 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
         var description = Description.Create("test").Value;
         var color = Color.Create("test").Value;
         var health = HealthInfo.Create("test").Value;
-        var address = Address.Create("test", "test", "test", "test").Value;
+        var address = Address.Create(
+            "test-city",
+            "test-district",
+            "test-street",
+            "test-structure").Value;
         var weight = Weight.Create(1).Value;
         var height = Height.Create(1).Value;
         var phoneNumber = PhoneNumber.Create("123456789").Value;
         var isVaccinated = true;
         var isCastrated = true;
-        
-        DateTime dateOfBirth = DateTime.Parse(
-            "2025-03-12T13:13:14.384Z",
-            CultureInfo.InvariantCulture,
-            DateTimeStyles.AdjustToUniversal);
-        
+
+        DateTime dateOfBirth = DateTime.Now;
+
         var birthDate = dateOfBirth;
         var createDate = dateOfBirth;
-        
+
         var status = HelpStatusEnum.NEED_TREATMENT;
         var petCredentials = new List<Credential>();
 
@@ -97,14 +98,14 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
             createDate);
 
         volunteer.AddPet(pet);
-        
+
         var photos = new List<PetPhoto>
         {
             PetPhoto.Create("testFile-1.jpg", true).Value,
             PetPhoto.Create("testFile-2.jpg").Value,
             PetPhoto.Create("testFile-3.jpg").Value,
         };
-        
+
         pet.UpdatePhotos(photos);
 
         await WriteDbContext.SaveChangesAsync(CancellationToken.None);
@@ -112,15 +113,82 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
         return id.Value;
     }
 
+    public async Task SeedNPetsAsync(Volunteer volunteer,
+        Guid speciesId,
+        Guid breedId,
+        int petsCount)
+    {
+        var speciesBreed = SpeciesBreed.Create(speciesId, breedId).Value;
+
+        DateTime dateOfBirth = DateTime.Now;
+
+        var birthDate = dateOfBirth;
+
+        var createDate = dateOfBirth;
+
+        for (var i = 0; i < petsCount; i++)
+        {
+            var id = PetId.New();
+            var name = Name.Create($"test-pet-{i}").Value;
+            var description = Description.Create("test").Value;
+            var color = Color.Create($"test-color-{i}").Value;
+            var health = HealthInfo.Create("test").Value;
+            var address = Address.Create(
+                "test-city",
+                "test-district",
+                "test-street",
+                "test-structure").Value;
+            var weight = Weight.Create(i + 1).Value;
+            var height = Height.Create(i + 1).Value;
+            var phoneNumber = PhoneNumber.Create("123456789").Value;
+            var isVaccinated = true;
+            var isCastrated = true;
+
+            var status = HelpStatusEnum.NEED_TREATMENT;
+            var petCredentials = new List<Credential>();
+
+            var pet = new Pet(
+                id,
+                name,
+                speciesBreed,
+                description,
+                color,
+                health,
+                address,
+                weight,
+                height,
+                phoneNumber,
+                isCastrated,
+                isVaccinated,
+                birthDate,
+                status,
+                petCredentials,
+                createDate);
+
+            volunteer.AddPet(pet);
+
+            var photos = new List<PetPhoto>
+            {
+                PetPhoto.Create("testFile-1.jpg", true).Value,
+                PetPhoto.Create("testFile-2.jpg").Value,
+                PetPhoto.Create("testFile-3.jpg").Value,
+            };
+
+            pet.UpdatePhotos(photos);
+        }
+
+        await WriteDbContext.SaveChangesAsync(CancellationToken.None);
+    }
+
     public async Task<Species> SeedSpeciesAsync()
     {
         var speciesId = SpeciesId.New();
         var speciesName = Name.Create("test-species").Value;
-        
+
         var species = new Species(speciesId, speciesName);
-        
+
         await WriteDbContext.Species.AddAsync(species);
-        
+
         await WriteDbContext.SaveChangesAsync(CancellationToken.None);
 
         return species;
@@ -129,17 +197,17 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
     public async Task<Guid> SeedBreedAsync(Species species)
     {
         var breedId = BreedId.New();
-        
+
         var breedName = Name.Create("test-breed").Value;
-        
+
         var breed = new Breed(breedId, breedName);
-        
+
         species.AddBreed(breed);
-        
+
         await WriteDbContext.SaveChangesAsync(CancellationToken.None);
-        
+
         return breedId.Value;
-    } 
+    }
 
     public Task InitializeAsync() => Task.CompletedTask;
 

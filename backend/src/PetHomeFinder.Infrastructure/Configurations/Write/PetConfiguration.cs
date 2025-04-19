@@ -137,8 +137,11 @@ public sealed class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.CreateDate)
             .IsRequired()
             .HasColumnName("create_date");
-
+        
         builder.Property(p => p.HelpStatus)
+            .HasConversion(
+                status => status.ToString(),
+                value => (HelpStatusEnum)Enum.Parse(typeof(HelpStatusEnum), value!))
             .IsRequired()
             .HasColumnName("help_status");
 
