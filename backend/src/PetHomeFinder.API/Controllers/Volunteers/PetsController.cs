@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHomeFinder.API.Controllers.Volunteers.Requests;
 using PetHomeFinder.API.Extensions;
+using PetHomeFinder.Application.Volunteers.Queries.GetPetById;
 using PetHomeFinder.Application.Volunteers.Queries.GetPetsWithPagination;
 using PetHomeFinder.Application.Volunteers.Queries.GetVolunteerById;
 
@@ -8,7 +9,7 @@ namespace PetHomeFinder.API.Controllers.Volunteers;
 
 public class PetsController : ApplicationController
 {
-    [HttpGet]
+    [HttpGet("pets")]
     public async Task<ActionResult> GetPetsWithPagination(
         [FromBody] GetPetsWithPaginationRequest request,
         [FromServices] GetPetsWithPaginationHandler handler,
@@ -36,6 +37,21 @@ public class PetsController : ApplicationController
             request.SortDirection,
             request.Page,
             request.PageSize);
+            
+        var result = await handler.Handle(query, cancellationToken);
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpGet("pets/{petId:guid}")]
+    public async Task<ActionResult> GetPetById(
+        [FromRoute] Guid petId,
+        [FromServices] GetPetByIdHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var query = new GetPetByIdQuery(petId);
             
         var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailure)
