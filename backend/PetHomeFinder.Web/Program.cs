@@ -1,5 +1,7 @@
 using PetHomeFinder.API;
 using PetHomeFinder.API.Middlewares;
+using PetHomeFinder.Volunteers.Application;
+using PetHomeFinder.Volunteers.Infrastructure;
 using Serilog;
 using Serilog.Events;
 
@@ -15,8 +17,8 @@ Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
             .CreateLogger();
 
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddVolunteersApplication();
+builder.Services.AddVolunteersInfrastructure(builder.Configuration);
 builder.Services.AddApi();
 
 var app = builder.Build();

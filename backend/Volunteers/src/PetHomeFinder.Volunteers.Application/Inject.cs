@@ -6,7 +6,7 @@ namespace PetHomeFinder.Volunteers.Application;
 
 public static class Inject
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static IServiceCollection AddVolunteersApplication(this IServiceCollection services)
     {
         services.AddCommands();
         services.AddQueries();

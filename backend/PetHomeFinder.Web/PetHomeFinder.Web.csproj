@@ -19,7 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Application\PetHomeFinder.AnimalSpecies.Application.csproj" />
+    <ProjectReference Include="..\AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Infrastructure\PetHomeFinder.AnimalSpecies.Infrastructure.csproj" />
     <ProjectReference Include="..\Shared\PetHomeFinder.Framework\PetHomeFinder.Framework.csproj" />
+    <ProjectReference Include="..\Volunteers\src\PetHomeFinder.Volunteers.Application\PetHomeFinder.Volunteers.Application.csproj" />
+    <ProjectReference Include="..\Volunteers\src\PetHomeFinder.Volunteers.Infrastructure\PetHomeFinder.Volunteers.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

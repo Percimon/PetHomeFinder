@@ -19,7 +19,7 @@ namespace PetHomeFinder.Volunteers.Infrastructure;
 
 public static class Inject
 {
-    public static IServiceCollection AddInfrastructure(
+    public static IServiceCollection AddVolunteersInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration)
     {
