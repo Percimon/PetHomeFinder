@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>5be75c4d-9069-4160-89c4-01e5b776a35c</UserSecretsId>
-    <RootNamespace>PetHomeFinder.API</RootNamespace>
+    <RootNamespace>PetHomeFinder.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,9 +21,11 @@
   <ItemGroup>
     <ProjectReference Include="..\AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Application\PetHomeFinder.AnimalSpecies.Application.csproj" />
     <ProjectReference Include="..\AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Infrastructure\PetHomeFinder.AnimalSpecies.Infrastructure.csproj" />
+    <ProjectReference Include="..\AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Presentation\PetHomeFinder.AnimalSpecies.Presentation.csproj" />
     <ProjectReference Include="..\Shared\PetHomeFinder.Framework\PetHomeFinder.Framework.csproj" />
     <ProjectReference Include="..\Volunteers\src\PetHomeFinder.Volunteers.Application\PetHomeFinder.Volunteers.Application.csproj" />
     <ProjectReference Include="..\Volunteers\src\PetHomeFinder.Volunteers.Infrastructure\PetHomeFinder.Volunteers.Infrastructure.csproj" />
+    <ProjectReference Include="..\Volunteers\src\PetHomeFinder.Volunteers.Presentation\PetHomeFinder.Volunteers.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

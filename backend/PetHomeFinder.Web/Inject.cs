@@ -1,6 +1,6 @@
 using Serilog;
 
-namespace PetHomeFinder.API;
+namespace PetHomeFinder.Web;
 
 public static class Inject
 {

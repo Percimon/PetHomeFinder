@@ -19,7 +19,7 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAnimalSpeciesContract _animalSpeciesContract;
-    private readonly IReadDbContext _readDbContext;
+    private readonly IAnimalSpeciesContract _speciesContract;
     private readonly IValidator<AddPetCommand> _validator;
 
     public AddPetHandler(
@@ -27,7 +27,6 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
         IVolunteersRepository volunteersRepository,
         IUnitOfWork unitOfWork,
         IAnimalSpeciesContract animalSpeciesContract,
-        IReadDbContext readDbContext,
         IValidator<AddPetCommand> validator)
     {
         _logger = logger;
@@ -35,7 +34,6 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
         _unitOfWork = unitOfWork;
         _animalSpeciesContract = animalSpeciesContract;
         _validator = validator;
-        _readDbContext = readDbContext;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -87,6 +85,8 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
         var credentials = command.Credentials
             .Select(c => Credential.Create(c.Name, c.Description).Value);
 
+        var helpStatus = Enum.Parse<HelpStatusEnum>(command.HelpStatus);
+        
         var pet = new Pet(petId,
             name,
             speciesBreed,
@@ -100,7 +100,7 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
             command.IsCastrated,
             command.IsVaccinated,
             command.BirthDate,
-            command.HelpStatus,
+            helpStatus,
             credentials,
             command.CreateDate);
 

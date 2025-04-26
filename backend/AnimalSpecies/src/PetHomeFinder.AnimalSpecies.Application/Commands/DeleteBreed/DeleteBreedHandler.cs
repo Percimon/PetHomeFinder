@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.SharedKernel;
+using PetHomeFinder.Volunteers.Contracts;
 
 namespace PetHomeFinder.AnimalSpecies.Application.Commands.DeleteBreed;
 
@@ -10,20 +11,20 @@ public class DeleteBreedHandler : ICommandHandler<Guid, DeleteBreedCommand>
 {
     private readonly IValidator<DeleteBreedCommand> _validator;
     private readonly ISpeciesRepository _speciesRepository;
-    private readonly IReadDbContext _readDbContext;
+    private readonly IPetsContract _petsContract;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<DeleteBreedHandler> _logger;
 
     public DeleteBreedHandler(
         IValidator<DeleteBreedCommand> validator,
         ISpeciesRepository speciesRepository,
-        IReadDbContext readDbContext,
+        IPetsContract petsContract,
         ILogger<DeleteBreedHandler> logger, 
         IUnitOfWork unitOfWork)
     {
         _validator = validator;
         _speciesRepository = speciesRepository;
-        _readDbContext = readDbContext;
+        _petsContract = petsContract;
         _logger = logger;
         _unitOfWork = unitOfWork;
     }
@@ -32,15 +33,20 @@ public class DeleteBreedHandler : ICommandHandler<Guid, DeleteBreedCommand>
         DeleteBreedCommand command,
         CancellationToken cancellationToken = default)
     {
-        var petsQuery = _readDbContext.Pets;
-
-        var result = petsQuery.FirstOrDefault(pet => pet.BreedId == command.BreedId);
-        if (result is not null)
+        var speciesQuery = await _petsContract.AnyPetIsOfSpecies(command.SpeciesId, cancellationToken);
+        if (speciesQuery.IsFailure)
         {
-            return Errors.General.IsUsed(nameof(Breed), command.BreedId).ToErrorList();
+            return speciesQuery.Error; 
         }
-
+        
+        var breedQuery = await _petsContract.AnyPetIsOfSpecies(command.BreedId, cancellationToken);
+        if (breedQuery.IsFailure)
+        {
+            return breedQuery.Error; 
+        }
+        
         var speciesResult = await _speciesRepository.GetById(command.SpeciesId, cancellationToken);
+
         if (speciesResult.IsFailure)
         {
             return speciesResult.Error.ToErrorList();

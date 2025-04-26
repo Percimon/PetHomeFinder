@@ -19,6 +19,6 @@ public record AddPetCommand(
     bool IsCastrated,
     bool IsVaccinated,
     DateTime BirthDate,
-    HelpStatusEnum HelpStatus,
+    string HelpStatus,
     IEnumerable<CredentialDto> Credentials,
     DateTime CreateDate) : ICommand;

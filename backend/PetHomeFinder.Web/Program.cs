@@ -1,7 +1,11 @@
-using PetHomeFinder.API;
-using PetHomeFinder.API.Middlewares;
+using PetHomeFinder.AnimalSpecies.Application;
+using PetHomeFinder.AnimalSpecies.Infrastructure;
+using PetHomeFinder.AnimalSpecies.Presentation;
+using PetHomeFinder.Web;
+using PetHomeFinder.Web.Middlewares;
 using PetHomeFinder.Volunteers.Application;
 using PetHomeFinder.Volunteers.Infrastructure;
+using PetHomeFinder.Volunteers.Presentation;
 using Serilog;
 using Serilog.Events;
 
@@ -17,8 +21,14 @@ Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
             .CreateLogger();
 
-builder.Services.AddVolunteersApplication();
-builder.Services.AddVolunteersInfrastructure(builder.Configuration);
+builder.Services.AddVolunteersApplication()
+    .AddVolunteersInfrastructure(builder.Configuration)
+    .AddVolunteersPresentation();
+
+builder.Services.AddAnimalSpeciesApplication()
+    .AddAnimalSpeciesInfrastructure(builder.Configuration)
+    .AddAnimalSpeciesPresentation();
+
 builder.Services.AddApi();
 
 var app = builder.Build();
@@ -36,13 +46,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-await using var scope = app.Services.CreateAsyncScope();
-var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
-await dbContext.Database.MigrateAsync();
+// await using var scope = app.Services.CreateAsyncScope();
+// var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+// await dbContext.Database.MigrateAsync();
 
 app.Run();
-
-namespace PetHomeFinder.API
-{
-    public partial class Program { }
-}

@@ -18,7 +18,7 @@ public class SpeciesController : ApplicationController
         [FromQuery] GetSpeciesWithPaginationRequest request,
         CancellationToken cancellationToken = default)
     {
-        var query = request.ToQuery();
+        var query =  new GetSpeciesWithPaginationQuery(request.Page, request.PageSize);
 
         var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailure)
@@ -34,7 +34,7 @@ public class SpeciesController : ApplicationController
         [FromQuery] GetBreedsBySpeciesIdRequest request,
         CancellationToken cancellationToken = default)
     {
-        var query = request.ToQuery(speciesId);
+        var query = new GetBreedsBySpeciesIdQuery(speciesId, request.Page, request.PageSize);
 
         var result = await handler.Handle(query, cancellationToken);
         if (result.IsFailure)
@@ -49,7 +49,7 @@ public class SpeciesController : ApplicationController
         [FromBody] CreateSpeciesRequest request,
         CancellationToken cancellationToken = default)
     {
-        var command = request.ToCommand();
+        var command = new CreateSpeciesCommand(request.Name);
 
         var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)
@@ -65,7 +65,7 @@ public class SpeciesController : ApplicationController
         [FromBody] AddBreedRequest request,
         CancellationToken cancellationToken = default)
     {
-        var command = request.ToCommand(speciesId);
+        var command = new AddBreedCommand(speciesId, request.Name);
 
         var result = await handler.Handle(command, cancellationToken);
         if (result.IsFailure)

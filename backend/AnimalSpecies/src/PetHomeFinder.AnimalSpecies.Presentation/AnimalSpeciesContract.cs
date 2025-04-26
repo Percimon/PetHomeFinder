@@ -40,7 +40,7 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
         GetSpeciesWithPaginationRequest request,
         CancellationToken cancellationToken)
     {
-        var query = request.ToQuery();
+        var query =  new GetSpeciesWithPaginationQuery(request.Page, request.PageSize);
 
         var result = await _getSpeciesWithPaginationHandler.Handle(query, cancellationToken);
         if (result.IsFailure)
@@ -54,7 +54,7 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
         GetBreedsBySpeciesIdRequest request,
         CancellationToken cancellationToken)
     {
-        var query = request.ToQuery(speciesId);
+        var query = new GetBreedsBySpeciesIdQuery(speciesId, request.Page, request.PageSize);
 
         var result = await _getBreedsBySpeciesIdHandler.Handle(query, cancellationToken);
         if (result.IsFailure)
@@ -67,7 +67,7 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
         CreateSpeciesRequest request,
         CancellationToken cancellationToken)
     {
-        var command = request.ToCommand();
+        var command = new CreateSpeciesCommand(request.Name);
 
         var result = await _createSpeciesHandler.Handle(command, cancellationToken);
 
@@ -82,7 +82,7 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
         AddBreedRequest request,
         CancellationToken cancellationToken)
     {
-        var command = request.ToCommand(speciesId);
+        var command = new AddBreedCommand(speciesId, request.Name);
 
         var result = await _addBreedHandler.Handle(command, cancellationToken);
 
@@ -98,31 +98,31 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
     {
         var speciesQuery = await _readContext.Species
             .FirstOrDefaultAsync(x => x.Id == speciesId, cancellationToken);
-        
-        if(speciesQuery is null)
+
+        if (speciesQuery is null)
             return Errors.General.NotFound(speciesId).ToErrorList();
 
         return UnitResult.Success<ErrorList>();
     }
 
     public async Task<UnitResult<ErrorList>> BreedExists(
-        Guid speciesId, 
-        Guid breedId, 
+        Guid speciesId,
+        Guid breedId,
         CancellationToken cancellationToken)
     {
         var speciesQuery = await _readContext.Species
             .Include(s => s.Breeds)
             .FirstOrDefaultAsync(x => x.Id == speciesId, cancellationToken);
-        
-        if(speciesQuery is null)
+
+        if (speciesQuery is null)
             return Errors.General.NotFound(speciesId).ToErrorList();
 
         var breedResult = speciesQuery.Breeds
             .FirstOrDefault(b => b.Id == breedId);
-        
-        if(breedResult is null)
+
+        if (breedResult is null)
             return Errors.General.NotFound(breedId).ToErrorList();
-        
+
         return UnitResult.Success<ErrorList>();
     }
 }

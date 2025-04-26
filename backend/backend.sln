@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.Application", "Volunteers\src\PetHomeFinder.Volunteers.Application\PetHomeFinder.Volunteers.Application.csproj", "{9E65B921-B602-4DAB-9C15-A339E9F78D85}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.Contracts", "Volunteers\src\PetHomeFinder.Volunteers.Contracts\PetHomeFinder.Volunteers.Contracts.csproj", "{818CF12E-8623-497C-AFEF-890A607711E2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.Infrastructure", "Volunteers\src\PetHomeFinder.Volunteers.Infrastructure\PetHomeFinder.Volunteers.Infrastructure.csproj", "{01CFAD7A-034F-453E-8616-00271E0397B1}"
@@ -20,11 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.Do
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.Presentation", "Volunteers\src\PetHomeFinder.Volunteers.Presentation\PetHomeFinder.Volunteers.Presentation.csproj", "{97D32301-30DD-4C77-8FAA-5A0A47B30EA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.Application", "AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Application\PetHomeFinder.AnimalSpecies.Application.csproj", "{4E8B0C1A-A96F-4153-B4F5-802C47437171}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.Infrastructure", "AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Infrastructure\PetHomeFinder.AnimalSpecies.Infrastructure.csproj", "{60CBF1AC-84CE-4C97-A8F8-A5DE001F21B8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.Domain", "AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Domain\PetHomeFinder.AnimalSpecies.Domain.csproj", "{0D4FFABE-D5AD-4C37-9E86-DC83AECACC08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.Contracts", "AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Contracts\PetHomeFinder.AnimalSpecies.Contracts.csproj", "{57252136-EA81-45A2-8AFC-FA53EF3695DC}"
 EndProject
@@ -50,9 +44,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E11EDF0E-793
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DAFBE2C2-CB31-4E9A-BD37-680ED96184D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.UnitTests", "Volunteers\tests\PetHomeFinder.UnitTests\PetHomeFinder.UnitTests.csproj", "{6D6C8E78-04E6-4251-B5FF-A3683AAD387E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.UnitTests", "Volunteers\tests\PetHomeFinder.Volunteers.UnitTests\PetHomeFinder.Volunteers.UnitTests.csproj", "{6D6C8E78-04E6-4251-B5FF-A3683AAD387E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.IntegrationTests", "Volunteers\tests\PetHomeFinder.IntegrationTests\PetHomeFinder.IntegrationTests.csproj", "{A48B431F-C2C6-4322-A4EA-592AE98719D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.IntegrationTests", "Volunteers\tests\PetHomeFinder.Volunteers.IntegrationTests\PetHomeFinder.Volunteers.IntegrationTests.csproj", "{A48B431F-C2C6-4322-A4EA-592AE98719D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Volunteers.Application", "Volunteers\src\PetHomeFinder.Volunteers.Application\PetHomeFinder.Volunteers.Application.csproj", "{3BF79CF0-7E50-47D4-82FE-6315629CBBA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.Application", "AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Application\PetHomeFinder.AnimalSpecies.Application.csproj", "{D7E1ED8A-E6DB-4427-87EE-756472FCA988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.Domain", "AnimalSpecies\src\PetHomeFinder.AnimalSpecies.Domain\PetHomeFinder.AnimalSpecies.Domain.csproj", "{C80DF6F9-9FAC-4252-9C70-319469317958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.IntegrationTests", "AnimalSpecies\PetHomeFinder.AnimalSpecies.IntegrationTests\PetHomeFinder.AnimalSpecies.IntegrationTests.csproj", "{544EB5A0-498F-4436-9A67-EDD9969A4451}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,10 +66,6 @@ Global
 		{E5E084E7-47C6-49EB-B7E7-7D87DABEE178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5E084E7-47C6-49EB-B7E7-7D87DABEE178}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5E084E7-47C6-49EB-B7E7-7D87DABEE178}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E65B921-B602-4DAB-9C15-A339E9F78D85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E65B921-B602-4DAB-9C15-A339E9F78D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E65B921-B602-4DAB-9C15-A339E9F78D85}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E65B921-B602-4DAB-9C15-A339E9F78D85}.Release|Any CPU.Build.0 = Release|Any CPU
 		{818CF12E-8623-497C-AFEF-890A607711E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{818CF12E-8623-497C-AFEF-890A607711E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{818CF12E-8623-497C-AFEF-890A607711E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,18 +82,10 @@ Global
 		{97D32301-30DD-4C77-8FAA-5A0A47B30EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97D32301-30DD-4C77-8FAA-5A0A47B30EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97D32301-30DD-4C77-8FAA-5A0A47B30EA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E8B0C1A-A96F-4153-B4F5-802C47437171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E8B0C1A-A96F-4153-B4F5-802C47437171}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E8B0C1A-A96F-4153-B4F5-802C47437171}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E8B0C1A-A96F-4153-B4F5-802C47437171}.Release|Any CPU.Build.0 = Release|Any CPU
 		{60CBF1AC-84CE-4C97-A8F8-A5DE001F21B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60CBF1AC-84CE-4C97-A8F8-A5DE001F21B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60CBF1AC-84CE-4C97-A8F8-A5DE001F21B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60CBF1AC-84CE-4C97-A8F8-A5DE001F21B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D4FFABE-D5AD-4C37-9E86-DC83AECACC08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D4FFABE-D5AD-4C37-9E86-DC83AECACC08}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D4FFABE-D5AD-4C37-9E86-DC83AECACC08}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D4FFABE-D5AD-4C37-9E86-DC83AECACC08}.Release|Any CPU.Build.0 = Release|Any CPU
 		{57252136-EA81-45A2-8AFC-FA53EF3695DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57252136-EA81-45A2-8AFC-FA53EF3695DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57252136-EA81-45A2-8AFC-FA53EF3695DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -124,6 +114,22 @@ Global
 		{A48B431F-C2C6-4322-A4EA-592AE98719D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A48B431F-C2C6-4322-A4EA-592AE98719D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A48B431F-C2C6-4322-A4EA-592AE98719D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BF79CF0-7E50-47D4-82FE-6315629CBBA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BF79CF0-7E50-47D4-82FE-6315629CBBA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BF79CF0-7E50-47D4-82FE-6315629CBBA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BF79CF0-7E50-47D4-82FE-6315629CBBA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7E1ED8A-E6DB-4427-87EE-756472FCA988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E1ED8A-E6DB-4427-87EE-756472FCA988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E1ED8A-E6DB-4427-87EE-756472FCA988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E1ED8A-E6DB-4427-87EE-756472FCA988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C80DF6F9-9FAC-4252-9C70-319469317958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C80DF6F9-9FAC-4252-9C70-319469317958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C80DF6F9-9FAC-4252-9C70-319469317958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C80DF6F9-9FAC-4252-9C70-319469317958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{544EB5A0-498F-4436-9A67-EDD9969A4451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{544EB5A0-498F-4436-9A67-EDD9969A4451}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{544EB5A0-498F-4436-9A67-EDD9969A4451}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{544EB5A0-498F-4436-9A67-EDD9969A4451}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,14 +139,11 @@ Global
 		{845D26B2-B96A-4F39-95FD-57AB0D881E59} = {F5BF8E6E-730C-45B5-8E78-753B214234C1}
 		{5D853C39-D523-4D37-80D7-8CA714309BDE} = {F5BF8E6E-730C-45B5-8E78-753B214234C1}
 		{698FEFB3-A333-45D7-8FC0-1031FEADC9CF} = {DDC4162F-EA9F-4397-B9A1-6D7016888B01}
-		{4E8B0C1A-A96F-4153-B4F5-802C47437171} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
 		{57252136-EA81-45A2-8AFC-FA53EF3695DC} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
-		{0D4FFABE-D5AD-4C37-9E86-DC83AECACC08} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
 		{60CBF1AC-84CE-4C97-A8F8-A5DE001F21B8} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
 		{649C7B16-CE99-42DC-9592-38BE4A092C8E} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
 		{3CECF344-0D46-441E-9428-4B6C3DD59753} = {DDC4162F-EA9F-4397-B9A1-6D7016888B01}
 		{E11EDF0E-7939-41E8-86A3-3C4752A81B10} = {ABAB95B9-4BC9-477B-A3A2-50BA2BFDAA1B}
-		{9E65B921-B602-4DAB-9C15-A339E9F78D85} = {E11EDF0E-7939-41E8-86A3-3C4752A81B10}
 		{818CF12E-8623-497C-AFEF-890A607711E2} = {E11EDF0E-7939-41E8-86A3-3C4752A81B10}
 		{39598126-EEA5-4337-88CE-26F6BB66C289} = {E11EDF0E-7939-41E8-86A3-3C4752A81B10}
 		{01CFAD7A-034F-453E-8616-00271E0397B1} = {E11EDF0E-7939-41E8-86A3-3C4752A81B10}
@@ -148,6 +151,10 @@ Global
 		{DAFBE2C2-CB31-4E9A-BD37-680ED96184D0} = {ABAB95B9-4BC9-477B-A3A2-50BA2BFDAA1B}
 		{6D6C8E78-04E6-4251-B5FF-A3683AAD387E} = {DAFBE2C2-CB31-4E9A-BD37-680ED96184D0}
 		{A48B431F-C2C6-4322-A4EA-592AE98719D6} = {DAFBE2C2-CB31-4E9A-BD37-680ED96184D0}
+		{3BF79CF0-7E50-47D4-82FE-6315629CBBA9} = {E11EDF0E-7939-41E8-86A3-3C4752A81B10}
+		{D7E1ED8A-E6DB-4427-87EE-756472FCA988} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
+		{C80DF6F9-9FAC-4252-9C70-319469317958} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
+		{544EB5A0-498F-4436-9A67-EDD9969A4451} = {3CECF344-0D46-441E-9428-4B6C3DD59753}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3A7365B-417C-42C4-BC9F-4F9F17012930}

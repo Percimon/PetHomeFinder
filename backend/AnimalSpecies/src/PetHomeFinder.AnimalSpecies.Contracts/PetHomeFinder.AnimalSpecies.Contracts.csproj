@@ -7,7 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PetHomeFinder.AnimalSpecies.Application\PetHomeFinder.AnimalSpecies.Application.csproj" />
+      <ProjectReference Include="..\..\..\Shared\PetHomeFinder.Core\PetHomeFinder.Core.csproj" />
+      <ProjectReference Include="..\..\..\Shared\PetHomeFinder.SharedKernel\PetHomeFinder.SharedKernel.csproj" />
     </ItemGroup>
 
 </Project>

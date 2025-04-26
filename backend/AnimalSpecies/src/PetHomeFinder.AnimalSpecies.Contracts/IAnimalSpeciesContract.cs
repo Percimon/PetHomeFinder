@@ -11,16 +11,16 @@ public interface IAnimalSpeciesContract
     Task<Result<PagedList<SpeciesDto>, ErrorList>> GetSpecies(
         GetSpeciesWithPaginationRequest request,
         CancellationToken cancellationToken);
-
+    
     Task<Result<PagedList<BreedDto>, ErrorList>> GetBreedsBySpecies(
         Guid speciesId,
         GetBreedsBySpeciesIdRequest request,
         CancellationToken cancellationToken);
-
+    
     Task<Result<Guid, ErrorList>> CreateSpecies(
         CreateSpeciesRequest request,
         CancellationToken cancellationToken);
-
+    
     Task<Result<Guid, ErrorList>> AddBreed(
         Guid speciesId,
         AddBreedRequest request,

@@ -1,7 +1,7 @@
 using PetHomeFinder.Core.Models;
 using PetHomeFinder.SharedKernel;
 
-namespace PetHomeFinder.API.Middlewares;
+namespace PetHomeFinder.Web.Middlewares;
 
 public class ExceptionMiddleware
 {

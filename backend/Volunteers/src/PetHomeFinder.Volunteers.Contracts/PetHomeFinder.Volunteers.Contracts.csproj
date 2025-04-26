@@ -8,8 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Shared\PetHomeFinder.Core\PetHomeFinder.Core.csproj" />
-      <ProjectReference Include="..\PetHomeFinder.Volunteers.Application\PetHomeFinder.Volunteers.Application.csproj" />
-      <ProjectReference Include="..\PetHomeFinder.Volunteers.Domain\PetHomeFinder.Volunteers.Domain.csproj" />
     </ItemGroup>
 
 </Project>
