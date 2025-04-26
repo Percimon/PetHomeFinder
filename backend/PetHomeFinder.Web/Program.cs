@@ -21,15 +21,17 @@ Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
             .CreateLogger();
 
-builder.Services.AddVolunteersApplication()
-    .AddVolunteersInfrastructure(builder.Configuration)
-    .AddVolunteersPresentation();
+builder.Services.AddApi();
 
-builder.Services.AddAnimalSpeciesApplication()
+builder.Services
+    .AddAnimalSpeciesApplication()
     .AddAnimalSpeciesInfrastructure(builder.Configuration)
     .AddAnimalSpeciesPresentation();
 
-builder.Services.AddApi();
+builder.Services
+    .AddVolunteersApplication()
+    .AddVolunteersInfrastructure(builder.Configuration)
+    .AddVolunteersPresentation();
 
 var app = builder.Build();
 
@@ -51,3 +53,5 @@ app.MapControllers();
 // await dbContext.Database.MigrateAsync();
 
 app.Run();
+
+public partial class Program { }

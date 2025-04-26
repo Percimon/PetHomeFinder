@@ -23,7 +23,6 @@ public static class Inject
             new ReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
         
         return services;
     }

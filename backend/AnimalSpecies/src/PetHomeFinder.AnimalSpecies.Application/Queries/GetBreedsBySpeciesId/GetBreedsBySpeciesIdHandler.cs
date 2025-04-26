@@ -11,7 +11,7 @@ public class GetBreedsBySpeciesIdHandler : IQueryHandler<PagedList<BreedDto>, Ge
 {
     private readonly IReadDbContext _readDbContext;
 
-    internal GetBreedsBySpeciesIdHandler(IReadDbContext readDbContext)
+    public GetBreedsBySpeciesIdHandler(IReadDbContext readDbContext)
     {
         _readDbContext = readDbContext;
     }

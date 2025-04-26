@@ -19,7 +19,6 @@ public class AddPetHandler : ICommandHandler<Guid, AddPetCommand>
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAnimalSpeciesContract _animalSpeciesContract;
-    private readonly IAnimalSpeciesContract _speciesContract;
     private readonly IValidator<AddPetCommand> _validator;
 
     public AddPetHandler(

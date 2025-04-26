@@ -21,7 +21,6 @@ public class UploadFilesToPetHandler : ICommandHandler<Guid, UploadFilesToPetCom
     private readonly ILogger<UploadFilesToPetHandler> _logger;
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IAnimalSpeciesContract _animalSpeciesContract;
     private readonly IValidator<UploadFilesToPetCommand> _validator;
     private readonly IMessageQueue<IEnumerable<FileInfo>> _messageQueue;
 
@@ -31,8 +30,7 @@ public class UploadFilesToPetHandler : ICommandHandler<Guid, UploadFilesToPetCom
         IUnitOfWork unitOfWork,
         IValidator<UploadFilesToPetCommand> validator, 
         IMessageQueue<IEnumerable<FileInfo>> messageQueue,
-        IFileProvider fileProvider,
-        IAnimalSpeciesContract animalSpeciesContract)
+        IFileProvider fileProvider)
     {
         _logger = logger;
         _volunteersRepository = volunteersRepository;
@@ -40,7 +38,6 @@ public class UploadFilesToPetHandler : ICommandHandler<Guid, UploadFilesToPetCom
         _validator = validator;
         _messageQueue = messageQueue;
         _fileProvider = fileProvider;
-        _animalSpeciesContract = animalSpeciesContract;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
