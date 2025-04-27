@@ -37,7 +37,7 @@ public class AddPetTests : VolunteerTestsBase
 
         result.Value.Should().NotBeEmpty();
 
-        var pet = ReadDbContext.Pets.FirstOrDefault(x => x.Id == result.Value);
+        var pet = VolunteersReadDbContext.Pets.FirstOrDefault(x => x.Id == result.Value);
 
         pet.Should().NotBeNull();
 

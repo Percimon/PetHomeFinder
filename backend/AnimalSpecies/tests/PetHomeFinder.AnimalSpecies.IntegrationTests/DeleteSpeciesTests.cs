@@ -28,7 +28,7 @@ public class DeleteSpeciesTests : SpeciesBreedsTestsBase
         //Assert
         result.IsSuccess.Should().BeTrue();
 
-        var speciesQuery = ReadDbContext.Species.ToList();
+        var speciesQuery = SpeciesReadDbContext.Species.ToList();
 
         speciesQuery.Count.Should().Be(0);
     }

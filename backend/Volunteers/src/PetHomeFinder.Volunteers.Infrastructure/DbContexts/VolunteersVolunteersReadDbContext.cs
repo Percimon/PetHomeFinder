@@ -1,19 +1,20 @@
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHomeFinder.AnimalSpecies.Application;
 using PetHomeFinder.Core.Dtos;
+using PetHomeFinder.Volunteers.Application;
 
-namespace PetHomeFinder.AnimalSpecies.Infrastructure.DbContexts;
+namespace PetHomeFinder.Volunteers.Infrastructure.DbContexts;
 
-public class ReadDbContext : DbContext, IReadDbContext
+public class VolunteersVolunteersReadDbContext : DbContext, IVolunteersReadDbContext
 {
     private readonly string _connectionString;
 
-    public IQueryable<SpeciesDto> Species => Set<SpeciesDto>();
+    public IQueryable<VolunteerDto> Volunteers => Set<VolunteerDto>();
 
-    public IQueryable<BreedDto> Breeds => Set<BreedDto>();
+    public IQueryable<PetDto> Pets => Set<PetDto>();
 
-    public ReadDbContext(string connectionString)
+    public VolunteersVolunteersReadDbContext(string connectionString)
     {
         _connectionString = connectionString;
     }
@@ -30,7 +31,7 @@ public class ReadDbContext : DbContext, IReadDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(ReadDbContext).Assembly,
+            typeof(VolunteersVolunteersReadDbContext).Assembly,
             type => type.FullName?.Contains("Configurations.Read") ?? false);
     }
 

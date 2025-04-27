@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.Core.Extensions;
@@ -17,7 +18,7 @@ public class UpdateSocialNetworksHandler : ICommandHandler<Guid, UpdateSocialNet
 
     public UpdateSocialNetworksHandler(
         IVolunteersRepository volunteersRepository,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(ModuleKey.Volunteer)] IUnitOfWork unitOfWork,
         IValidator<UpdateSocialNetworksCommand> validator,
         ILogger<UpdateSocialNetworksHandler> logger)
     {

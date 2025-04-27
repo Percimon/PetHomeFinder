@@ -8,18 +8,18 @@ namespace PetHomeFinder.Volunteers.Presentation;
 
 public class PetsContract : IPetsContract
 {
-    private readonly IReadDbContext _readDbContext;
+    private readonly IVolunteersReadDbContext _volunteersReadDbContext;
 
-    public PetsContract(IReadDbContext readDbContext)
+    public PetsContract(IVolunteersReadDbContext volunteersReadDbContext)
     {
-        _readDbContext = readDbContext;
+        _volunteersReadDbContext = volunteersReadDbContext;
     }
 
     public async Task<UnitResult<ErrorList>> AnyPetIsOfSpecies(
         Guid speciesId, 
         CancellationToken cancellationToken)
     {
-        var petQuery = await _readDbContext.Pets
+        var petQuery = await _volunteersReadDbContext.Pets
             .FirstOrDefaultAsync(pet => pet.SpeciesId == speciesId, cancellationToken);
         
         if (petQuery is not null)
@@ -32,7 +32,7 @@ public class PetsContract : IPetsContract
 
     public async Task<UnitResult<ErrorList>> AnyPetIsOfBreed(Guid breedId, CancellationToken cancellationToken)
     {
-        var petQuery = await _readDbContext.Pets
+        var petQuery = await _volunteersReadDbContext.Pets
             .FirstOrDefaultAsync(pet => pet.BreedId == breedId, cancellationToken);
         
         if (petQuery is not null)

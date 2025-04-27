@@ -30,7 +30,7 @@ public class AddBreedTests : SpeciesBreedsTestsBase
         
         result.Value.Should().NotBeEmpty();
         
-        var breed = ReadDbContext.Breeds.SingleOrDefault(b => b.Id == result.Value);
+        var breed = SpeciesReadDbContext.Breeds.SingleOrDefault(b => b.Id == result.Value);
         
         breed.Should().NotBeNull();
     }

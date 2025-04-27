@@ -9,18 +9,18 @@ namespace PetHomeFinder.AnimalSpecies.Application.Queries.GetSpeciesWithPaginati
 
 public class GetSpeciesWithPaginationHandler : IQueryHandler<PagedList<SpeciesDto>, GetSpeciesWithPaginationQuery>
 {
-    private readonly IReadDbContext _readDbContext;
+    private readonly ISpeciesReadDbContext _speciesReadDbContext;
 
-    public GetSpeciesWithPaginationHandler(IReadDbContext readDbContext)
+    public GetSpeciesWithPaginationHandler(ISpeciesReadDbContext speciesReadDbContext)
     {
-        _readDbContext = readDbContext;
+        _speciesReadDbContext = speciesReadDbContext;
     }
 
     public async Task<Result<PagedList<SpeciesDto>, ErrorList>> Handle(
         GetSpeciesWithPaginationQuery query, 
         CancellationToken cancellationToken = default)
     {
-        var speciesQuery = _readDbContext.Species;
+        var speciesQuery = _speciesReadDbContext.Species;
         
         var result = await speciesQuery.ToPagedList(
             query.Page, 

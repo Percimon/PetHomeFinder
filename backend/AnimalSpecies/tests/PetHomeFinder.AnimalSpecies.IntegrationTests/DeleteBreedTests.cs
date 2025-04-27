@@ -32,7 +32,7 @@ public class DeleteBreedTests : SpeciesBreedsTestsBase
         
         result.Value.Should().Be(breedId);
 
-        var s = WriteDbContext.Species.ToList();
+        var s = SpeciesWriteDbContext.Species.ToList();
         
         var breedQuery = s
             .FirstOrDefault(s => s.Id.Value == species.Id.Value)

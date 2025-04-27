@@ -16,14 +16,14 @@ namespace PetHomeFinder.AnimalSpecies.Presentation;
 
 public class AnimalSpeciesContract : IAnimalSpeciesContract
 {
-    private readonly IReadDbContext _readContext;
+    private readonly ISpeciesReadDbContext _speciesReadContext;
     private readonly CreateSpeciesHandler _createSpeciesHandler;
     private readonly AddBreedHandler _addBreedHandler;
     private readonly GetSpeciesWithPaginationHandler _getSpeciesWithPaginationHandler;
     private readonly GetBreedsBySpeciesIdHandler _getBreedsBySpeciesIdHandler;
 
     public AnimalSpeciesContract(
-        IReadDbContext readContext,
+        ISpeciesReadDbContext speciesReadContext,
         CreateSpeciesHandler createSpeciesHandler,
         AddBreedHandler addBreedHandler,
         GetSpeciesWithPaginationHandler getSpeciesWithPaginationHandler,
@@ -33,7 +33,7 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
         _addBreedHandler = addBreedHandler;
         _getSpeciesWithPaginationHandler = getSpeciesWithPaginationHandler;
         _getBreedsBySpeciesIdHandler = getBreedsBySpeciesIdHandler;
-        _readContext = readContext;
+        _speciesReadContext = speciesReadContext;
     }
 
     public async Task<Result<PagedList<SpeciesDto>, ErrorList>> GetSpecies(
@@ -96,7 +96,7 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
         Guid speciesId,
         CancellationToken cancellationToken)
     {
-        var speciesQuery = await _readContext.Species
+        var speciesQuery = await _speciesReadContext.Species
             .FirstOrDefaultAsync(x => x.Id == speciesId, cancellationToken);
 
         if (speciesQuery is null)
@@ -110,7 +110,7 @@ public class AnimalSpeciesContract : IAnimalSpeciesContract
         Guid breedId,
         CancellationToken cancellationToken)
     {
-        var speciesQuery = await _readContext.Species
+        var speciesQuery = await _speciesReadContext.Species
             .Include(s => s.Breeds)
             .FirstOrDefaultAsync(x => x.Id == speciesId, cancellationToken);
 

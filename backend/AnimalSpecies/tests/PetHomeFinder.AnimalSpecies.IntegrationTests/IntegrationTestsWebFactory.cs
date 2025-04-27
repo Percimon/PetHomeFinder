@@ -33,15 +33,15 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
 
     protected virtual void ConfigureDefaultServices(IServiceCollection services)
     {
-        services.RemoveAll(typeof(WriteDbContext));
+        services.RemoveAll(typeof(SpeciesWriteDbContext));
         
-        services.RemoveAll(typeof(IReadDbContext));
+        services.RemoveAll(typeof(ISpeciesReadDbContext));
         
-        services.AddScoped<WriteDbContext>(_ =>
-            new WriteDbContext(_dbContainer.GetConnectionString()));
+        services.AddScoped<SpeciesWriteDbContext>(_ =>
+            new SpeciesWriteDbContext(_dbContainer.GetConnectionString()));
 
-        services.AddScoped<IReadDbContext>(_ =>
-            new ReadDbContext(_dbContainer.GetConnectionString()));
+        services.AddScoped<ISpeciesReadDbContext>(_ =>
+            new SpeciesSpeciesReadDbContext(_dbContainer.GetConnectionString()));
     }
 
     private async Task InitializeRespawnerAsync()
@@ -62,7 +62,7 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
         await _dbContainer.StartAsync();
 
         using var scope = Services.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
 
         await dbContext.Database.EnsureDeletedAsync();
         await dbContext.Database.EnsureCreatedAsync();

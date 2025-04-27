@@ -26,7 +26,7 @@ public class UploadFilesToPetTests : VolunteerTestsBase
 
         var breedId = await SeedBreedAsync(species);
 
-        var volunteer = WriteDbContext.Volunteers.ToList()
+        var volunteer = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(x => x.Id.Value == volunteerId);
 
         var pet = await SeedPetAsync(volunteer, species, breedId);
@@ -39,7 +39,7 @@ public class UploadFilesToPetTests : VolunteerTestsBase
 
         result.IsSuccess.Should().BeTrue();
 
-        var photo = WriteDbContext.Volunteers
+        var photo = VolunteersWriteDbContext.Volunteers
             .ToList()
             .FirstOrDefault(x => x.Id.Value == volunteerId)
             .PetsOwning
@@ -61,7 +61,7 @@ public class UploadFilesToPetTests : VolunteerTestsBase
 
         var breedId = await SeedBreedAsync(species);
 
-        var volunteer = WriteDbContext.Volunteers.ToList()
+        var volunteer = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(x => x.Id.Value == volunteerId);
 
         var pet = await SeedPetAsync(volunteer, species, breedId);

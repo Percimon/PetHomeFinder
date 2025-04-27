@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.SharedKernel;
@@ -19,7 +20,7 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
         IValidator<DeleteSpeciesCommand> validator,
         ISpeciesRepository speciesRepository,
         IPetsContract petsContract,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(ModuleKey.AnimalSpecies)] IUnitOfWork unitOfWork,
         ILogger<DeleteSpeciesHandler> logger)
     {
         _validator = validator;

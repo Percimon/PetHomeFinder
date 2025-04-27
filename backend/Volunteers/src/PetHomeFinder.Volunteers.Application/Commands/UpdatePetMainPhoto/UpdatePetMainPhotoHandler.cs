@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.Core.Extensions;
@@ -19,7 +20,7 @@ public class UpdatePetMainPhotoHandler : ICommandHandler<Guid, UpdatePetMainPhot
 
     public UpdatePetMainPhotoHandler(
         IVolunteersRepository volunteersRepository,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(ModuleKey.Volunteer)] IUnitOfWork unitOfWork,
         IValidator<UpdatePetMainPhotoCommand> validator,
         ILogger<UpdatePetMainPhotoHandler> logger)
     {

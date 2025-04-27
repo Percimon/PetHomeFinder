@@ -21,7 +21,7 @@ public class SoftDeletePetByIdTests : VolunteerTestsBase
         //arrange
         var volunteerId = await SeedVolunteerAsync();
         
-        var volunteer = WriteDbContext.Volunteers.ToList()
+        var volunteer = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(v => v.Id.Value == volunteerId);
         
         var species = await SeedSpeciesAsync();

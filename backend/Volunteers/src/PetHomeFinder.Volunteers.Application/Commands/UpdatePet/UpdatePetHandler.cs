@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PetHomeFinder.AnimalSpecies.Contracts;
 using PetHomeFinder.Core.Abstractions;
@@ -19,7 +20,7 @@ public class UpdatePetHandler : ICommandHandler<Guid, UpdatePetCommand>
     
     public UpdatePetHandler(
         ILogger<UpdatePetHandler> logger,
-        IUnitOfWork unitOfWork,
+        [FromKeyedServices(ModuleKey.Volunteer)] IUnitOfWork unitOfWork,
         IVolunteersRepository volunteersRepository,
         IAnimalSpeciesContract animalSpeciesContract)
     {

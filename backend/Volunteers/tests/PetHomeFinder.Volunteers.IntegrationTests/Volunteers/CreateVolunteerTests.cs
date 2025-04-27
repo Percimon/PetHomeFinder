@@ -28,7 +28,7 @@ public class CreateVolunteerTests : VolunteerTestsBase
         
         result.Value.Should().NotBeEmpty();
         
-        var volunteer = WriteDbContext.Volunteers.FirstOrDefault();
+        var volunteer = VolunteersWriteDbContext.Volunteers.FirstOrDefault();
         
         volunteer.Should().NotBeNull();
     }

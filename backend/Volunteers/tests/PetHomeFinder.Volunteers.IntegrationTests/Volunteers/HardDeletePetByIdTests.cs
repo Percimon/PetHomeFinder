@@ -20,7 +20,7 @@ public class HardDeletePetByIdTests : VolunteerTestsBase
         //arrange
         var volunteerId = await SeedVolunteerAsync();
         
-        var volunteer = WriteDbContext.Volunteers.ToList()
+        var volunteer = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(v => v.Id.Value == volunteerId);
         
         var species = await SeedSpeciesAsync();
@@ -39,7 +39,7 @@ public class HardDeletePetByIdTests : VolunteerTestsBase
         
         result.Value.Should().NotBeEmpty();
 
-        var volunteerPets = WriteDbContext.Volunteers.ToList()
+        var volunteerPets = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(v => v.Id.Value == volunteerId)
             .PetsOwning;
         

@@ -1,6 +1,8 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.AnimalSpecies.Domain.Entities;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.Core.Extensions;
 using PetHomeFinder.Core.Shared;
@@ -20,7 +22,7 @@ public class CreateSpeciesHandler : ICommandHandler<Guid, CreateSpeciesCommand>
         IValidator<CreateSpeciesCommand> validator,
         ISpeciesRepository speciesRepository,
         ILogger<CreateSpeciesHandler> logger, 
-        IUnitOfWork unitOfWork)
+        [FromKeyedServices(ModuleKey.AnimalSpecies)] IUnitOfWork unitOfWork)
     {
         _validator = validator;
         _speciesRepository = speciesRepository;
@@ -33,6 +35,7 @@ public class CreateSpeciesHandler : ICommandHandler<Guid, CreateSpeciesCommand>
         CancellationToken cancellationToken = default)
     {
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+        
         if (validationResult.IsValid == false)
             return validationResult.ToErrorList();
 
@@ -40,7 +43,7 @@ public class CreateSpeciesHandler : ICommandHandler<Guid, CreateSpeciesCommand>
         
         var name = Name.Create(command.Name).Value;
 
-        var species = new Domain.Entities.Species(specieId, name);
+        var species = new Species(specieId, name);
 
         var result = await _speciesRepository.Add(species, cancellationToken);
         if (result.IsFailure)

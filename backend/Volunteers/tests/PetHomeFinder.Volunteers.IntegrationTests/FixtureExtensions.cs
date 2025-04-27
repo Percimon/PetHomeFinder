@@ -21,7 +21,7 @@ public static class FixtureExtensions
         Guid speciesId,
         Guid breedId)
     {
-        DateTime dateOfBirth = DateTime.Now;
+        DateTime dateOfBirth = DateTime.UtcNow;
         
         return fixture.Build<AddPetCommand>()
             .With(c => c.VolunteerId, volunteerId)
@@ -29,6 +29,7 @@ public static class FixtureExtensions
             .With(c => c.BreedId, breedId)
             .With(c => c.BirthDate, dateOfBirth)
             .With(c => c.CreateDate, dateOfBirth)
+            .With(p => p.HelpStatus, "NEED_TREATMENT")
             .Create();
     }
     
@@ -51,7 +52,7 @@ public static class FixtureExtensions
         Guid breedId,
         string description)
     {
-        DateTime dateOfBirth = DateTime.Now;
+        DateTime dateOfBirth = DateTime.UtcNow;
         
         return fixture.Build<UpdatePetCommand>()
             .With(c => c.VolunteerId, volunteerId)
@@ -70,7 +71,7 @@ public static class FixtureExtensions
         Guid breedId,
         string name)
     {
-        DateTime dateOfBirth = DateTime.Now;
+        DateTime dateOfBirth = DateTime.UtcNow;
         
         return fixture.Build<GetPetsWithPaginationQuery>()
             .With(c => c.VolunteerId, volunteerId)

@@ -8,3 +8,9 @@ public interface IUnitOfWork
 
     Task SaveChanges(CancellationToken cancellationToken = default);
 }
+
+public enum ModuleKey
+{
+    Volunteer,
+    AnimalSpecies
+}

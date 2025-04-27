@@ -10,18 +10,18 @@ namespace PetHomeFinder.Volunteers.Application.Queries.GetPetsWithPagination;
 
 public class GetPetsWithPaginationHandler : IQueryHandler<PagedList<PetDto>, GetPetsWithPaginationQuery>
 {
-    private readonly IReadDbContext _readDbContext;
+    private readonly IVolunteersReadDbContext _volunteersReadDbContext;
 
-    public GetPetsWithPaginationHandler(IReadDbContext readDbContext)
+    public GetPetsWithPaginationHandler(IVolunteersReadDbContext volunteersReadDbContext)
     {
-        _readDbContext = readDbContext;
+        _volunteersReadDbContext = volunteersReadDbContext;
     }
 
     public async Task<Result<PagedList<PetDto>, ErrorList>> Handle(
         GetPetsWithPaginationQuery query,
         CancellationToken cancellationToken = default)
     {
-        var petQuery = _readDbContext.Pets;
+        var petQuery = _volunteersReadDbContext.Pets;
 
         Expression<Func<PetDto, object>> keySelector = query.SortBy?.ToLower() switch
         {

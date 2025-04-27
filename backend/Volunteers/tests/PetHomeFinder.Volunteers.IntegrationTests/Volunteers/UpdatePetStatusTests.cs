@@ -25,7 +25,7 @@ public class UpdatePetStatusTests : VolunteerTestsBase
 
         var breedId = await SeedBreedAsync(species);
 
-        var volunteer = WriteDbContext.Volunteers.ToList()
+        var volunteer = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(x => x.Id.Value == volunteerId);
 
         var pet = await SeedPetAsync(volunteer, species, breedId);
@@ -42,7 +42,7 @@ public class UpdatePetStatusTests : VolunteerTestsBase
 
         result.Value.Should().NotBeEmpty();
 
-        var petQuery = WriteDbContext.Volunteers.ToList()
+        var petQuery = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(v => v.Id.Value == volunteerId)
             .PetsOwning
             .FirstOrDefault(p => p.Id.Value == pet);

@@ -26,7 +26,7 @@ public class GetPetsWithPaginationTests : VolunteerTestsBase
 
         var breedId = await SeedBreedAsync(species);
 
-        var volunteer = WriteDbContext.Volunteers.ToList()
+        var volunteer = VolunteersWriteDbContext.Volunteers.ToList()
             .FirstOrDefault(x => x.Id.Value == volunteerId);
 
         int petTotal = 20;

@@ -16,13 +16,13 @@ public static class Inject
     {
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
         
-        services.AddScoped<WriteDbContext>(_ =>
-            new WriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<SpeciesWriteDbContext>(_ =>
+            new SpeciesWriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         
-        services.AddScoped<IReadDbContext, ReadDbContext>(_ =>
-            new ReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<ISpeciesReadDbContext, SpeciesSpeciesReadDbContext>(_ =>
+            new SpeciesSpeciesReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(ModuleKey.AnimalSpecies);
         
         return services;
     }

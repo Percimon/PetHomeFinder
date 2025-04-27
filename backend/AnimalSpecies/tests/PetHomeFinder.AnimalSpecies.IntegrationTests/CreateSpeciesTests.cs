@@ -28,7 +28,7 @@ public class CreateSpeciesTests : SpeciesBreedsTestsBase
         
         result.Value.Should().NotBeEmpty();
 
-        var species = ReadDbContext.Species.SingleOrDefault(s => s.Id == result.Value);
+        var species = SpeciesReadDbContext.Species.SingleOrDefault(s => s.Id == result.Value);
         
         species.Should().NotBeNull();
     }

@@ -11,8 +11,8 @@ namespace PetHomeFinder.AnimalSpecies.IntegrationTests;
 public class SpeciesBreedsTestsBase : IClassFixture<IntegrationTestsWebFactory>, IAsyncLifetime
 {
     protected readonly Fixture Fixture;
-    protected readonly WriteDbContext WriteDbContext;
-    protected readonly IReadDbContext ReadDbContext;
+    protected readonly SpeciesWriteDbContext SpeciesWriteDbContext;
+    protected readonly ISpeciesReadDbContext SpeciesReadDbContext;
     protected readonly IServiceScope Scope;
     protected readonly IntegrationTestsWebFactory Factory;
     
@@ -20,8 +20,8 @@ public class SpeciesBreedsTestsBase : IClassFixture<IntegrationTestsWebFactory>,
     {
         Factory = factory;
         Scope = factory.Services.CreateScope();
-        ReadDbContext = Scope.ServiceProvider.GetRequiredService<IReadDbContext>();
-        WriteDbContext = Scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        SpeciesReadDbContext = Scope.ServiceProvider.GetRequiredService<ISpeciesReadDbContext>();
+        SpeciesWriteDbContext = Scope.ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
         Fixture = new Fixture();
     }
     
@@ -32,9 +32,9 @@ public class SpeciesBreedsTestsBase : IClassFixture<IntegrationTestsWebFactory>,
         
         var species = new Species(speciesId, speciesName);
         
-        await WriteDbContext.Species.AddAsync(species);
+        await SpeciesWriteDbContext.Species.AddAsync(species);
         
-        await WriteDbContext.SaveChangesAsync(CancellationToken.None);
+        await SpeciesWriteDbContext.SaveChangesAsync(CancellationToken.None);
 
         return species;
     }
@@ -49,7 +49,7 @@ public class SpeciesBreedsTestsBase : IClassFixture<IntegrationTestsWebFactory>,
         
         species.AddBreed(breed);
         
-        await WriteDbContext.SaveChangesAsync(CancellationToken.None);
+        await SpeciesWriteDbContext.SaveChangesAsync(CancellationToken.None);
         
         return breedId.Value;
     } 

@@ -6,5 +6,5 @@ public class SpeciesDto
     
     public string Name { get; init; }
 
-    public BreedDto[] Breeds { get; init; } = [];
+    public List<BreedDto> Breeds { get; init; } = [];
 }

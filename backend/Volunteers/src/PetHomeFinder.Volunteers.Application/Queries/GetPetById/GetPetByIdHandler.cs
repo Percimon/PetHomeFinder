@@ -8,18 +8,18 @@ namespace PetHomeFinder.Volunteers.Application.Queries.GetPetById;
 
 public class GetPetByIdHandler : IQueryHandler<PetDto, GetPetByIdQuery>
 {
-    private readonly IReadDbContext _readDbContext;
+    private readonly IVolunteersReadDbContext _volunteersReadDbContext;
 
-    public GetPetByIdHandler(IReadDbContext readDbContext)
+    public GetPetByIdHandler(IVolunteersReadDbContext volunteersReadDbContext)
     {
-        _readDbContext = readDbContext;
+        _volunteersReadDbContext = volunteersReadDbContext;
     }
 
     public async Task<Result<PetDto, ErrorList>> Handle(
         GetPetByIdQuery query,
         CancellationToken cancellationToken = default)
     {
-        var petQuery = _readDbContext.Pets;
+        var petQuery = _volunteersReadDbContext.Pets;
         
         var pet = await petQuery.FirstOrDefaultAsync(p => p.Id == query.PetId, cancellationToken);
         

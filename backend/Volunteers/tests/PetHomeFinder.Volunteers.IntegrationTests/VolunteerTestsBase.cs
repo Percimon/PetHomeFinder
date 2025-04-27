@@ -15,8 +15,8 @@ namespace PetHomeFinder.Volunteers.IntegrationTests;
 public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyncLifetime
 {
     protected readonly Fixture Fixture;
-    protected readonly WriteDbContext WriteDbContext;
-    protected readonly IReadDbContext ReadDbContext;
+    protected readonly VolunteersWriteDbContext VolunteersWriteDbContext;
+    protected readonly IVolunteersReadDbContext VolunteersReadDbContext;
     protected readonly IServiceScope Scope;
     protected readonly VolunteerTestsWebFactory Factory;
     protected readonly IAnimalSpeciesContract AnimalSpeciesContract;
@@ -25,8 +25,8 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
     {
         Factory = factory;
         Scope = factory.Services.CreateScope();
-        ReadDbContext = Scope.ServiceProvider.GetRequiredService<IReadDbContext>();
-        WriteDbContext = Scope.ServiceProvider.GetRequiredService<WriteDbContext>();
+        VolunteersReadDbContext = Scope.ServiceProvider.GetRequiredService<IVolunteersReadDbContext>();
+        VolunteersWriteDbContext = Scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
         AnimalSpeciesContract = Scope.ServiceProvider.GetRequiredService<IAnimalSpeciesContract>();
         Fixture = new Fixture();
     }
@@ -42,9 +42,9 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
             Enumerable.Empty<Credential>(),
             Enumerable.Empty<SocialNetwork>());
 
-        await WriteDbContext.Volunteers.AddAsync(volunteer);
+        await VolunteersWriteDbContext.Volunteers.AddAsync(volunteer);
 
-        await WriteDbContext.SaveChangesAsync(CancellationToken.None);
+        await VolunteersWriteDbContext.SaveChangesAsync(CancellationToken.None);
 
         return volunteer.Id.Value;
     }
@@ -70,7 +70,7 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
         var isVaccinated = true;
         var isCastrated = true;
 
-        DateTime dateOfBirth = DateTime.Now;
+        DateTime dateOfBirth = DateTime.UtcNow;
 
         var birthDate = dateOfBirth;
         var createDate = dateOfBirth;
@@ -107,7 +107,7 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
 
         pet.UpdatePhotos(photos);
 
-        await WriteDbContext.SaveChangesAsync(CancellationToken.None);
+        await VolunteersWriteDbContext.SaveChangesAsync(CancellationToken.None);
 
         return id.Value;
     }
@@ -119,7 +119,7 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
     {
         var speciesBreed = SpeciesBreed.Create(speciesId, breedId).Value;
 
-        DateTime dateOfBirth = DateTime.Now;
+        DateTime dateOfBirth = DateTime.UtcNow;
 
         var birthDate = dateOfBirth;
 
@@ -165,7 +165,7 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
                 createDate);
 
             volunteer.AddPet(pet);
-
+            
             var photos = new List<PetPhoto>
             {
                 PetPhoto.Create("testFile-1.jpg", true).Value,
@@ -176,7 +176,7 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
             pet.UpdatePhotos(photos);
         }
 
-        await WriteDbContext.SaveChangesAsync(CancellationToken.None);
+        await VolunteersWriteDbContext.SaveChangesAsync(CancellationToken.None);
     }
 
     public async Task<Guid> SeedSpeciesAsync()

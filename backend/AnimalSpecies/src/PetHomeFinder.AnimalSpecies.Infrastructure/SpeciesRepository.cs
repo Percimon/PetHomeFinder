@@ -11,11 +11,11 @@ namespace PetHomeFinder.AnimalSpecies.Infrastructure;
 
 public class SpeciesRepository : ISpeciesRepository
 {
-    private readonly WriteDbContext _writeDbContext;
+    private readonly SpeciesWriteDbContext _speciesWriteDbContext;
 
-    public SpeciesRepository(WriteDbContext writeDbContext)
+    public SpeciesRepository(SpeciesWriteDbContext speciesWriteDbContext)
     {
-        _writeDbContext = writeDbContext;
+        _speciesWriteDbContext = speciesWriteDbContext;
     }
 
     public async Task<Result<Guid, Error>> Add(
@@ -31,21 +31,21 @@ public class SpeciesRepository : ISpeciesRepository
                 species.Name.Value);
         }
 
-        await _writeDbContext.Species.AddAsync(species, cancellationToken);
+        await _speciesWriteDbContext.Species.AddAsync(species, cancellationToken);
 
         return species.Id.Value;
     }
 
     public Guid Save(Species species)
     {
-        _writeDbContext.Species.Attach(species);
+        _speciesWriteDbContext.Species.Attach(species);
 
         return species.Id.Value;
     }
 
     public Guid Delete(Species species)
     {
-        _writeDbContext.Species.Remove(species);
+        _speciesWriteDbContext.Species.Remove(species);
 
         return species.Id.Value;
     }
@@ -54,7 +54,7 @@ public class SpeciesRepository : ISpeciesRepository
         SpeciesId speciesId,
         CancellationToken cancellationToken = default)
     {
-        var species = await _writeDbContext.Species
+        var species = await _speciesWriteDbContext.Species
             .FirstOrDefaultAsync(v => v.Id == speciesId, cancellationToken);
 
         if (species is null)
@@ -65,7 +65,7 @@ public class SpeciesRepository : ISpeciesRepository
 
     public async Task<Result<Species, Error>> GetByName(Name name, CancellationToken cancellationToken = default)
     {
-        var species = await _writeDbContext.Species
+        var species = await _speciesWriteDbContext.Species
             .FirstOrDefaultAsync(v => v.Name.Value == name.Value, cancellationToken);
 
         if (species is null)

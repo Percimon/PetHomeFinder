@@ -30,7 +30,7 @@ public class DeleteVolunteerTests : VolunteerTestsBase
         
         result.Value.Should().NotBeEmpty();
 
-        var volunteerQuery = ReadDbContext.Volunteers
+        var volunteerQuery = VolunteersReadDbContext.Volunteers
             .Where(v => v.IsDeleted == false)
             .ToList();
 

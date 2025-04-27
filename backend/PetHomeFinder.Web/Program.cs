@@ -1,10 +1,14 @@
+using Microsoft.EntityFrameworkCore;
 using PetHomeFinder.AnimalSpecies.Application;
+using PetHomeFinder.AnimalSpecies.Domain.Entities;
 using PetHomeFinder.AnimalSpecies.Infrastructure;
+using PetHomeFinder.AnimalSpecies.Infrastructure.DbContexts;
 using PetHomeFinder.AnimalSpecies.Presentation;
 using PetHomeFinder.Web;
 using PetHomeFinder.Web.Middlewares;
 using PetHomeFinder.Volunteers.Application;
 using PetHomeFinder.Volunteers.Infrastructure;
+using PetHomeFinder.Volunteers.Infrastructure.DbContexts;
 using PetHomeFinder.Volunteers.Presentation;
 using Serilog;
 using Serilog.Events;
@@ -35,22 +39,31 @@ builder.Services
 
 var app = builder.Build();
 
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+// AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 app.UseExceptionMiddleware();
+
 app.UseSerilogRequestLogging();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseHttpsRedirection();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
-// await using var scope = app.Services.CreateAsyncScope();
-// var dbContext = scope.ServiceProvider.GetRequiredService<WriteDbContext>();
-// await dbContext.Database.MigrateAsync();
+await using var scope = app.Services.CreateAsyncScope();
+
+var volunteersDbContext = scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
+await volunteersDbContext.Database.MigrateAsync();
+
+var speciesDbContext = scope.ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
+await speciesDbContext.Database.MigrateAsync();
 
 app.Run();
 

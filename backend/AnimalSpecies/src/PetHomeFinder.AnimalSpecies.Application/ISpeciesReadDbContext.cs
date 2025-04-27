@@ -2,7 +2,7 @@ using PetHomeFinder.Core.Dtos;
 
 namespace PetHomeFinder.AnimalSpecies.Application;
 
-public interface IReadDbContext
+public interface ISpeciesReadDbContext
 {
     IQueryable<SpeciesDto> Species { get; }
 

@@ -10,32 +10,32 @@ namespace PetHomeFinder.Volunteers.Infrastructure;
 
 public class VolunteersRepository : IVolunteersRepository
 {
-    private readonly WriteDbContext _writeDbContext;
+    private readonly VolunteersWriteDbContext _volunteersWriteDbContext;
 
-    public VolunteersRepository(WriteDbContext writeDbContext)
+    public VolunteersRepository(VolunteersWriteDbContext volunteersWriteDbContext)
     {
-        _writeDbContext = writeDbContext;
+        _volunteersWriteDbContext = volunteersWriteDbContext;
     }
 
     public async Task<Guid> Add(
         Volunteer volunteer,
         CancellationToken cancellationToken)
     {
-        await _writeDbContext.Volunteers.AddAsync(volunteer, cancellationToken);
+        await _volunteersWriteDbContext.Volunteers.AddAsync(volunteer, cancellationToken);
 
         return volunteer.Id.Value;
     }
 
     public Guid Save(Volunteer volunteer)
     {
-        _writeDbContext.Volunteers.Attach(volunteer);
+        _volunteersWriteDbContext.Volunteers.Attach(volunteer);
 
         return volunteer.Id.Value;
     }
 
     public Guid Delete(Volunteer volunteer)
     {
-        _writeDbContext.Volunteers.Remove(volunteer);
+        _volunteersWriteDbContext.Volunteers.Remove(volunteer);
 
         return volunteer.Id.Value;
     }
@@ -44,7 +44,7 @@ public class VolunteersRepository : IVolunteersRepository
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default)
     {
-        var volunteer = await _writeDbContext.Volunteers
+        var volunteer = await _volunteersWriteDbContext.Volunteers
             .Include(v => v.PetsOwning)
             .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 

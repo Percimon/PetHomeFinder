@@ -10,18 +10,18 @@ namespace PetHomeFinder.Volunteers.Application.Queries.GetVolunteersWithPaginati
 public class
     GetVolunteersWithPaginationHandler : IQueryHandler<PagedList<VolunteerDto>, GetVolunteersWithPaginationQuery>
 {
-    private readonly IReadDbContext _readDbContext;
+    private readonly IVolunteersReadDbContext _volunteersReadDbContext;
 
-    public GetVolunteersWithPaginationHandler(IReadDbContext readDbContext)
+    public GetVolunteersWithPaginationHandler(IVolunteersReadDbContext volunteersReadDbContext)
     {
-        _readDbContext = readDbContext;
+        _volunteersReadDbContext = volunteersReadDbContext;
     }
 
     public async Task<Result<PagedList<VolunteerDto>, ErrorList>> Handle(
         GetVolunteersWithPaginationQuery query,
         CancellationToken cancellationToken)
     {
-        var volunteersQuery = _readDbContext.Volunteers;
+        var volunteersQuery = _volunteersReadDbContext.Volunteers;
 
         volunteersQuery = volunteersQuery.WhereIf(
             !string.IsNullOrWhiteSpace(query.FirstName),

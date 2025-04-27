@@ -2,7 +2,7 @@ using PetHomeFinder.Core.Dtos;
 
 namespace PetHomeFinder.Volunteers.Application;
 
-public interface IReadDbContext
+public interface IVolunteersReadDbContext
 {
     IQueryable<VolunteerDto> Volunteers { get; }
 

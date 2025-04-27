@@ -9,18 +9,18 @@ namespace PetHomeFinder.AnimalSpecies.Application.Queries.GetBreedsBySpeciesId;
 
 public class GetBreedsBySpeciesIdHandler : IQueryHandler<PagedList<BreedDto>, GetBreedsBySpeciesIdQuery>
 {
-    private readonly IReadDbContext _readDbContext;
+    private readonly ISpeciesReadDbContext _speciesReadDbContext;
 
-    public GetBreedsBySpeciesIdHandler(IReadDbContext readDbContext)
+    public GetBreedsBySpeciesIdHandler(ISpeciesReadDbContext speciesReadDbContext)
     {
-        _readDbContext = readDbContext;
+        _speciesReadDbContext = speciesReadDbContext;
     }
 
     public async Task<Result<PagedList<BreedDto>, ErrorList>> Handle(
         GetBreedsBySpeciesIdQuery query,
         CancellationToken cancellationToken = default)
     {
-        var queryResult = _readDbContext.Breeds
+        var queryResult = _speciesReadDbContext.Breeds
             .Where(b => b.SpeciesId == query.SpeciesId);
 
         return await queryResult.ToPagedList(query.Page, query.PageSize, cancellationToken);

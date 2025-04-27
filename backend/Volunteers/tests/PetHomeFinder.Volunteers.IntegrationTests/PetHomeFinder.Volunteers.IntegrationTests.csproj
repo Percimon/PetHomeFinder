@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\PetHomeFinder.Web\PetHomeFinder.Web.csproj" />
       <ProjectReference Include="..\..\..\Shared\PetHomeFinder.Core\PetHomeFinder.Core.csproj" />
       <ProjectReference Include="..\..\src\PetHomeFinder.Volunteers.Infrastructure\PetHomeFinder.Volunteers.Infrastructure.csproj" />
       <ProjectReference Include="..\..\src\PetHomeFinder.Volunteers.Presentation\PetHomeFinder.Volunteers.Presentation.csproj" />

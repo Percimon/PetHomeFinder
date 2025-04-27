@@ -12,7 +12,9 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
         private bool _isDeleted = false;
 
         private readonly List<Pet> _petsOwning = [];
+        
         private List<Credential> _credentials = [];
+        
         private List<SocialNetwork> _socialNetworks = [];
 
         public Volunteer(VolunteerId id) : base(id)

@@ -45,13 +45,14 @@ public static class Inject
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<WriteDbContext>(_ =>
-            new WriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<VolunteersWriteDbContext>(_ =>
+            new VolunteersWriteDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         
-        services.AddScoped<IReadDbContext, ReadDbContext>(_ =>
-            new ReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+        services.AddScoped<IVolunteersReadDbContext, VolunteersVolunteersReadDbContext>(_ =>
+            new VolunteersVolunteersReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
         
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(ModuleKey.Volunteer);
+        
         services.AddScoped<ISqlConnectionFactory, SqlConnectionFactory>();
 
         return services;

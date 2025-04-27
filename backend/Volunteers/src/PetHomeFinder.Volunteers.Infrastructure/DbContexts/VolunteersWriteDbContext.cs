@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHomeFinder.AnimalSpecies.Domain.Entities;
+using PetHomeFinder.Volunteers.Domain.Entities;
 
-namespace PetHomeFinder.AnimalSpecies.Infrastructure.DbContexts
+namespace PetHomeFinder.Volunteers.Infrastructure.DbContexts
 {
-    public class WriteDbContext : DbContext
+    public class VolunteersWriteDbContext : DbContext
     {
         private readonly string _connectionString;
+
+        public DbSet<Volunteer> Volunteers => Set<Volunteer>();
         
-        public DbSet<Species> Species => Set<Species>();
-        
-        public WriteDbContext(string connectionString)
+        public VolunteersWriteDbContext(string connectionString)
         {
             _connectionString = connectionString;
         }
@@ -25,7 +25,7 @@ namespace PetHomeFinder.AnimalSpecies.Infrastructure.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(
-                typeof(ReadDbContext).Assembly,
+                typeof(VolunteersVolunteersReadDbContext).Assembly,
                 type => type.FullName?.Contains("Configurations.Write") ?? false);
         }
 

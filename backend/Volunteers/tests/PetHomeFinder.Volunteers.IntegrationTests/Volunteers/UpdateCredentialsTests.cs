@@ -36,7 +36,7 @@ public class UpdateCredentialsTests : VolunteerTestsBase
         
         result.Value.Should().NotBeEmpty();
 
-        var volunteer = ReadDbContext.Volunteers.FirstOrDefault(x => x.Id == result.Value);
+        var volunteer = VolunteersReadDbContext.Volunteers.FirstOrDefault(x => x.Id == result.Value);
         
         volunteer.Credentials.Should().NotBeEmpty();
         
