@@ -71,13 +71,9 @@ public class IntegrationTestsWebFactory : WebApplicationFactory<Program>, IAsync
         using var scope = Services.CreateScope();
         
         var volunteersWriteDbContext = scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
-        // await volunteersWriteDbContext.Database.EnsureDeletedAsync();
-        // await volunteersWriteDbContext.Database.EnsureCreatedAsync();
         await volunteersWriteDbContext.Database.MigrateAsync();
         
         var speciesWriteDbContext = scope.ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
-        // await speciesWriteDbContext.Database.EnsureDeletedAsync();
-        // await speciesWriteDbContext.Database.EnsureCreatedAsync();
         await speciesWriteDbContext.Database.MigrateAsync();
         
         _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());

@@ -27,9 +27,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\PetHomeFinder.Web\PetHomeFinder.Web.csproj" />
       <ProjectReference Include="..\..\..\Shared\PetHomeFinder.Core\PetHomeFinder.Core.csproj" />
       <ProjectReference Include="..\..\..\Shared\PetHomeFinder.SharedKernel\PetHomeFinder.SharedKernel.csproj" />
       <ProjectReference Include="..\..\..\Volunteers\src\PetHomeFinder.Volunteers.Contracts\PetHomeFinder.Volunteers.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\Volunteers\src\PetHomeFinder.Volunteers.Infrastructure\PetHomeFinder.Volunteers.Infrastructure.csproj" />
       <ProjectReference Include="..\..\src\PetHomeFinder.AnimalSpecies.Application\PetHomeFinder.AnimalSpecies.Application.csproj" />
       <ProjectReference Include="..\..\src\PetHomeFinder.AnimalSpecies.Infrastructure\PetHomeFinder.AnimalSpecies.Infrastructure.csproj" />
     </ItemGroup>
