@@ -56,6 +56,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.AnimalSpecies.IntegrationTests", "AnimalSpecies\tests\PetHomeFinder.AnimalSpecies.IntegrationTests\PetHomeFinder.AnimalSpecies.IntegrationTests.csproj", "{3FB1E6B4-303E-4D20-8E5A-795699D72DE2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounts", "Accounts", "{03010E09-402A-425B-A960-7188DFE881B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{448D4959-D3E7-40A1-8E27-855F5336D748}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5567FD1A-DC93-4571-B478-1929CBD63725}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Accounts.Application", "Accounts\src\PetHomeFinder.Accounts.Application\PetHomeFinder.Accounts.Application.csproj", "{B11F6B80-866C-4B8B-8297-9C8618A575A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Accounts.Infrastructure", "Accounts\src\PetHomeFinder.Accounts.Infrastructure\PetHomeFinder.Accounts.Infrastructure.csproj", "{4B566E23-8064-4300-BC0C-A0E054283672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Accounts.Contracts", "Accounts\src\PetHomeFinder.Accounts.Contracts\PetHomeFinder.Accounts.Contracts.csproj", "{D45260F2-053C-43BD-B4F1-4611665CDCAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Accounts.Presentation", "Accounts\src\PetHomeFinder.Accounts.Presentation\PetHomeFinder.Accounts.Presentation.csproj", "{277432E3-5742-4AFD-AF0D-98DF112BAE2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHomeFinder.Accounts.Domain", "Accounts\src\PetHomeFinder.Accounts.Domain\PetHomeFinder.Accounts.Domain.csproj", "{E1577003-5769-4F96-B6C8-5F56A9BC279B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,6 +146,26 @@ Global
 		{3FB1E6B4-303E-4D20-8E5A-795699D72DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FB1E6B4-303E-4D20-8E5A-795699D72DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FB1E6B4-303E-4D20-8E5A-795699D72DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B11F6B80-866C-4B8B-8297-9C8618A575A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11F6B80-866C-4B8B-8297-9C8618A575A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11F6B80-866C-4B8B-8297-9C8618A575A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11F6B80-866C-4B8B-8297-9C8618A575A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B566E23-8064-4300-BC0C-A0E054283672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B566E23-8064-4300-BC0C-A0E054283672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B566E23-8064-4300-BC0C-A0E054283672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B566E23-8064-4300-BC0C-A0E054283672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D45260F2-053C-43BD-B4F1-4611665CDCAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45260F2-053C-43BD-B4F1-4611665CDCAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45260F2-053C-43BD-B4F1-4611665CDCAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45260F2-053C-43BD-B4F1-4611665CDCAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{277432E3-5742-4AFD-AF0D-98DF112BAE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{277432E3-5742-4AFD-AF0D-98DF112BAE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{277432E3-5742-4AFD-AF0D-98DF112BAE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{277432E3-5742-4AFD-AF0D-98DF112BAE2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1577003-5769-4F96-B6C8-5F56A9BC279B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1577003-5769-4F96-B6C8-5F56A9BC279B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1577003-5769-4F96-B6C8-5F56A9BC279B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1577003-5769-4F96-B6C8-5F56A9BC279B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +191,13 @@ Global
 		{D7E1ED8A-E6DB-4427-87EE-756472FCA988} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
 		{C80DF6F9-9FAC-4252-9C70-319469317958} = {698FEFB3-A333-45D7-8FC0-1031FEADC9CF}
 		{3FB1E6B4-303E-4D20-8E5A-795699D72DE2} = {3CECF344-0D46-441E-9428-4B6C3DD59753}
+		{448D4959-D3E7-40A1-8E27-855F5336D748} = {03010E09-402A-425B-A960-7188DFE881B1}
+		{5567FD1A-DC93-4571-B478-1929CBD63725} = {03010E09-402A-425B-A960-7188DFE881B1}
+		{B11F6B80-866C-4B8B-8297-9C8618A575A5} = {448D4959-D3E7-40A1-8E27-855F5336D748}
+		{4B566E23-8064-4300-BC0C-A0E054283672} = {448D4959-D3E7-40A1-8E27-855F5336D748}
+		{D45260F2-053C-43BD-B4F1-4611665CDCAC} = {448D4959-D3E7-40A1-8E27-855F5336D748}
+		{277432E3-5742-4AFD-AF0D-98DF112BAE2D} = {448D4959-D3E7-40A1-8E27-855F5336D748}
+		{E1577003-5769-4F96-B6C8-5F56A9BC279B} = {448D4959-D3E7-40A1-8E27-855F5336D748}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3A7365B-417C-42C4-BC9F-4F9F17012930}

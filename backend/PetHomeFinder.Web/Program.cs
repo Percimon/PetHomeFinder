@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using PetHomeFinder.Accounts.Application;
+using PetHomeFinder.Accounts.Infrastructure;
+using PetHomeFinder.Accounts.Presentation;
 using PetHomeFinder.AnimalSpecies.Application;
-using PetHomeFinder.AnimalSpecies.Domain.Entities;
 using PetHomeFinder.AnimalSpecies.Infrastructure;
 using PetHomeFinder.AnimalSpecies.Infrastructure.DbContexts;
 using PetHomeFinder.AnimalSpecies.Presentation;
@@ -28,6 +30,11 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddApi();
 
 builder.Services
+    .AddAccountsApplication()
+    .AddAccountsInfrastructure()
+    .AddAccountsPresentation();
+
+builder.Services
     .AddAnimalSpeciesApplication()
     .AddAnimalSpeciesInfrastructure(builder.Configuration)
     .AddAnimalSpeciesPresentation();
@@ -38,8 +45,6 @@ builder.Services
     .AddVolunteersPresentation();
 
 var app = builder.Build();
-
-// AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 app.UseExceptionMiddleware();
 
