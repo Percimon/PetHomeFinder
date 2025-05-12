@@ -9,7 +9,7 @@ public static class Inject
     {
         services.AddCommands();
         services.AddQueries();
-
+        
         return services;
     }
 

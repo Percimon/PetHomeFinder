@@ -7,13 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\" />
       <Folder Include="Queries\" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\Shared\PetHomeFinder.Core\PetHomeFinder.Core.csproj" />
       <ProjectReference Include="..\PetHomeFinder.Accounts.Domain\PetHomeFinder.Accounts.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
     </ItemGroup>
 
 </Project>

@@ -31,7 +31,7 @@ builder.Services.AddApi();
 
 builder.Services
     .AddAccountsApplication()
-    .AddAccountsInfrastructure()
+    .AddAccountsInfrastructure(builder.Configuration)
     .AddAccountsPresentation();
 
 builder.Services
@@ -57,8 +57,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 

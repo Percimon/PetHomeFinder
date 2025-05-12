@@ -9,7 +9,6 @@ using PetHomeFinder.AnimalSpecies.Contracts;
 using PetHomeFinder.AnimalSpecies.Contracts.Requests;
 using PetHomeFinder.Core.Dtos;
 using PetHomeFinder.Core.Models;
-using PetHomeFinder.Framework;
 using PetHomeFinder.SharedKernel;
 
 namespace PetHomeFinder.AnimalSpecies.Presentation;

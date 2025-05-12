@@ -1,5 +1,4 @@
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.Volunteers.Application.Commands.SoftDeletePetById;

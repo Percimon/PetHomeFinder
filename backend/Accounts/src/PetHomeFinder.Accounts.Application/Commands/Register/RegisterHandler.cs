@@ -5,23 +5,23 @@ using PetHomeFinder.Accounts.Domain;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.SharedKernel;
 
-namespace PetHomeFinder.Accounts.Application.Commands.RegisterUser;
+namespace PetHomeFinder.Accounts.Application.Commands.Register;
 
-public class RegisterUserHandler : ICommandHandler<RegisterUserCommand>
+public class RegisterHandler : ICommandHandler<RegisterCommand>
 {
     private readonly UserManager<User> _userManager;
-    private readonly ILogger<RegisterUserHandler> _logger;
+    private readonly ILogger<RegisterHandler> _logger;
 
-    public RegisterUserHandler(
+    public RegisterHandler(
         UserManager<User> userManager, 
-        ILogger<RegisterUserHandler> logger)
+        ILogger<RegisterHandler> logger)
     {
         _userManager = userManager;
         _logger = logger;
     }
 
     public async Task<UnitResult<ErrorList>> Handle(
-        RegisterUserCommand command, 
+        RegisterCommand command, 
         CancellationToken cancellationToken = default)
     {
         var user = new User()

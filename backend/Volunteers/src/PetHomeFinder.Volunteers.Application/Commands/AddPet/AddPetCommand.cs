@@ -1,6 +1,5 @@
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.Core.Dtos;
-using PetHomeFinder.Volunteers.Domain.Entities;
 
 namespace PetHomeFinder.Volunteers.Application.Commands.AddPet;
 
