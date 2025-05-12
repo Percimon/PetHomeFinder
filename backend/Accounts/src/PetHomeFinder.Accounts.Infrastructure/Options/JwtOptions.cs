@@ -2,7 +2,7 @@ namespace PetHomeFinder.Accounts.Infrastructure.Options;
 
 public class JwtOptions
 {
-    public const string JWT = "Auth";
+    public const string JWT = nameof(JWT);
 
     public string Issuer { get; init; } = string.Empty;
 

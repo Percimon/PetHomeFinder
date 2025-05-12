@@ -21,7 +21,7 @@ public static class Inject
         services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
 
         services.AddOptions<JwtOptions>();
-        
+
         services.AddIdentity<User, Role>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -49,13 +49,14 @@ public static class Inject
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
                 };
             });
 
         services.AddScoped<ITokenProvider, JwtTokenProvider>();
 
         services.AddScoped<AccountDbContext>();
-        
+
         services.AddAuthorization();
 
         return services;
