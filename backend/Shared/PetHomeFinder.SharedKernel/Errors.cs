@@ -43,4 +43,12 @@ public static class Errors
             return Error.Failure("value.is.used", $"{entity} with {withId} id currently in use");
         }
     }
+
+    public static class User
+    {
+        public static Error InvalidCredentials()
+        {
+            return Error.Validation("credentials.are.invalid", "Invalid credentials");
+        }
+    }
 }

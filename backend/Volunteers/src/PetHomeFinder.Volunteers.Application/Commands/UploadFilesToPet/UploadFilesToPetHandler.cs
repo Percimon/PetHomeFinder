@@ -2,7 +2,6 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using PetHomeFinder.AnimalSpecies.Contracts;
 using PetHomeFinder.Core.Abstractions;
 using PetHomeFinder.Core.Extensions;
 using PetHomeFinder.Core.Files;
