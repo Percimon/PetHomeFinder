@@ -63,19 +63,7 @@ public sealed class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                 .HasColumnName("phone_number");
         });
-
-        builder.Property(v => v.Credentials)
-            .ValueObjectsCollectionJsonConversion(
-                credential => new CredentialDto(credential.Name, credential.Description),
-                dto => Credential.Create(dto.Name, dto.Description).Value)
-            .HasColumnName("credentials");
-
-        builder.Property(v => v.SocialNetworks)
-            .ValueObjectsCollectionJsonConversion(
-                socialNetworks => new SocialNetworkDto(socialNetworks.Name, socialNetworks.Link),
-                dto => SocialNetwork.Create(dto.Name, dto.Link).Value)
-            .HasColumnName("social_networks");
-
+        
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("is_deleted");

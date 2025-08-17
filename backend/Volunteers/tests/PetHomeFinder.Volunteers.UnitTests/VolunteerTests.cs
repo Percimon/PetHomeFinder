@@ -134,9 +134,7 @@ public class VolunteerTests
             fullName,
             description,
             experience,
-            phoneNumber,
-            [],
-            []);
+            phoneNumber);
 
         var name = Name.Create("test").Value;
         var speciesId = SpeciesId.New();

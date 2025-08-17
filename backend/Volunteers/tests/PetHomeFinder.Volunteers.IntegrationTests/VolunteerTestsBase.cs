@@ -38,9 +38,7 @@ public class VolunteerTestsBase : IClassFixture<VolunteerTestsWebFactory>, IAsyn
             FullName.Create("Ivan", "Ivanov", "Ivanovich").Value,
             Description.Create("test-description").Value,
             Experience.Create(1).Value,
-            PhoneNumber.Create("123456789").Value,
-            Enumerable.Empty<Credential>(),
-            Enumerable.Empty<SocialNetwork>());
+            PhoneNumber.Create("123456789").Value);
 
         await VolunteersWriteDbContext.Volunteers.AddAsync(volunteer);
 

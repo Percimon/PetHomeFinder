@@ -4,6 +4,7 @@ using PetHomeFinder.Accounts.Application.Commands.Login;
 using PetHomeFinder.Accounts.Application.Commands.Register;
 using PetHomeFinder.Accounts.Presentation.Requests;
 using PetHomeFinder.Framework;
+using PetHomeFinder.Framework.Authorization;
 
 namespace PetHomeFinder.Accounts.Presentation;
 
@@ -48,7 +49,7 @@ public class AccountsController : ApplicationController
         return Ok(result.Value);
     }
     
-    [Authorize]
+    [Permission(Permissions.Volunteers.CreateVolunteer)]
     [HttpPost("test-authorization")]
     public async Task<ActionResult> TestAuthorization()
     {

@@ -6,9 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PetHomeFinder.Accounts.Application;
+using PetHomeFinder.Accounts.Application.Abstractions;
 using PetHomeFinder.Accounts.Domain;
+using PetHomeFinder.Accounts.Infrastructure.IdentityManagers;
 using PetHomeFinder.Accounts.Infrastructure.Options;
 using PetHomeFinder.Accounts.Infrastructure.Providers;
+using PetHomeFinder.Accounts.Infrastructure.Seeding;
 
 namespace PetHomeFinder.Accounts.Infrastructure;
 
@@ -18,17 +21,11 @@ public static class Inject
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
-
-        services.AddOptions<JwtOptions>();
-
-        services.AddIdentity<User, Role>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-                options.Password.RequiredLength = 6;
-            })
-            .AddEntityFrameworkStores<AccountDbContext>()
-            .AddDefaultTokenProviders();
+        services.AddProviders()
+            .AddConfigurations(configuration)
+            .AddDatabase()
+            .RegisterIdentity();
+            
 
         services.AddAuthentication(options =>
             {
@@ -52,13 +49,63 @@ public static class Inject
                     ValidateLifetime = true,
                 };
             });
+        
+        services.AddSingleton<AccountsSeeder>();
 
-        services.AddScoped<ITokenProvider, JwtTokenProvider>();
-
-        services.AddScoped<AccountDbContext>();
-
+        services.AddScoped<AccountsSeederService>();
+        
         services.AddAuthorization();
 
         return services;
     }
+
+    private static IServiceCollection AddConfigurations(
+        this IServiceCollection services, 
+        IConfiguration configuration)
+    {
+        services.Configure<JwtOptions>(configuration.GetSection(JwtOptions.JWT));
+
+        services.AddOptions<JwtOptions>();
+        
+        services.Configure<AdminOptions>(configuration.GetSection(AdminOptions.ADMIN));
+        
+        return services;
+    }
+
+    private static IServiceCollection AddProviders(this IServiceCollection services)
+    {
+        services.AddScoped<ITokenProvider, JwtTokenProvider>();
+        
+        return services;
+    }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection services)
+    {
+        services.AddScoped<AccountsDbContext>();
+        
+        return services;
+    }
+
+    private static IServiceCollection RegisterIdentity(this IServiceCollection services)
+    {
+        services.AddIdentity<User, Role>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 6;
+            })
+            .AddEntityFrameworkStores<AccountsDbContext>()
+            .AddDefaultTokenProviders();
+        
+        services.AddScoped<PermissionManager>();
+        
+        services.AddScoped<RolePermissionManager>();
+
+        services.AddScoped<AdminAccountManager>();
+        
+        services.AddScoped<IVolunteerAccountManager, VolunteerAccountManager>();
+        
+        services.AddScoped<IParticipantAccountManager, ParticipantAccountManager>();
+        
+        return services;
+    } 
 }

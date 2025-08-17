@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using PetHomeFinder.Accounts.Application.Abstractions;
 using PetHomeFinder.Accounts.Application.Commands.Register;
 using PetHomeFinder.Accounts.Domain;
 using PetHomeFinder.Core.Abstractions;
@@ -40,7 +41,7 @@ public class LoginHandler : ICommandHandler<string, LoginCommand>
             return Errors.User.InvalidCredentials().ToErrorList();
         }
 
-        var token = _tokenProvider.GenerateToken(user);
+        var token = await _tokenProvider.GenerateToken(user);
 
         _logger.LogInformation("User {Email} logged in.", user.Email);
         

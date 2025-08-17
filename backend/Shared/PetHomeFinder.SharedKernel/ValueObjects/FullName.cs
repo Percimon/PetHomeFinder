@@ -12,7 +12,9 @@ public record FullName
     }
 
     public string FirstName { get; }
+
     public string LastName { get; }
+
     public string Surname { get; }
 
     public static Result<FullName, Error> Create(string firstName, string lastName, string surname)
@@ -34,5 +36,4 @@ public record FullName
 
         return new FullName(firstName, lastName, surname);
     }
-
 }

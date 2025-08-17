@@ -15,4 +15,8 @@
       <ProjectReference Include="..\PetHomeFinder.SharedKernel\PetHomeFinder.SharedKernel.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.17" />
+    </ItemGroup>
+
 </Project>
