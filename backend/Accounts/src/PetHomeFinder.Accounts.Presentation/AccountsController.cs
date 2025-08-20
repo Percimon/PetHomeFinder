@@ -49,9 +49,16 @@ public class AccountsController : ApplicationController
         return Ok(result.Value);
     }
     
-    [Permission(Permissions.Volunteers.CreateVolunteer)]
-    [HttpPost("test-authorization")]
-    public async Task<ActionResult> TestAuthorization()
+    [Permission(Permissions.Volunteers.CREATE)]
+    [HttpPost("test-admin")]
+    public async Task<ActionResult> TestAdminAccount()
+    {
+        return Ok();
+    }
+    
+    [Permission(Permissions.Volunteers.READ)]
+    [HttpPost("test-participant")]
+    public async Task<ActionResult> TestParticipantAccount()
     {
         return Ok();
     }
