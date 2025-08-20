@@ -4,6 +4,6 @@ public static class Permissions
 {
     public static class Volunteers
     {
-        public const string CreateVolunteer = "volunteer.create";
+        public const string CreateVolunteer = "volunteers.create";
     }
 }
