@@ -62,16 +62,16 @@ public class AccountsSeederService
         if (adminAccountSearchResult is not null)
             return;
         
-        var adminRole = await _roleManager.FindByNameAsync(AdminAccount.ADMIN)
+        var adminRole = await _roleManager.FindByNameAsync(AdminAccount.Admin)
                         ?? throw new Exception("Could not find admin role");
-
+        
         var adminUserResult = User.CreateAdmin(_adminOptions.UserName, _adminOptions.Email, adminRole);
         if (adminUserResult.IsFailure)
             throw new ApplicationException($"Failed to create admin user: {adminUserResult.Error}");
 
         await _userManager.CreateAsync(adminUserResult.Value, _adminOptions.Password);
 
-        await _userManager.AddToRoleAsync(adminUserResult.Value, AdminAccount.ADMIN);
+        await _userManager.AddToRoleAsync(adminUserResult.Value, AdminAccount.Admin);
 
         var fullNameResult = FullName.Create(
             _adminOptions.UserName,

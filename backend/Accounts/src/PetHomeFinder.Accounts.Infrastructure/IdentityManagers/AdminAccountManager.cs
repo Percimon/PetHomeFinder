@@ -15,6 +15,6 @@ public class AdminAccountManager
     {
         await _context.AdminAccounts.AddAsync(adminAccount, cancellationToken);
         
-        await _context.SaveChangesAsync(cancellationToken);
+        int n = await _context.SaveChangesAsync(cancellationToken);
     }
 }

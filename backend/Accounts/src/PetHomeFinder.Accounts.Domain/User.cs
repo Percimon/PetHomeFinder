@@ -22,6 +22,9 @@ public class User : IdentityUser<Guid>
         Role role,
         IEnumerable<SocialNetwork> socialNetworks)
     {
+        UserName = userName;
+        Email = email;
+        _roles = [role];
         _socialNetworks = socialNetworks.ToList();
     }
 
@@ -45,7 +48,7 @@ public class User : IdentityUser<Guid>
         string email,
         Role role)
     {
-        if (role.Name != AdminAccount.ADMIN)
+        if (role.Name != AdminAccount.Admin)
             return Errors.General.ValueIsInvalid("Role");
         
         return new User(

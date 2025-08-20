@@ -10,7 +10,7 @@
       "species.update",
       "species.delete"
     ],
-    "User": [
+    "Participant": [
       "volunteers.read",
       "species.read"
     ]

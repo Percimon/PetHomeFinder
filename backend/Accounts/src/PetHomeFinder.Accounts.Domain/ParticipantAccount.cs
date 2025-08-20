@@ -2,7 +2,7 @@ namespace PetHomeFinder.Accounts.Domain;
 
 public class ParticipantAccount
 {
-    public const string PARTICIPANT = nameof(PARTICIPANT);
+    public const string PARTICIPANT = "Participant";
 
     private ParticipantAccount()
     {
