@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PetHomeFinder.Accounts.Application;
 using PetHomeFinder.Accounts.Infrastructure;
+using PetHomeFinder.Accounts.Infrastructure.Seeding;
 using PetHomeFinder.Accounts.Presentation;
 using PetHomeFinder.AnimalSpecies.Application;
 using PetHomeFinder.AnimalSpecies.Infrastructure;
@@ -14,6 +15,8 @@ using PetHomeFinder.Volunteers.Infrastructure.DbContexts;
 using PetHomeFinder.Volunteers.Presentation;
 using Serilog;
 using Serilog.Events;
+
+DotNetEnv.Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +49,10 @@ builder.Services
 
 var app = builder.Build();
 
+var accountsSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+
+await accountsSeeder.SeedAsync();
+
 app.UseExceptionMiddleware();
 
 app.UseSerilogRequestLogging();
@@ -61,12 +68,6 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 await using var scope = app.Services.CreateAsyncScope();
-
-var volunteersDbContext = scope.ServiceProvider.GetRequiredService<VolunteersWriteDbContext>();
-await volunteersDbContext.Database.MigrateAsync();
-
-var speciesDbContext = scope.ServiceProvider.GetRequiredService<SpeciesWriteDbContext>();
-await speciesDbContext.Database.MigrateAsync();
 
 app.Run();
 

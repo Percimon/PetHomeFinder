@@ -8,15 +8,22 @@ using PetHomeFinder.SharedKernel;
 
 namespace PetHomeFinder.Accounts.Infrastructure;
 
-public class AccountDbContext :
+public class AccountsDbContext :
     IdentityDbContext<User, Role, Guid>
 {
     private readonly IConfiguration _configuration;
-    
-    public DbSet<User> Users => Set<User>();
-    public DbSet<Role> Roles => Set<Role>();
-    
-    public AccountDbContext(IConfiguration configuration)
+
+    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+
+    public DbSet<Permission> Permissions => Set<Permission>();
+
+    public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
+
+    public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
+
+    public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
+
+    public AccountsDbContext(IConfiguration configuration)
     {
         _configuration = configuration;
     }
@@ -32,9 +39,6 @@ public class AccountDbContext :
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        builder.Entity<User>()
-            .ToTable("users");
 
         builder.Entity<Role>()
             .ToTable("roles");
@@ -53,6 +57,12 @@ public class AccountDbContext :
 
         builder.Entity<IdentityUserRole<Guid>>()
             .ToTable("user_roles");
+        
+        builder.ApplyConfigurationsFromAssembly(
+            typeof(AccountsDbContext).Assembly,
+            t => t.FullName?.Contains("Configurations") ?? false);
+
+        builder.HasDefaultSchema("accounts");
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

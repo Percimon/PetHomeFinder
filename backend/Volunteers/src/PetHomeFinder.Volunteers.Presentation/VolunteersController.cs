@@ -6,12 +6,10 @@ using PetHomeFinder.Volunteers.Application.Commands.Create;
 using PetHomeFinder.Volunteers.Application.Commands.Delete;
 using PetHomeFinder.Volunteers.Application.Commands.HardDeletePetById;
 using PetHomeFinder.Volunteers.Application.Commands.SoftDeletePetById;
-using PetHomeFinder.Volunteers.Application.Commands.UpdateCredentials;
 using PetHomeFinder.Volunteers.Application.Commands.UpdateMainInfo;
 using PetHomeFinder.Volunteers.Application.Commands.UpdatePet;
 using PetHomeFinder.Volunteers.Application.Commands.UpdatePetMainPhoto;
 using PetHomeFinder.Volunteers.Application.Commands.UpdatePetStatus;
-using PetHomeFinder.Volunteers.Application.Commands.UpdateSocialNetworks;
 using PetHomeFinder.Volunteers.Application.Commands.UploadFilesToPet;
 using PetHomeFinder.Volunteers.Application.Queries.GetVolunteerById;
 using PetHomeFinder.Volunteers.Application.Queries.GetVolunteersWithPagination;
@@ -68,9 +66,7 @@ namespace PetHomeFinder.Volunteers.Presentation
                 request.FullName,
                 request.Description,
                 request.Experience,
-                request.PhoneNumber,
-                request.Credentials,
-                request.SocialNetworks);
+                request.PhoneNumber);
 
             var result = await handler.Handle(command, cancellationToken);
 
@@ -101,40 +97,7 @@ namespace PetHomeFinder.Volunteers.Presentation
 
             return Ok(result.Value);
         }
-
-        [HttpPut("{id:guid}/credentials")]
-        public async Task<ActionResult> UpdateCredentials(
-            [FromRoute] Guid id,
-            [FromBody] UpdateCredentialsRequest request,
-            [FromServices] UpdateCredentialsHandler handler,
-            CancellationToken cancellationToken = default)
-        {
-            var command = new UpdateCredentialsCommand(id, request.Credentials);
-
-            var result = await handler.Handle(command, cancellationToken);
-            if (result.IsFailure)
-                result.Error.ToResponse();
-
-            return Ok(result.Value);
-        }
-
-        [HttpPut("{id:guid}/social-networks")]
-        public async Task<ActionResult> UpdateSocialNetworks(
-            [FromRoute] Guid id,
-            [FromBody] UpdateSocialNetworksRequest request,
-            [FromServices] UpdateSocialNetworksHandler handler,
-            CancellationToken cancellationToken = default)
-        {
-            var command = new UpdateSocialNetworksCommand(id, request.SocialNetworkList);
-
-            var result = await handler.Handle(command, cancellationToken);
-
-            if (result.IsFailure)
-                result.Error.ToResponse();
-
-            return Ok(result.Value);
-        }
-
+        
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(
             [FromRoute] Guid id,

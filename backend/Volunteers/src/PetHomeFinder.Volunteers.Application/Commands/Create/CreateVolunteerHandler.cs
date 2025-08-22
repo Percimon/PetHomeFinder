@@ -46,28 +46,18 @@ public class CreateVolunteerHandler : ICommandHandler<Guid, CreateVolunteerComma
         var descriptionDto = command.Description;
         var experienceDto = command.Experience;
         var phoneNumberDto = command.PhoneNumber;
-        var credentialListDto = command.Credentials;
-        var socialNetworkListDto = command.SocialNetworks;
-
+        
         var fullName = FullName.Create(fullNameDto.FirstName, fullNameDto.LastName, fullNameDto.Surname);
         var description = Description.Create(descriptionDto);
         var experience = Experience.Create(experienceDto);
         var phoneNumber = PhoneNumber.Create(phoneNumberDto);
-
-        var credentialList = credentialListDto
-            .Select(c => Credential.Create(c.Name, c.Description).Value);
-
-        var socialNetworkList = socialNetworkListDto.
-            Select(c => SocialNetwork.Create(c.Name, c.Link).Value);
-
+        
         var volunteer = new Volunteer(
             id,
             fullName.Value,
             description.Value,
             experience.Value,
-            phoneNumber.Value,
-            credentialList,
-            socialNetworkList
+            phoneNumber.Value
         );
 
         await _repository.Add(volunteer, cancellationToken);

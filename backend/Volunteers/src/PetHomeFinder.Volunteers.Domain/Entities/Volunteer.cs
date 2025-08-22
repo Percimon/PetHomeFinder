@@ -12,10 +12,6 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
         private bool _isDeleted = false;
 
         private readonly List<Pet> _petsOwning = [];
-        
-        private List<Credential> _credentials = [];
-        
-        private List<SocialNetwork> _socialNetworks = [];
 
         public Volunteer(VolunteerId id) : base(id)
         {
@@ -26,16 +22,12 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
             FullName fullName,
             Description description,
             Experience experience,
-            PhoneNumber phoneNumber,
-            IEnumerable<Credential> credentials,
-            IEnumerable<SocialNetwork> socialNetworks) : base(id)
+            PhoneNumber phoneNumber) : base(id)
         {
             FullName = fullName;
             Description = description;
             Experience = experience;
             PhoneNumber = phoneNumber;
-            _credentials = credentials.ToList();
-            _socialNetworks = socialNetworks.ToList();
         }
 
         public FullName FullName { get; private set; }
@@ -45,10 +37,6 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
         public Experience Experience { get; private set; }
 
         public PhoneNumber PhoneNumber { get; private set; }
-
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
-
-        public IReadOnlyList<Credential> Credentials => _credentials;
 
         public IReadOnlyList<Pet> PetsOwning => _petsOwning;
 
@@ -72,17 +60,7 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
             Experience = experience;
             PhoneNumber = phoneNumber;
         }
-
-        public void UpdateCredentials(IEnumerable<Credential> credentials)
-        {
-            _credentials = credentials.ToList();
-        }
-
-        public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
-        {
-            _socialNetworks = socialNetworks.ToList();
-        }
-
+        
         public void SoftDelete()
         {
             if (_isDeleted)
@@ -105,9 +83,9 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
 
             return Result.Success<Error>();
         }
-        
+
         public void UpdatePet(
-            PetId petId, 
+            PetId petId,
             Name name,
             Description description,
             SpeciesBreed speciesBreed,
@@ -221,7 +199,7 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
         {
             _petsOwning.Remove(pet);
         }
-        
+
         public void SoftDeletePet(PetId id)
         {
             _petsOwning.FirstOrDefault(p => p.Id == id)?.SoftDelete();
@@ -234,7 +212,7 @@ namespace PetHomeFinder.Volunteers.Domain.Entities
                 return petResult.Error;
 
             var updateResult = petResult.Value.UpdateMainPhoto(photo);
-            if(updateResult.IsFailure)
+            if (updateResult.IsFailure)
                 return updateResult.Error;
 
             return Result.Success<Error>();

@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using PetHomeFinder.Framework;
 using Serilog;
 
 namespace PetHomeFinder.Web;
@@ -40,6 +41,8 @@ public static class Inject
         });
         
         services.AddSerilog();
+
+        services.AddFramework();
         
         return services;
     }

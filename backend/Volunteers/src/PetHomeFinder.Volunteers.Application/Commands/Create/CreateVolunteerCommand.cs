@@ -7,6 +7,4 @@ public record CreateVolunteerCommand(
     FullNameDto FullName,
     string Description,
     int Experience,
-    string PhoneNumber,
-    IEnumerable<CredentialDto> Credentials,
-    IEnumerable<SocialNetworkDto> SocialNetworks) : ICommand;
+    string PhoneNumber) : ICommand;
